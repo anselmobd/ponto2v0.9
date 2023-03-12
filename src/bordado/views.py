@@ -1,3 +1,10 @@
+from pprint import pprint
+
 from django.shortcuts import render
 
-# Create your views here.
+
+__all__ = ['index']
+
+
+def index(request):
+    return render(request, 'bordado/index.html', {})
