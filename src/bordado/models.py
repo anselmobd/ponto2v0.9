@@ -1,6 +1,9 @@
 from django.db import models
 
 
+__all__ = ['Empresa']
+
+
 class Empresa(models.Model):
     nome = models.CharField(
         max_length=50,
@@ -12,3 +15,4 @@ class Empresa(models.Model):
     class Meta:
         db_table = "po2_empresa"
         verbose_name = "Empresa"
+        ordering = ['nome']
