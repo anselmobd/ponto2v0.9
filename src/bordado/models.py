@@ -19,6 +19,10 @@ class Empresa(models.Model):
 
 
 class Cliente(models.Model):
+    empresa = models.ForeignKey(
+        Empresa,
+        on_delete=models.PROTECT,
+    )
     nome = models.CharField(
         max_length=50,
     )
