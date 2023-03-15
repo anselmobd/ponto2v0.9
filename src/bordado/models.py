@@ -7,6 +7,7 @@ __all__ = ['Empresa', 'Cliente']
 class Empresa(models.Model):
     nome = models.CharField(
         max_length=50,
+        unique=True,
     )
 
     def __str__(self):
