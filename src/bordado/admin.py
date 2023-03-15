@@ -8,4 +8,8 @@ class EmpresaAdmin(admin.ModelAdmin):
     search_fields = ["nome"]
 
 
-admin.site.register(Cliente)
+@admin.register(Cliente)
+class ClienteAdmin(admin.ModelAdmin):
+    list_display = ["empresa", "nome"]
+    list_display_links = ["nome"]
+    search_fields = ["empresa", "nome"]
