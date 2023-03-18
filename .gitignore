@@ -1,5 +1,5 @@
 # ponto2 specific
-src/ponto2/secrets.py
+src/ponto2/mysecrets.py
 docs
 
 
