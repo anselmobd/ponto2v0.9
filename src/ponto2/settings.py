@@ -30,8 +30,12 @@ SECRET_KEY = mysecrets.SECRET_KEY
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    # local dev
     '127.0.0.1',
+    # server dev acesso interno
     'intra.t',
+    # server dev acesso externo
+    'in.tussor.com.br',
 ]
 
 
