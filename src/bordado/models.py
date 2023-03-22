@@ -1,7 +1,7 @@
 from django.db import models
 
 
-__all__ = ['Empresa', 'Cliente']
+__all__ = ['Empresa', 'Cliente', 'Bordado']
 
 
 class Empresa(models.Model):
@@ -39,10 +39,6 @@ class Cliente(models.Model):
 
 
 class Bordado(models.Model):
-    empresa = models.ForeignKey(
-        Empresa,
-        on_delete=models.PROTECT,
-    )
     cliente = models.ForeignKey(
         Cliente,
         on_delete=models.PROTECT,
@@ -58,4 +54,4 @@ class Bordado(models.Model):
         db_table = "po2_bordado"
         verbose_name = "Bordado"
         ordering = ['nome']
-        unique_together = [['empresa', 'cliente', 'nome']]
+        unique_together = [['cliente', 'nome']]
