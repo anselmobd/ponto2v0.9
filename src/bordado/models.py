@@ -35,4 +35,27 @@ class Cliente(models.Model):
         db_table = "po2_cliente"
         verbose_name = "Cliente"
         ordering = ['nome']
-        unique_together = [["empresa", "nome"]]
+        unique_together = [['empresa', 'nome']]
+
+
+class Bordado(models.Model):
+    empresa = models.ForeignKey(
+        Empresa,
+        on_delete=models.PROTECT,
+    )
+    cliente = models.ForeignKey(
+        Cliente,
+        on_delete=models.PROTECT,
+    )
+    nome = models.CharField(
+        max_length=50,
+    )
+
+    def __str__(self):
+        return f'{self.nome}'
+
+    class Meta:
+        db_table = "po2_bordado"
+        verbose_name = "Bordado"
+        ordering = ['nome']
+        unique_together = [['empresa', 'cliente', 'nome']]
