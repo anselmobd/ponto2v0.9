@@ -17,6 +17,7 @@ from . import settings_secrets as ss
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ROOT_DIR = BASE_DIR.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -135,6 +136,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# static assets that aren’t tied to a particular app
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+# Diretório destino do collectstatic
+# Não pode estar nos STATICFILES_DIRS
+# Conteúdo será enviado por rsync para pasta
+# servida diretamente pelo nginx
+STATIC_ROOT = ROOT_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
