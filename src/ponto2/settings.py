@@ -36,6 +36,8 @@ ALLOWED_HOSTS = [
     'intra.t',
     # server dev acesso externo
     'in.tussor.com.br',
+    # server dev acesso interno e externo
+    'intra.tussor.com.br',
 ]
 
 
