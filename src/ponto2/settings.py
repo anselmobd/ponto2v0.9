@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
-from . import mysecrets
+from . import settings_secrets as ss
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-r&@825bn+^!pom6^q64n^te=#^oo=3w#m#=xi9cr!c!4a9qdbv'
-SECRET_KEY = mysecrets.SECRET_KEY
+SECRET_KEY = ss.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -91,12 +91,12 @@ DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': mysecrets.DB_DEV_ENGINE,
-        'NAME': mysecrets.DB_DEV_NAME,
-        'USER': mysecrets.DB_DEV_USER,
-        'PASSWORD': mysecrets.DB_DEV_PASSWORD,
-        'HOST': mysecrets.DB_DEV_HOST,
-        'PORT': mysecrets.DB_DEV_PORT,
+        'ENGINE': ss.DB_DEV_ENGINE,
+        'NAME': ss.DB_DEV_NAME,
+        'USER': ss.DB_DEV_USER,
+        'PASSWORD': ss.DB_DEV_PASSWORD,
+        'HOST': ss.DB_DEV_HOST,
+        'PORT': ss.DB_DEV_PORT,
     }
 }
 
