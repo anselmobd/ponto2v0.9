@@ -48,6 +48,9 @@ class DificuldadeBordado(models.Model):
         unique=True,
     )
 
+    def id_indefinida():
+        return DificuldadeBordado.objects.get(ordem=0).id
+
     def __str__(self):
         return f'{self.descricao}'
 
@@ -77,10 +80,11 @@ class Bordado(models.Model):
         default=0,
         help_text="em milímetros",
     )
-    # dificuldade = models.ForeignKey(
-    #     DificuldadeBordado,
-    #     on_delete=models.PROTECT,
-    # )
+    dificuldade = models.ForeignKey(
+        DificuldadeBordado,
+        on_delete=models.PROTECT,
+        default=DificuldadeBordado.id_indefinida,
+    )
 
     def __str__(self):
         return f'{self.nome}'
