@@ -1,7 +1,7 @@
 from django.db import models
 
 
-__all__ = ['Cliente', 'Bordado']
+__all__ = ['Cliente', 'DificuldadeBordado', 'Bordado']
 
 
 # class Empresa(models.Model):
@@ -36,6 +36,26 @@ class Cliente(models.Model):
         verbose_name = "Cliente"
         ordering = ['nome']
         # unique_together = [['empresa', 'nome']]
+
+
+class DificuldadeBordado(models.Model):
+    ordem = models.PositiveSmallIntegerField(
+        unique=True,
+    )
+    descricao = models.CharField(
+        'Descrição',
+        max_length=50,
+        unique=True,
+    )
+
+    def __str__(self):
+        return f'{self.descricao}'
+
+    class Meta:
+        db_table = "po2_dificuldade_bordado"
+        verbose_name = "Dificuldade de bordado"
+        verbose_name_plural = "Dificuldades de bordado"
+        ordering = ['ordem']
 
 
 class Bordado(models.Model):
