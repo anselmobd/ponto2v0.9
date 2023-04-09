@@ -77,7 +77,10 @@ class Bordado(models.Model):
         default=0,
         help_text="em milímetros",
     )
-    # dificuldade
+    # dificuldade = models.ForeignKey(
+    #     DificuldadeBordado,
+    #     on_delete=models.PROTECT,
+    # )
 
     def __str__(self):
         return f'{self.nome}'
