@@ -20,10 +20,10 @@ class Empresa(models.Model):
 
 
 class Cliente(models.Model):
-    empresa = models.ForeignKey(
-        Empresa,
-        on_delete=models.PROTECT,
-    )
+    # empresa = models.ForeignKey(
+    #     Empresa,
+    #     on_delete=models.PROTECT,
+    # )
     nome = models.CharField(
         max_length=50,
     )
@@ -35,7 +35,7 @@ class Cliente(models.Model):
         db_table = "po2_cliente"
         verbose_name = "Cliente"
         ordering = ['nome']
-        unique_together = [['empresa', 'nome']]
+        # unique_together = [['empresa', 'nome']]
 
 
 class Bordado(models.Model):
@@ -46,6 +46,11 @@ class Bordado(models.Model):
     nome = models.CharField(
         max_length=50,
     )
+
+    # número de pontos, 
+    # número de cores, 
+    # tamanho, 
+    # dificuldade
 
     def __str__(self):
         return f'{self.nome}'

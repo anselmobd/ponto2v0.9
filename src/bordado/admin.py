@@ -10,9 +10,9 @@ class EmpresaAdmin(admin.ModelAdmin):
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
-    list_display = ['empresa', 'nome']
+    list_display = ['nome']
     list_display_links = ['nome']
-    search_fields = ['empresa', 'nome']
+    search_fields = ['nome']
 
 
 @admin.register(Bordado)
