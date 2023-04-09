@@ -66,10 +66,17 @@ class Bordado(models.Model):
     nome = models.CharField(
         max_length=50,
     )
-
-    # número de pontos, 
-    # número de cores, 
-    # tamanho, 
+    pontos = models.PositiveIntegerField(
+        default=0,
+    )
+    cores = models.PositiveIntegerField(
+        default=0,
+    )
+    tamanho_maximo = models.PositiveIntegerField(
+        'tamanho máximo',
+        default=0,
+        help_text="em milímetros",
+    )
     # dificuldade
 
     def __str__(self):
