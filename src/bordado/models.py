@@ -27,6 +27,13 @@ class Cliente(models.Model):
     nome = models.CharField(
         max_length=50,
     )
+    cnpj9 = models.PositiveIntegerField()
+    cnpj4 = models.PositiveSmallIntegerField()
+    cnpj2 = models.PositiveSmallIntegerField()
+
+    @property
+    def cnpj(self):
+        return f'{self.cnpj9:08d}/{self.cnpj4:04d}-{self.cnpj2:02d}'
 
     def __str__(self):
         return f'{self.nome}'
@@ -35,7 +42,7 @@ class Cliente(models.Model):
         db_table = "po2_cliente"
         verbose_name = "Cliente"
         ordering = ['nome']
-        # unique_together = [['empresa', 'nome']]
+        # unique_together = [['cnpj9', 'cnpj4', 'cnpj2']]
 
 
 class DificuldadeBordado(models.Model):

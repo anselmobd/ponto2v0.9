@@ -10,9 +10,9 @@ from .models import *
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
-    list_display = ['nome']
-    list_display_links = ['nome']
-    search_fields = ['nome']
+    list_display = ['cnpj', 'nome']
+    list_display_links = ['cnpj']
+    search_fields = ['cnpj', 'nome']
 
 
 @admin.register(DificuldadeBordado)
