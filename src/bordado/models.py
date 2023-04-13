@@ -27,9 +27,15 @@ class Cliente(models.Model):
     nome = models.CharField(
         max_length=50,
     )
-    cnpj9 = models.PositiveIntegerField()
-    cnpj4 = models.PositiveSmallIntegerField()
-    cnpj2 = models.PositiveSmallIntegerField()
+    cnpj9 = models.PositiveIntegerField(
+        'CNPJ (raiz)'
+    )
+    cnpj4 = models.PositiveSmallIntegerField(
+        'CNPJ (filial)'
+    )
+    cnpj2 = models.PositiveSmallIntegerField(
+        'CNPJ (dígitos)'
+    )
 
     @property
     def cnpj(self):
