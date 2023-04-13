@@ -29,3 +29,4 @@ class BordadoAdmin(admin.ModelAdmin):
     ]
     list_display_links = ['nome']
     search_fields = ['cliente', 'nome']
+    list_filter = ['cliente']
