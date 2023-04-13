@@ -24,6 +24,8 @@ class DificuldadeBordadoAdmin(admin.ModelAdmin):
 
 @admin.register(Bordado)
 class BordadoAdmin(admin.ModelAdmin):
-    list_display = ['cliente', 'nome', 'pontos', 'cores', 'tamanho_maximo']
+    list_display = [
+        'cliente', 'nome', 'pontos', 'cores', 'tamanho_maximo', 'dificuldade'
+    ]
     list_display_links = ['nome']
     search_fields = ['cliente', 'nome']
