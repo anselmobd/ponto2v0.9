@@ -30,3 +30,27 @@ class BordadoAdmin(admin.ModelAdmin):
     list_display_links = ['nome']
     search_fields = ['cliente', 'nome']
     list_filter = ['cliente']
+
+
+@admin.register(OrdemProducao)
+class OrdemProducaoAdmin(admin.ModelAdmin):
+    list_display = [
+        'numero',
+        'cliente',
+        'bordado',
+        'quantidade',
+        'cancelado',
+        'inserido_em',
+    ]
+    fields = [
+        'numero',
+        'inserido_em',
+        'cliente',
+        'bordado',
+        'quantidade',
+        'cancelado',
+    ]
+    readonly_fields = [
+        'numero',
+        'inserido_em',
+    ]
