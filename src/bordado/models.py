@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 
@@ -28,13 +29,16 @@ class Cliente(models.Model):
         max_length=50,
     )
     cnpj9 = models.PositiveIntegerField(
-        'CNPJ (raiz)'
+        'CNPJ (raiz)',
+        validators=[MinValueValidator(1), MaxValueValidator(999_999_999)],
     )
     cnpj4 = models.PositiveSmallIntegerField(
-        'CNPJ (filial)'
+        'CNPJ (filial)',
+        validators=[MinValueValidator(1), MaxValueValidator(9_999)],
     )
     cnpj2 = models.PositiveSmallIntegerField(
-        'CNPJ (dígitos)'
+        'CNPJ (dígitos)',
+        validators=[MinValueValidator(0), MaxValueValidator(99)],
     )
 
     @property
