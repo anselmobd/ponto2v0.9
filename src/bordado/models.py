@@ -42,6 +42,19 @@ class Cliente(models.Model):
         'CNPJ (dígitos)',
         validators=[MinValueValidator(0), MaxValueValidator(99)],
     )
+    boleto = models.BooleanField(
+        'Gera boleto?',
+        default=False,
+    )
+    conta_corrente = models.BooleanField(
+        'Trabalha como conta corrente?',
+        default=False,
+    )
+    parcela = models.PositiveSmallIntegerField(
+        'Número de parcelas padrão',
+        validators=[MinValueValidator(0), MaxValueValidator(10)],
+        default=1,
+    )
 
     @property
     def cnpj(self):
