@@ -1,6 +1,8 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
+from o2lib.codes.cnpj import CNPJ
+
 
 __all__ = ['Cliente', 'DificuldadeBordado', 'Bordado']
 
@@ -43,7 +45,11 @@ class Cliente(models.Model):
 
     @property
     def cnpj(self):
-        return f'{self.cnpj9:08d}/{self.cnpj4:04d}-{self.cnpj2:02d}'
+        cnpj = CNPJ()
+        cnpj_str = cnpj.to_str(self.cnpj9, self.cnpj4, self.cnpj2)
+        if not cnpj.valid(cnpj_str):
+            cnpj_str += "!"
+        return cnpj_str
 
     def __str__(self):
         return f'{self.nome}'
