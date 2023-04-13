@@ -162,10 +162,40 @@ class OrdemProducao(models.Model):
     inserido_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"OP {self.numero}"
+        return f"OP {self.numero} - {self.cliente.nome}"
 
     class Meta:
         db_table = "po2_op"
         verbose_name = "Ordem de produção"
         verbose_name_plural = "Ordens de produção"
-        ordering = ['numero']
+        ordering = ['-numero']
+
+
+# class ApontamentoProducao(models.Model):
+
+#     op = models.ForeignKey(
+#         OrdemProducao,
+#         on_delete=models.PROTECT,
+#         blank=False,
+#         null=False,
+#     )
+#     qtd_perda = models.IntegerField(
+#         'quantidade de perda',
+#         validators=[MinValueValidator(1), MaxValueValidator(1_000_000)],
+#         default=0,
+#     )
+#     qtd_prod = models.IntegerField(
+#         'quantidade produzida',
+#         validators=[MinValueValidator(1), MaxValueValidator(1_000_000)],
+#         default=0,
+#     )
+#     apontado_em = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return f"OP {self.numero} "
+
+#     class Meta:
+#         db_table = "po2_aponta_prod"
+#         verbose_name = "Apontamento de produção"
+#         verbose_name_plural = "Apontamentos de produção"
+#         ordering = ['-op_id', 'apontado_em']
