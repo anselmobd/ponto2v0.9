@@ -45,11 +45,9 @@ class Cliente(models.Model):
 
     @property
     def cnpj(self):
-        cnpj = CNPJ()
-        cnpj_str = cnpj.to_str(self.cnpj9, self.cnpj4, self.cnpj2)
-        if not cnpj.valid(cnpj_str):
-            cnpj_str += "!"
-        return cnpj_str
+        cnpj = CNPJ(self.cnpj9, self.cnpj4, self.cnpj2)
+        mark = "" if cnpj.valid() else "!"
+        return f"{cnpj}{mark}"
 
     def __str__(self):
         return f'{self.nome}'
