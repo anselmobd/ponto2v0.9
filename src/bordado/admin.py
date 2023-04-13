@@ -35,9 +35,7 @@ class BordadoAdmin(admin.ModelAdmin):
 @admin.register(OrdemProducao)
 class OrdemProducaoAdmin(admin.ModelAdmin):
     list_display = [
-        'numero',
-        'cliente',
-        'bordado',
+        '__str__',
         'quantidade',
         'cancelado',
         'inserido_em',

@@ -162,7 +162,7 @@ class OrdemProducao(models.Model):
     inserido_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"OP {self.numero} - {self.cliente.nome}"
+        return f"OP {self.numero} / {self.cliente.nome} / {self.bordado.nome}"
 
     class Meta:
         db_table = "po2_op"
