@@ -8,6 +8,7 @@ __all__ = [
     'Cliente',
     'DificuldadeBordado',
     'Bordado',
+    'Pedido',
     'OrdemProducao',
     'ApontamentoProducao',
 ]
@@ -134,6 +135,30 @@ class Bordado(models.Model):
         verbose_name = "Bordado"
         ordering = ['nome']
         unique_together = [['cliente', 'nome']]
+
+
+class Pedido(models.Model):
+    numero = models.AutoField(
+        'Número',
+        primary_key=True
+    )
+    cliente = models.ForeignKey(
+        Cliente,
+        on_delete=models.PROTECT,
+        blank=False,
+        null=False,
+    )
+    inserido_em = models.DateTimeField(auto_now_add=True)
+    cancelado = models.BooleanField(
+        default=False,
+    )
+
+    def __str__(self):
+        return f"Pedido {self.numero} / {self.cliente.nome}"
+
+    class Meta:
+        db_table = "po2_pedido"
+        ordering = ['-numero']
 
 
 class OrdemProducao(models.Model):

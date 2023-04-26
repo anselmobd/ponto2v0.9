@@ -32,6 +32,28 @@ class BordadoAdmin(admin.ModelAdmin):
     list_filter = ['cliente']
 
 
+@admin.register(Pedido)
+class PedidoAdmin(admin.ModelAdmin):
+    list_display = [
+        '__str__',
+        'inserido_em',
+        'cancelado',
+    ]
+    list_filter = [
+        'cliente',
+    ]
+    fields = [
+        'numero',
+        'inserido_em',
+        'cliente',
+        'cancelado',
+    ]
+    readonly_fields = [
+        'numero',
+        'inserido_em',
+    ]
+
+
 @admin.register(OrdemProducao)
 class OrdemProducaoAdmin(admin.ModelAdmin):
     list_display = [
@@ -52,6 +74,7 @@ class OrdemProducaoAdmin(admin.ModelAdmin):
         'numero',
         'inserido_em',
     ]
+
 
 @admin.register(ApontamentoProducao)
 class ApontamentoProducaoAdmin(admin.ModelAdmin):
