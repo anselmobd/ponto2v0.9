@@ -10,6 +10,7 @@ __all__ = [
     'Bordado',
     'Pedido',
     'PedidoItem',
+    'OrdemProducao',
 ]
 
 
@@ -198,7 +199,7 @@ class PedidoItem(models.Model):
     )
 
     def __str__(self):
-        return f"Pedido {self.pedido.numero} (ordem {self.ordem}) {self.bordado}"
+        return f"Pedido {self.pedido.numero} (ordem {self.ordem}) {self.bordado} * {self.quantidade}"
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -212,3 +213,33 @@ class PedidoItem(models.Model):
         verbose_name = "Item de pedido"
         verbose_name_plural = "Itens de pedido"
         ordering = ['-pedido__numero', '-ordem']
+
+
+class OrdemProducao(models.Model):
+    numero = models.AutoField(
+        'Número',
+        primary_key=True
+    )
+    pedido_item = models.ForeignKey(
+        PedidoItem,
+        on_delete=models.PROTECT,
+        blank=False,
+        null=False,
+    )
+    quantidade = models.PositiveIntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(1_000_000)],
+        default=0,
+    )
+    cancelado = models.BooleanField(
+        default=False,
+    )
+    inserido_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"OP {self.numero} / {self.pedido_item}"
+
+    class Meta:
+        db_table = "po2_op"
+        verbose_name = "Ordem de produção"
+        verbose_name_plural = "Ordens de produção"
+        ordering = ['-numero']
