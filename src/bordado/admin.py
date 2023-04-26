@@ -108,3 +108,13 @@ class OrdemProducaoAdmin(admin.ModelAdmin):
         'numero',
         'inserido_em',
     ]
+
+
+@admin.register(ApontamentoProducao)
+class ApontamentoProducaoAdmin(admin.ModelAdmin):
+    list_display = [
+        'op',
+        'qtd_perda',
+        'qtd_prod',
+        'apontado_em',
+    ]
