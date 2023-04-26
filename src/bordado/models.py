@@ -149,6 +149,10 @@ class Pedido(models.Model):
         null=False,
     )
     inserido_em = models.DateTimeField(auto_now_add=True)
+    entrega = models.DateField(
+        blank=True,
+        null=True,
+    )
     cancelado = models.BooleanField(
         default=False,
     )

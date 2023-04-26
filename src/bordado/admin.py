@@ -37,6 +37,7 @@ class PedidoAdmin(admin.ModelAdmin):
     list_display = [
         '__str__',
         'inserido_em',
+        'entrega',
         'cancelado',
     ]
     list_filter = [
@@ -46,6 +47,7 @@ class PedidoAdmin(admin.ModelAdmin):
         'numero',
         'inserido_em',
         'cliente',
+        'entrega',
         'cancelado',
     ]
     readonly_fields = [
