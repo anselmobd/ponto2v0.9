@@ -56,6 +56,39 @@ class PedidoAdmin(admin.ModelAdmin):
     ]
 
 
+@admin.register(PedidoItem)
+class PedidoItemAdmin(admin.ModelAdmin):
+    list_display = [
+        'pedido',
+        'ordem',
+        'inserido_em',
+        'bordado',
+        'quantidade',
+        'preco',
+        'cancelado',
+    ]
+    list_display_links = [
+        'pedido',
+        'ordem',
+    ]
+    list_filter = [
+        'pedido__cliente',
+    ]
+    fields = [
+        'pedido',
+        'ordem',
+        'inserido_em',
+        'bordado',
+        'quantidade',
+        'preco',
+        'cancelado',
+    ]
+    readonly_fields = [
+        'ordem',
+        'inserido_em',
+    ]
+
+
 @admin.register(OrdemProducao)
 class OrdemProducaoAdmin(admin.ModelAdmin):
     list_display = [

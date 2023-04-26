@@ -9,6 +9,7 @@ __all__ = [
     'DificuldadeBordado',
     'Bordado',
     'Pedido',
+    'PedidoItem',
     'OrdemProducao',
     'ApontamentoProducao',
 ]
@@ -163,6 +164,56 @@ class Pedido(models.Model):
     class Meta:
         db_table = "po2_pedido"
         ordering = ['-numero']
+
+
+class PedidoItem(models.Model):
+    pedido = models.ForeignKey(
+        Pedido,
+        on_delete=models.PROTECT,
+        blank=False,
+        null=False,
+    )
+    ordem = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(100)],
+        default=0,
+    )
+    inserido_em = models.DateTimeField(auto_now_add=True)
+    bordado = models.ForeignKey(
+        Bordado,
+        on_delete=models.PROTECT,
+        blank=False,
+        null=False,
+    )
+    quantidade = models.PositiveIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(1_000_000)],
+        default=0,
+    )
+    preco = models.DecimalField(
+        'Preço',
+        max_digits=9,
+        decimal_places=2,
+        validators=[MinValueValidator(1), MaxValueValidator(1_000_000)],
+        default=0,
+    )
+    cancelado = models.BooleanField(
+        default=False,
+    )
+
+    def __str__(self):
+        return f"Pedido {self.pedido.numero} / {self.ordem}"
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.ordem = (
+                PedidoItem.objects.filter(pedido=self.pedido).count() + 1
+            ) * 10
+        super(PedidoItem, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = "po2_pedido_item"
+        verbose_name = "Item de pedido"
+        verbose_name_plural = "Itens de pedido"
+        ordering = ['-pedido__numero', '-ordem']
 
 
 class OrdemProducao(models.Model):
