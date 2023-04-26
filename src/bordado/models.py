@@ -198,7 +198,7 @@ class PedidoItem(models.Model):
     )
 
     def __str__(self):
-        return f"Pedido {self.pedido.numero} / {self.ordem}"
+        return f"Pedido {self.pedido.numero} (ordem {self.ordem}) {self.bordado}"
 
     def save(self, *args, **kwargs):
         if not self.id:
