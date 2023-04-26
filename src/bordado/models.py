@@ -264,6 +264,9 @@ class ApontamentoProducao(models.Model):
         default=0,
     )
     apontado_em = models.DateTimeField(auto_now_add=True)
+    encerrado = models.BooleanField(
+        default=False,
+    )
 
     def __str__(self):
         return f"OP {self.op.numero} +{self.qtd_prod} -{self.qtd_perda} {self.apontado_em:%d/%m/%Y %H:%M:%S}"

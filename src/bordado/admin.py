@@ -117,4 +117,5 @@ class ApontamentoProducaoAdmin(admin.ModelAdmin):
         'qtd_perda',
         'qtd_prod',
         'apontado_em',
+        'encerrado',
     ]
