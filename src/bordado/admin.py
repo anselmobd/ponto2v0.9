@@ -87,35 +87,3 @@ class PedidoItemAdmin(admin.ModelAdmin):
         'ordem',
         'inserido_em',
     ]
-
-
-@admin.register(OrdemProducao)
-class OrdemProducaoAdmin(admin.ModelAdmin):
-    list_display = [
-        '__str__',
-        'quantidade',
-        'cancelado',
-        'inserido_em',
-    ]
-    fields = [
-        'numero',
-        'inserido_em',
-        'cliente',
-        'bordado',
-        'quantidade',
-        'cancelado',
-    ]
-    readonly_fields = [
-        'numero',
-        'inserido_em',
-    ]
-
-
-@admin.register(ApontamentoProducao)
-class ApontamentoProducaoAdmin(admin.ModelAdmin):
-    list_display = [
-        'op',
-        'qtd_perda',
-        'qtd_prod',
-        'apontado_em',
-    ]
