@@ -31,12 +31,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     # local dev
-    '127.0.0.1',
-    # server dev acesso interno
+    '127.0.0.1', 'localhost',
+    # server dev na tussor, acesso interno
     'intra.t',
-    # server dev acesso externo
+    # server dev na tussor, acesso externo
     'in.tussor.com.br',
-    # server dev acesso interno e externo
+    # server dev na tussor, acesso interno e externo
     'intra.tussor.com.br',
 ]
 
