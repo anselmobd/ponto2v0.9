@@ -3,23 +3,40 @@ from ponto2.admin import admin
 from .models import *
 
 
+class CustomModelAdmin(admin.ModelAdmin):
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(CustomModelAdmin, self).get_form(request, obj, **kwargs)
+        if hasattr(self, 'field_style'):
+            for field, style in self.field_style.items():
+                form.base_fields[field].widget.attrs['style'] = style
+        return form
+
 # @admin.register(Empresa)
 # class EmpresaAdmin(admin.ModelAdmin):
 #     search_fields = ['nome']
 
 
 @admin.register(Cliente)
-class ClienteAdmin(admin.ModelAdmin):
+class ClienteAdmin(CustomModelAdmin):
     list_display = ['cnpj', 'nome']
     list_display_links = ['cnpj']
     search_fields = ['cnpj', 'nome']
+    field_style = {
+        'cnpj9': 'width: 9em;',
+        'cnpj4': 'width: 4em;',
+        'cnpj2': 'width: 3em;',
+        'parcela': 'width: 3em;',
+    }
 
 
 @admin.register(DificuldadeBordado)
-class DificuldadeBordadoAdmin(admin.ModelAdmin):
+class DificuldadeBordadoAdmin(CustomModelAdmin):
     list_display = ['ordem', 'descricao']
     list_display_links = ['descricao']
     search_fields = ['ordem', 'descricao']
+    field_style = {
+        'ordem': 'width: 3em;',
+    }
 
 
 @admin.register(Bordado)
