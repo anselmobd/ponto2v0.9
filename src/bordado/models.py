@@ -96,7 +96,7 @@ class DificuldadeBordado(models.Model):
         return DificuldadeBordado.objects.get(ordem=0).id
 
     def __str__(self):
-        return f'{self.descricao}'
+        return f'{self.ordem}-{self.descricao}'
 
     class Meta:
         db_table = "po2_dificuldade_bordado"

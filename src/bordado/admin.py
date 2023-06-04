@@ -31,9 +31,8 @@ class ClienteAdmin(CustomModelAdmin):
 
 @admin.register(DificuldadeBordado)
 class DificuldadeBordadoAdmin(CustomModelAdmin):
-    list_display = ['ordem', 'descricao']
-    list_display_links = ['descricao']
-    search_fields = ['ordem', 'descricao']
+    list_display = ['__str__']
+    search_fields = ['__str__']
     field_style = {
         'ordem': 'width: 3em;',
     }
