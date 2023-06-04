@@ -37,11 +37,10 @@ class Cliente(models.Model):
     #     on_delete=models.PROTECT,
     # )
     nome = models.CharField(
-        max_length=50,
+        max_length=100,
     )
     apelido = models.CharField(
         max_length=50,
-        default="",
     )
     cnpj9 = models.PositiveIntegerField(
         'CNPJ (raiz)',
