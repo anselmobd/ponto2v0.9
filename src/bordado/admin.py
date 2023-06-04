@@ -51,6 +51,7 @@ class BordadoAdmin(admin.ModelAdmin):
 class PedidoAdmin(admin.ModelAdmin):
     list_display = [
         '__str__',
+        'cliente',
         'inserido_em',
         'entrega',
         'cancelado',

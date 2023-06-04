@@ -166,7 +166,7 @@ class Pedido(models.Model):
     )
 
     def __str__(self):
-        return f"Pedido {self.numero} / {self.cliente.nome}"
+        return f"{self.numero:04d}"
 
     class Meta:
         db_table = "po2_pedido"
