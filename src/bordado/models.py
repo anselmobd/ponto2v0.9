@@ -75,7 +75,7 @@ class Cliente(models.Model):
         return f"{cnpj}{mark}"
 
     def __str__(self):
-        return f'{self.nome}'
+        return f'{self.apelido} ({self.cnpj})'
 
     class Meta:
         db_table = "po2_cliente"
