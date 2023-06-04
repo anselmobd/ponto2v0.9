@@ -39,6 +39,10 @@ class Cliente(models.Model):
     nome = models.CharField(
         max_length=50,
     )
+    apelido = models.CharField(
+        max_length=50,
+        default="",
+    )
     cnpj9 = models.PositiveIntegerField(
         'CNPJ (raiz)',
         validators=[MinValueValidator(1), MaxValueValidator(999_999_999)],
