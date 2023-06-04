@@ -76,8 +76,9 @@ class PedidoAdmin(admin.ModelAdmin):
 @admin.register(PedidoItem)
 class PedidoItemAdmin(admin.ModelAdmin):
     list_display = [
-        'pedido',
         'ordem',
+        'pedido',
+        'cliente',
         'inserido_em',
         'bordado',
         'quantidade',
@@ -85,11 +86,13 @@ class PedidoItemAdmin(admin.ModelAdmin):
         'cancelado',
     ]
     list_display_links = [
-        'pedido',
         'ordem',
+        'pedido',
+        'cliente',
     ]
     list_filter = [
         'pedido__cliente',
+        'pedido',
     ]
     fields = [
         'pedido',

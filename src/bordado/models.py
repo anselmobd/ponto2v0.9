@@ -207,6 +207,10 @@ class PedidoItem(models.Model):
         default=False,
     )
 
+    @property
+    def cliente(self):
+        return self.pedido.cliente
+
     def __str__(self):
         return f"Pedido {self.pedido.numero} (ordem {self.ordem}) {self.bordado} * {self.quantidade}"
 
