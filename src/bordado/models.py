@@ -31,6 +31,7 @@ __all__ = [
 
 
 class Cliente(models.Model):
+    admin_order = 100
     # empresa = models.ForeignKey(
     #     Empresa,
     #     on_delete=models.PROTECT,
@@ -81,6 +82,7 @@ class Cliente(models.Model):
 
 
 class DificuldadeBordado(models.Model):
+    admin_order = 200
     ordem = models.PositiveSmallIntegerField(
         unique=True,
     )
@@ -104,6 +106,7 @@ class DificuldadeBordado(models.Model):
 
 
 class Bordado(models.Model):
+    admin_order = 300
     cliente = models.ForeignKey(
         Cliente,
         on_delete=models.PROTECT,
@@ -139,6 +142,7 @@ class Bordado(models.Model):
 
 
 class Pedido(models.Model):
+    admin_order = 400
     numero = models.AutoField(
         'Número',
         primary_key=True
@@ -167,6 +171,7 @@ class Pedido(models.Model):
 
 
 class PedidoItem(models.Model):
+    admin_order = 500
     pedido = models.ForeignKey(
         Pedido,
         on_delete=models.PROTECT,
@@ -217,6 +222,7 @@ class PedidoItem(models.Model):
 
 
 class OrdemProducao(models.Model):
+    admin_order = 600
     numero = models.AutoField(
         'Número',
         primary_key=True
@@ -247,6 +253,7 @@ class OrdemProducao(models.Model):
 
 
 class ApontamentoProducao(models.Model):
+    admin_order = 700
     op = models.ForeignKey(
         OrdemProducao,
         on_delete=models.PROTECT,
