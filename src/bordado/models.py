@@ -113,6 +113,8 @@ class Bordado(models.Model):
     cliente = models.ForeignKey(
         Cliente,
         on_delete=models.PROTECT,
+        blank=True,
+        null=True,
     )
     nome = models.CharField(
         max_length=50,
