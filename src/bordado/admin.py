@@ -56,6 +56,7 @@ class PedidoAdmin(admin.ModelAdmin):
         'entrega',
         'cancelado',
     ]
+    list_display_links = ['cliente', '__str__']
     list_filter = [
         'cliente',
     ]
