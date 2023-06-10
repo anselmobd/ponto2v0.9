@@ -2,6 +2,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from o2lib.codes.cnpj import CNPJ
+from o2lib.datetime.tz import tz_local
 
 
 __all__ = [
@@ -285,7 +286,7 @@ class ApontamentoProducao(models.Model):
     )
 
     def __str__(self):
-        return f"OP {self.op.numero} +{self.qtd_prod} -{self.qtd_perda} {self.apontado_em:%d/%m/%Y %H:%M:%S}"
+        return f"OP {self.op.numero} +{self.qtd_prod} -{self.qtd_perda} {tz_local(self.apontado_em):%d/%m/%Y %H:%M:%S}"
 
     class Meta:
         db_table = "po2_aponta_prod"
