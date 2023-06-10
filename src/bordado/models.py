@@ -215,7 +215,7 @@ class PedidoItem(models.Model):
         return self.pedido.cliente
 
     def __str__(self):
-        return f"Pedido {self.pedido.numero} (ordem {self.ordem}) {self.bordado} * {self.quantidade}"
+        return f"Pedido {self.pedido.numero:04d} (ordem {self.ordem}) {self.bordado} * {self.quantidade}"
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -253,7 +253,7 @@ class OrdemProducao(models.Model):
     inserido_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"OP {self.numero} / {self.pedido_item}"
+        return f"OP {self.numero:04d} / {self.pedido_item}"
 
     class Meta:
         db_table = "po2_op"
@@ -286,7 +286,7 @@ class ApontamentoProducao(models.Model):
     )
 
     def __str__(self):
-        return f"OP {self.op.numero:03d} {self.qtd_prod} ({self.qtd_perda}) {tz_local(self.apontado_em):%d/%m/%Y %H:%M:%S}"
+        return f"OP {self.op.numero:04d} {self.qtd_prod} ({self.qtd_perda}) {tz_local(self.apontado_em):%d/%m/%Y %H:%M:%S}"
 
     class Meta:
         db_table = "po2_aponta_prod"
