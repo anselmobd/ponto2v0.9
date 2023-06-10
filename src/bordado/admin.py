@@ -134,8 +134,18 @@ class OrdemProducaoAdmin(admin.ModelAdmin):
 class ApontamentoProducaoAdmin(admin.ModelAdmin):
     list_display = [
         'op',
-        'qtd_perda',
         'qtd_prod',
-        'apontado_em',
+        'qtd_perda',
         'encerrado',
+        'apontado_em',
+    ]
+    fields = [
+        'op',
+        'qtd_prod',
+        'qtd_perda',
+        'encerrado',
+        'apontado_em',
+    ]
+    readonly_fields = [
+        'apontado_em',
     ]
