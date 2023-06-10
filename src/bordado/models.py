@@ -286,7 +286,7 @@ class ApontamentoProducao(models.Model):
     )
 
     def __str__(self):
-        return f"OP {self.op.numero} +{self.qtd_prod} -{self.qtd_perda} {tz_local(self.apontado_em):%d/%m/%Y %H:%M:%S}"
+        return f"OP {self.op.numero:03d} {self.qtd_prod} ({self.qtd_perda}) {tz_local(self.apontado_em):%d/%m/%Y %H:%M:%S}"
 
     class Meta:
         db_table = "po2_aponta_prod"
