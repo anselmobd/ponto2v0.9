@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
 from ponto2.admin import admin
@@ -21,4 +22,18 @@ from ponto2.admin import admin
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('bordado.urls')),
+
+    # Autenticação
+    path(
+        'accounts/login/',
+        auth_views.LoginView.as_view(template_name="layout/login.html"),
+        name='login',
+    ),
+    path(
+        'encerrar/',
+        auth_views.LogoutView.as_view(next_page="/"),
+        name='encerrar',
+    ),
+
+
 ]

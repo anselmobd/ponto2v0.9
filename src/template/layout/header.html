@@ -11,6 +11,6 @@
       </ul>
 
       <div class="col-md-3 text-end">
-        <button type="button" class="btn btn-outline-primary me-2">Identificar-se</button>
+        {% if request.user.is_authenticated %}{{ request.user.username }} <a href="{% url 'encerrar' %}"><button type="button" class="btn btn-outline-primary me-2">Encerrar</button></a>{% else %}<a href="{% url 'login' %}?next={% url 'bordado:index' %}"><button type="button" class="btn btn-outline-primary me-2">Identificar-se</button></a>{% endif %}
       </div>
     </header>

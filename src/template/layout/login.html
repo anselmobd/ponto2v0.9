@@ -1,0 +1,14 @@
+{% extends 'layout/index.html' %}
+{% block header %}
+  {% include 'layout/header.html' %}
+{% endblock %}
+{% block content %}
+<div class="container text-center"> 
+  <h2>Identificação</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar</button>
+  </form>
+</div>
+{% endblock %}
