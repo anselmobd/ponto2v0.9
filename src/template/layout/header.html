@@ -6,7 +6,7 @@
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="{% url 'bordado:index' %}" class="nav-link px-2{% if head_link == 'principal' %} link-secondary{% endif %}">Principal</a></li>
+        {% if request.user.is_authenticated %}<li><a href="{% url 'bordado:index' %}" class="nav-link px-2{% if head_link == 'principal' %} link-secondary{% endif %}">Principal</a></li>{% endif %}
         <li><a href="{% url 'bordado:sobre' %}" class="nav-link px-2{% if head_link == 'sobre' %} link-secondary{% endif %}">Sobre</a></li>
       </ul>
 
