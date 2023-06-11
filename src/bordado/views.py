@@ -1,13 +1,17 @@
 from pprint import pprint
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 
 __all__ = ['index', 'sobre']
 
 
 def index(request):
-    return render(request, 'bordado/index.html', {})
+    if request.user.is_authenticated:
+        return render(request, 'bordado/index.html', {})
+    else:
+        return redirect('bordado:sobre')
+
 
 
 def sobre(request):
