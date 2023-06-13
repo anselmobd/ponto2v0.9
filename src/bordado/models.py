@@ -94,6 +94,10 @@ class Cliente(models.Model):
     def natural_key(self):
         return (self.cnpj9, self.cnpj4)
 
+    @staticmethod
+    def nullable_natural_key(cliente):
+        return (None, None) if cliente is None else cliente.natural_key()
+
 
 class DificuldadeBordadoManager(models.Manager):
     def get_by_natural_key(self, ordem):
@@ -174,7 +178,7 @@ class Bordado(models.Model):
         unique_together = [['nome', 'cliente']]
 
     def natural_key(self):
-        return (self.nome, ) + self.cliente.natural_key()
+        return (self.nome, ) + Cliente.nullable_natural_key(self.cliente)
 
 
 class Pedido(models.Model):
