@@ -111,6 +111,9 @@ class DificuldadeBordado(models.Model):
         verbose_name_plural = "Dificuldades de bordado"
         ordering = ['ordem']
 
+    def natural_key(self):
+        return (self.ordem, )
+
 
 class Bordado(models.Model):
     admin_order = 300
