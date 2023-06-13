@@ -82,7 +82,7 @@ class Cliente(models.Model):
         db_table = "po2_cliente"
         verbose_name = "Cliente"
         ordering = ['nome']
-        unique_together = [['cnpj9', 'cnpj4', 'cnpj2']]
+        unique_together = [['cnpj9', 'cnpj4']]
 
 
 class DificuldadeBordado(models.Model):
