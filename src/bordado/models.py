@@ -95,6 +95,11 @@ class Cliente(models.Model):
         return (self.cnpj9, self.cnpj4)
 
 
+class DificuldadeBordadoManager(models.Manager):
+    def get_by_natural_key(self, ordem):
+        return self.get(ordem=ordem)
+
+
 class DificuldadeBordado(models.Model):
     admin_order = 200
     ordem = models.PositiveSmallIntegerField(
@@ -105,6 +110,8 @@ class DificuldadeBordado(models.Model):
         max_length=50,
         unique=True,
     )
+
+    objects = DificuldadeBordadoManager()
 
     def id_indefinida():
         return DificuldadeBordado.objects.get(ordem=0).id
