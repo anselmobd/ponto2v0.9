@@ -240,6 +240,9 @@ class PedidoItem(models.Model):
         ordering = ['-pedido__numero', '-ordem']
         unique_together = [['pedido', 'ordem']]
 
+    def natural_key(self):
+        return (self.ordem, ) + self.pedido.natural_key()
+
 
 class OrdemProducao(models.Model):
     admin_order = 600
