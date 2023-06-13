@@ -238,7 +238,7 @@ class PedidoItem(models.Model):
         verbose_name = "Item de pedido"
         verbose_name_plural = "Itens de pedido"
         ordering = ['-pedido__numero', '-ordem']
-        unique_together = [['pedido', 'ordem']]
+        unique_together = [['ordem', 'pedido']]
 
     def natural_key(self):
         return (self.ordem, ) + self.pedido.natural_key()
