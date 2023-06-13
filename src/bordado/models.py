@@ -206,6 +206,11 @@ class Pedido(models.Model):
         ordering = ['-numero']
 
 
+class PedidoItemManager(models.Manager):
+    def get_by_natural_key(self, ordem, pedido):
+        return self.get(ordem=ordem, pedido=pedido)
+
+
 class PedidoItem(models.Model):
     admin_order = 500
     pedido = models.ForeignKey(
@@ -239,6 +244,8 @@ class PedidoItem(models.Model):
     cancelado = models.BooleanField(
         default=False,
     )
+
+    objects = PedidoItemManager()
 
     @property
     def cliente(self):
