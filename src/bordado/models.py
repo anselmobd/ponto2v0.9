@@ -150,7 +150,7 @@ class Bordado(models.Model):
         db_table = "po2_bordado"
         verbose_name = "Bordado"
         ordering = ['nome']
-        unique_together = [['cliente', 'nome']]
+        unique_together = [['nome', 'cliente']]
 
     def natural_key(self):
         return (self.nome, ) + self.cliente.natural_key()
