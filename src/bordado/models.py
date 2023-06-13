@@ -129,6 +129,11 @@ class DificuldadeBordado(models.Model):
         return (self.ordem, )
 
 
+class BordadoManager(models.Manager):
+    def get_by_natural_key(self, nome, cnpj9, cnpj4):
+        return self.get(nome=nome, cliente__cnpj9=cnpj9, cliente__cnpj4=cnpj4)
+
+
 class Bordado(models.Model):
     admin_order = 300
     cliente = models.ForeignKey(
@@ -156,6 +161,8 @@ class Bordado(models.Model):
         on_delete=models.PROTECT,
         default=DificuldadeBordado.id_indefinida,
     )
+
+    objects = BordadoManager()
 
     def __str__(self):
         return f'{self.nome}'
