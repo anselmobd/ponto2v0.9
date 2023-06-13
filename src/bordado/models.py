@@ -84,6 +84,9 @@ class Cliente(models.Model):
         ordering = ['nome']
         unique_together = [['cnpj9', 'cnpj4']]
 
+    def natural_key(self):
+        return (self.cnpj9, self.cnpj4)
+
 
 class DificuldadeBordado(models.Model):
     admin_order = 200
