@@ -307,3 +307,6 @@ class ApontamentoProducao(models.Model):
         verbose_name_plural = "Apontamentos de produção"
         ordering = ['-op_id', 'apontado_em']
         unique_together = [['apontado_em', 'op']]
+
+    def natural_key(self):
+        return (self.apontado_em, self.op.numero)
