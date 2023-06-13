@@ -238,6 +238,7 @@ class PedidoItem(models.Model):
         verbose_name = "Item de pedido"
         verbose_name_plural = "Itens de pedido"
         ordering = ['-pedido__numero', '-ordem']
+        unique_together = [['pedido', 'ordem']]
 
 
 class OrdemProducao(models.Model):
