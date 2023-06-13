@@ -306,3 +306,4 @@ class ApontamentoProducao(models.Model):
         verbose_name = "Apontamento de produção"
         verbose_name_plural = "Apontamentos de produção"
         ordering = ['-op_id', 'apontado_em']
+        unique_together = [['apontado_em', 'op']]
