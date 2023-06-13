@@ -152,6 +152,9 @@ class Bordado(models.Model):
         ordering = ['nome']
         unique_together = [['cliente', 'nome']]
 
+    def natural_key(self):
+        return (self.nome, ) + self.cliente.natural_key()
+
 
 class Pedido(models.Model):
     admin_order = 400
