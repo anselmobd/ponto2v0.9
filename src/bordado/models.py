@@ -180,6 +180,8 @@ class Bordado(models.Model):
     def natural_key(self):
         return (self.nome, ) + Cliente.nullable_natural_key(self.cliente)
 
+    natural_key.dependencies = ['bordado.cliente']
+
 
 class Pedido(models.Model):
     admin_order = 400
@@ -275,6 +277,8 @@ class PedidoItem(models.Model):
     def natural_key(self):
         return (self.ordem, self.pedido.numero)
 
+    natural_key.dependencies = ['bordado.pedido']
+
 
 class OrdemProducao(models.Model):
     admin_order = 600
@@ -342,3 +346,5 @@ class ApontamentoProducao(models.Model):
 
     def natural_key(self):
         return (self.apontado_em, self.op.numero)
+
+    natural_key.dependencies = ['bordado.ordemproducao']
