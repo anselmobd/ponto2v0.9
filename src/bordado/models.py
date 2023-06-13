@@ -212,7 +212,7 @@ class Pedido(models.Model):
 
 class PedidoItemManager(models.Manager):
     def get_by_natural_key(self, ordem, pedido):
-        return self.get(ordem=ordem, pedido=pedido)
+        return self.get(ordem=ordem, pedido__numero=pedido)
 
 
 class PedidoItem(models.Model):
@@ -273,7 +273,7 @@ class PedidoItem(models.Model):
         unique_together = [['ordem', 'pedido']]
 
     def natural_key(self):
-        return (self.ordem, self.pedido)
+        return (self.ordem, self.pedido.numero)
 
 
 class OrdemProducao(models.Model):
