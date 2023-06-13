@@ -31,6 +31,11 @@ __all__ = [
 #         ordering = ['nome']
 
 
+class ClienteManager(models.Manager):
+    def get_by_natural_key(self, cnpj9, cnpj4):
+        return self.get(cnpj9=cnpj9, cnpj4=cnpj4)
+
+
 class Cliente(models.Model):
     admin_order = 100
     # empresa = models.ForeignKey(
@@ -68,6 +73,8 @@ class Cliente(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(10)],
         default=1,
     )
+
+    objects = ClienteManager()
 
     @property
     def cnpj(self):
