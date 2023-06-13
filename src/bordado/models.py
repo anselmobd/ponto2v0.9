@@ -262,7 +262,7 @@ class PedidoItem(models.Model):
         unique_together = [['ordem', 'pedido']]
 
     def natural_key(self):
-        return (self.ordem, self.pedido.numero)
+        return (self.ordem, self.pedido)
 
 
 class OrdemProducao(models.Model):
