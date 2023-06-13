@@ -311,6 +311,11 @@ class OrdemProducao(models.Model):
         ordering = ['-numero']
 
 
+class ApontamentoProducaoManager(models.Manager):
+    def get_by_natural_key(self, apontado_em, op):
+        return self.get(apontado_em=apontado_em, op__numero=op)
+
+
 class ApontamentoProducao(models.Model):
     admin_order = 700
     op = models.ForeignKey(
@@ -333,6 +338,8 @@ class ApontamentoProducao(models.Model):
     encerrado = models.BooleanField(
         default=False,
     )
+
+    objects = ApontamentoProducaoManager()
 
     def __str__(self):
         return f"OP {self.op.numero:04d} {self.qtd_prod} ({self.qtd_perda}) {tz_local(self.apontado_em):%d/%m/%Y %H:%M:%S}"
