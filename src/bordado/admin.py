@@ -28,6 +28,7 @@ class ClienteAdmin(CustomModelAdmin):
     }
     readonly_fields = [
         'usuario',
+        'quando',
     ]
 
 
