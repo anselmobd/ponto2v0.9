@@ -303,7 +303,7 @@ class OrdemProducao(models.Model):
     inserido_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"OP {self.numero:04d} / {self.pedido_item}"
+        return f"OP {self.numero:04d}; {self.pedido_item}"
 
     class Meta:
         db_table = "po2_op"
