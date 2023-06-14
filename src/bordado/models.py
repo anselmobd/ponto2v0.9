@@ -84,6 +84,7 @@ class Cliente(models.Model):
         blank=False,
         verbose_name="usuário",
     )
+    quando = models.DateTimeField(auto_now=True)
 
     objects = ClienteManager()
 
