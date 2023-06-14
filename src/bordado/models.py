@@ -259,7 +259,7 @@ class PedidoItem(models.Model):
         return self.pedido.cliente
 
     def __str__(self):
-        return f"Pedido {self.pedido.numero:04d} (ordem {self.ordem}) {self.bordado} * {self.quantidade}"
+        return f"Pedido {self.pedido.numero:04d}; ordem {self.ordem}; {self.quantidade} * {self.bordado}"
 
     def save(self, *args, **kwargs):
         if not self.id:
