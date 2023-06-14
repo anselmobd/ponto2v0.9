@@ -43,7 +43,7 @@ class BordadoAdmin(admin.ModelAdmin):
         'nome', 'cliente', 'pontos', 'cores', 'tamanho_maximo', 'dificuldade'
     ]
     list_display_links = ['cliente', 'nome']
-    search_fields = ['cliente', 'nome']
+    search_fields = ['cliente__apelido', 'cliente__cnpj9', 'nome']
     list_filter = ['cliente']
 
 
