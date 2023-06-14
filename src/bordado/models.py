@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
+from o2lib.classes.logged_in_user import SingletonLoggedInUser
 from o2lib.codes.cnpj import CNPJ
 from o2lib.datetime.tz import tz_local
 
@@ -94,6 +95,12 @@ class Cliente(models.Model):
 
     def __str__(self):
         return f'{self.apelido} ({self.cnpj})'
+
+    def clean_usuario(self):
+        return SingletonLoggedInUser().user
+
+    def clean(self):
+        self.usuario = self.clean_usuario()
 
     class Meta:
         db_table = "po2_cliente"

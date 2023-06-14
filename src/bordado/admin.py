@@ -26,6 +26,9 @@ class ClienteAdmin(CustomModelAdmin):
         'cnpj2': 'width: 3em;',
         'parcela': 'width: 3em;',
     }
+    readonly_fields = [
+        'usuario',
+    ]
 
 
 @admin.register(DificuldadeBordado)
