@@ -169,7 +169,8 @@ class Bordado(models.Model):
     objects = BordadoManager()
 
     def __str__(self):
-        return f'{self.nome} - {self.cliente}'
+        cliente = f" - {self.cliente}" if self.cliente else ''
+        return f"{self.nome} {cliente}"
 
     class Meta:
         db_table = "po2_bordado"
