@@ -78,7 +78,6 @@ class PedidoItemAdmin(admin.ModelAdmin):
     list_display = [
         'ordem',
         'pedido',
-        'cliente',
         'inserido_em',
         'bordado',
         'quantidade',
@@ -88,7 +87,6 @@ class PedidoItemAdmin(admin.ModelAdmin):
     list_display_links = [
         'ordem',
         'pedido',
-        'cliente',
     ]
     list_filter = [
         'pedido__cliente',
