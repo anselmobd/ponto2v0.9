@@ -3,23 +3,18 @@ from django.test import TestCase
 from bordado.models import Cliente
 
 
-def cria_cliente():
-    Cliente.objects.create(
-        nome='teste',
-        apelido='t',
-        cnpj9=123456789,
-        cnpj4=1234,
-        cnpj2=12,
-        boleto=False,
-        conta_corrente=False,
-        parcela=3,
-    )
-
 class ClienteTestCase(TestCase):
-    def setUp(self):
-        cria_cliente()
+    fixtures = ["test_bordado.json"]
 
-    def test_clientes(self):
+    def test_cadastro(self):
         """Cliente cadastrado"""
-        teste = Cliente.objects.get(apelido="t")
-        self.assertEqual(teste.cnpj, "123456789/1234-12!")
+        cliente = Cliente.objects.get(apelido="Primeiro")
+        # self.assertEqual(cliente.apelido, "Primeiro")
+        self.assertEqual(cliente.nome, "Primeiro Confecções")
+        self.assertEqual(cliente.cnpj9, 1)
+        self.assertEqual(cliente.cnpj4, 1)
+        self.assertEqual(cliente.cnpj2, 0)
+        self.assertEqual(cliente.boleto, True)
+        self.assertEqual(cliente.conta_corrente, False)
+        self.assertEqual(cliente.parcela, 10)
+        self.assertEqual(cliente.cnpj, "00000001/0001-00!")
