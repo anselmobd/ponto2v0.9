@@ -205,7 +205,7 @@ class Pedido(models.Model):
     )
 
     def __str__(self):
-        return f"{self.numero:04d}"
+        return f"{self.numero:04d} - {self.cliente}"
 
     class Meta:
         db_table = "po2_pedido"
