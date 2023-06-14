@@ -1,3 +1,6 @@
+from pprint import pprint
+
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
@@ -72,6 +75,13 @@ class Cliente(models.Model):
         'Número de parcelas padrão',
         validators=[MinValueValidator(0), MaxValueValidator(10)],
         default=1,
+    )
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        verbose_name="usuário",
     )
 
     objects = ClienteManager()
