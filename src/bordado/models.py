@@ -97,11 +97,12 @@ class Cliente(models.Model):
     def __str__(self):
         return f'{self.apelido} ({self.cnpj})'
 
-    def clean_usuario(self):
+    def cleanned_usuario(self):
         return SingletonLoggedInUser().user
 
     def clean(self):
-        self.usuario = self.clean_usuario()
+        super().clean()
+        self.usuario = self.cleanned_usuario()
 
     class Meta:
         db_table = "po2_cliente"
