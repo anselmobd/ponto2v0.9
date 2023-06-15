@@ -1,10 +1,12 @@
+import datetime
+
 from django.test import TestCase
 
 from bordado.models import Cliente
 
 
 class ClienteTestCase(TestCase):
-    fixtures = ["test_bordado.json"]
+    fixtures = ["test_auth.json", "test_bordado.json"]
 
     def test_cadastro(self):
         """Cliente cadastrado"""
@@ -18,3 +20,11 @@ class ClienteTestCase(TestCase):
         self.assertEqual(cliente.conta_corrente, False)
         self.assertEqual(cliente.parcela, 10)
         self.assertEqual(cliente.cnpj, "00000001/0001-00!")
+        self.assertEqual(cliente.usuario.username, "admin")
+        self.assertEqual(
+            cliente.quando,
+            datetime.datetime(
+                2023, 6, 14, 3, 20, 57, 991000,
+                tzinfo=datetime.timezone.utc
+            )
+        )
