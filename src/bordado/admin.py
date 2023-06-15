@@ -18,7 +18,7 @@ class CustomModelAdmin(admin.ModelAdmin):
 
 @admin.register(Cliente)
 class ClienteAdmin(CustomModelAdmin):
-    list_display = ['__str__']
+    list_display = ['__str__', 'usuario', 'quando']
     search_fields = ['__str__']
     field_style = {
         'cnpj9': 'width: 9em;',
