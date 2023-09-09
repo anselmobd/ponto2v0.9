@@ -1,13 +1,13 @@
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <div class="col-md-3 mb-2 mb-md-0">
         <a href="{% url 'bordado:index' %}" class="d-inline-flex link-body-emphasis text-decoration-none">
-          RPR
+          RPR - Ponto2
         </a>
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        {% if request.user.is_authenticated %}<li><a href="{% url 'bordado:index' %}" class="nav-link px-2{% if head_link == 'principal' %} link-secondary{% endif %}">Principal</a></li>{% endif %}
-        <li><a href="{% url 'bordado:sobre' %}" class="nav-link px-2{% if head_link == 'sobre' %} link-secondary{% endif %}">Sobre</a></li>
+        {% if request.user.is_authenticated %}<li><a href="{% url 'bordado:index' %}" class="nav-link px-2{% if app_link == 'bordado' %} link-secondary{% endif %}">Bordado</a></li>{% endif %}
+        <li><a href="{% url 'bordado:sobre' %}" class="nav-link px-2{% if app_link == 'sobre' %} link-secondary{% endif %}">Sobre</a></li>
       </ul>
 
       <div class="col-md-3 text-end">
