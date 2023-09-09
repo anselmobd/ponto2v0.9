@@ -1,0 +1,97 @@
+[
+{
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+        "name": "cadastros",
+        "permissions": [
+            45,
+            46,
+            47,
+            48,
+            33,
+            34,
+            35,
+            36,
+            29,
+            30,
+            31,
+            32,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56
+        ]
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$RTSZ50rTm14piDqLD3z85f$PEujEsS9X2SI27jpC8z1EfMLvhltJb5Vdd2Dz67AlLI=",
+        "last_login": "2023-06-14T03:15:57.132Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "anselmo@oxigenai.com.br",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-03-18T00:09:31Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$fI40o9lzIIMVly78xhYUwR$xiqdguJFbK7EWsGKmqjEG2Q+RSGSPAhjLurZNpz9cwo=",
+        "last_login": "2023-06-14T03:12:47.215Z",
+        "is_superuser": false,
+        "username": "paulo",
+        "first_name": "Paulo",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-03-21T21:07:02Z",
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$xujuzJyi7EUotDhQl1loVs$NtIL4uDhm9oEZ02vYp87gxFBe4ZkijiJbzbJcun5m3U=",
+        "last_login": "2023-06-14T03:07:04Z",
+        "is_superuser": false,
+        "username": "anselmo",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-06-11T00:02:57Z",
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+}
+]

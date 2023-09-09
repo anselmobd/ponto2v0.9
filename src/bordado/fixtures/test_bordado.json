@@ -1,0 +1,369 @@
+[
+{
+    "model": "bordado.cliente",
+    "fields": {
+        "nome": "Primeiro Confecções",
+        "apelido": "Primeiro",
+        "cnpj9": 1,
+        "cnpj4": 1,
+        "cnpj2": 0,
+        "boleto": true,
+        "conta_corrente": false,
+        "parcela": 10,
+        "usuario": [
+            "admin"
+        ],
+        "quando": "2023-06-14T03:20:57.991Z"
+    }
+},
+{
+    "model": "bordado.cliente",
+    "fields": {
+        "nome": "Oxigenai Ltda.",
+        "apelido": "O2",
+        "cnpj9": 32107176,
+        "cnpj4": 1,
+        "cnpj2": 33,
+        "boleto": false,
+        "conta_corrente": true,
+        "parcela": 1,
+        "usuario": [
+            "admin"
+        ],
+        "quando": "2023-06-14T03:20:57.991Z"
+    }
+},
+{
+    "model": "bordado.cliente",
+    "fields": {
+        "nome": "t",
+        "apelido": "t",
+        "cnpj9": 6,
+        "cnpj4": 6,
+        "cnpj2": 6,
+        "boleto": false,
+        "conta_corrente": false,
+        "parcela": 1,
+        "usuario": [
+            "paulo"
+        ],
+        "quando": "2023-06-14T03:20:57.991Z"
+    }
+},
+{
+    "model": "bordado.cliente",
+    "fields": {
+        "nome": "u",
+        "apelido": "u",
+        "cnpj9": 8,
+        "cnpj4": 8,
+        "cnpj2": 8,
+        "boleto": false,
+        "conta_corrente": false,
+        "parcela": 1,
+        "usuario": [
+            "paulo"
+        ],
+        "quando": "2023-06-14T03:20:57.991Z"
+    }
+},
+{
+    "model": "bordado.dificuldadebordado",
+    "fields": {
+        "ordem": 10,
+        "descricao": "Simples"
+    }
+},
+{
+    "model": "bordado.dificuldadebordado",
+    "fields": {
+        "ordem": 20,
+        "descricao": "Normal"
+    }
+},
+{
+    "model": "bordado.dificuldadebordado",
+    "fields": {
+        "ordem": 30,
+        "descricao": "Difícil"
+    }
+},
+{
+    "model": "bordado.dificuldadebordado",
+    "fields": {
+        "ordem": 0,
+        "descricao": "Indefinida"
+    }
+},
+{
+    "model": "bordado.bordado",
+    "fields": {
+        "cliente": [
+            1,
+            1
+        ],
+        "nome": "logo",
+        "pontos": 10000,
+        "cores": 2,
+        "tamanho_maximo": 40,
+        "dificuldade": [
+            0
+        ]
+    }
+},
+{
+    "model": "bordado.bordado",
+    "fields": {
+        "cliente": [
+            32107176,
+            1
+        ],
+        "nome": "logo",
+        "pontos": 4523,
+        "cores": 6,
+        "tamanho_maximo": 15,
+        "dificuldade": [
+            20
+        ]
+    }
+},
+{
+    "model": "bordado.bordado",
+    "fields": {
+        "cliente": [
+            32107176,
+            1
+        ],
+        "nome": "AI",
+        "pontos": 5000,
+        "cores": 1,
+        "tamanho_maximo": 100,
+        "dificuldade": [
+            10
+        ]
+    }
+},
+{
+    "model": "bordado.bordado",
+    "fields": {
+        "cliente": null,
+        "nome": "Brasil bandeira pequena",
+        "pontos": 3000,
+        "cores": 4,
+        "tamanho_maximo": 20,
+        "dificuldade": [
+            10
+        ]
+    }
+},
+{
+    "model": "bordado.bordado",
+    "fields": {
+        "cliente": [
+            1,
+            1
+        ],
+        "nome": "logo pequena",
+        "pontos": 1000,
+        "cores": 2,
+        "tamanho_maximo": 10,
+        "dificuldade": [
+            0
+        ]
+    }
+},
+{
+    "model": "bordado.bordado",
+    "fields": {
+        "cliente": null,
+        "nome": "logo RPR",
+        "pontos": 2300,
+        "cores": 1,
+        "tamanho_maximo": 22,
+        "dificuldade": [
+            10
+        ]
+    }
+},
+{
+    "model": "bordado.pedido",
+    "pk": 2,
+    "fields": {
+        "cliente": [
+            32107176,
+            1
+        ],
+        "inserido_em": "2023-04-26T15:30:27.506Z",
+        "entrega": "2023-04-28",
+        "cancelado": false
+    }
+},
+{
+    "model": "bordado.pedido",
+    "pk": 3,
+    "fields": {
+        "cliente": [
+            32107176,
+            1
+        ],
+        "inserido_em": "2023-05-06T19:40:28.447Z",
+        "entrega": "2023-05-10",
+        "cancelado": false
+    }
+},
+{
+    "model": "bordado.pedido",
+    "pk": 4,
+    "fields": {
+        "cliente": [
+            1,
+            1
+        ],
+        "inserido_em": "2023-06-14T00:16:18.987Z",
+        "entrega": "2023-06-19",
+        "cancelado": false
+    }
+},
+{
+    "model": "bordado.pedidoitem",
+    "fields": {
+        "pedido": 2,
+        "ordem": 10,
+        "inserido_em": "2023-04-26T18:09:49.538Z",
+        "bordado": [
+            "AI",
+            32107176,
+            1
+        ],
+        "quantidade": 50,
+        "preco": "230.00",
+        "cancelado": false
+    }
+},
+{
+    "model": "bordado.pedidoitem",
+    "fields": {
+        "pedido": 2,
+        "ordem": 20,
+        "inserido_em": "2023-04-26T18:12:10.564Z",
+        "bordado": [
+            "logo",
+            1,
+            1
+        ],
+        "quantidade": 10,
+        "preco": "180.00",
+        "cancelado": false
+    }
+},
+{
+    "model": "bordado.pedidoitem",
+    "fields": {
+        "pedido": 2,
+        "ordem": 30,
+        "inserido_em": "2023-06-12T18:09:49.538Z",
+        "bordado": [
+            "logo pequena",
+            1,
+            1
+        ],
+        "quantidade": 50,
+        "preco": "120.00",
+        "cancelado": false
+    }
+},
+{
+    "model": "bordado.pedidoitem",
+    "fields": {
+        "pedido": 3,
+        "ordem": 10,
+        "inserido_em": "2023-06-13T16:06:24.122Z",
+        "bordado": [
+            "logo RPR",
+            null,
+            null
+        ],
+        "quantidade": 4,
+        "preco": "20.00",
+        "cancelado": false
+    }
+},
+{
+    "model": "bordado.pedidoitem",
+    "fields": {
+        "pedido": 3,
+        "ordem": 20,
+        "inserido_em": "2023-06-13T16:06:24.122Z",
+        "bordado": [
+            "Brasil bandeira pequena",
+            null,
+            null
+        ],
+        "quantidade": 5,
+        "preco": "22.00",
+        "cancelado": false
+    }
+},
+{
+    "model": "bordado.pedidoitem",
+    "fields": {
+        "pedido": 4,
+        "ordem": 10,
+        "inserido_em": "2023-06-14T00:20:02.829Z",
+        "bordado": [
+            "logo",
+            1,
+            1
+        ],
+        "quantidade": 1000,
+        "preco": "3000.10",
+        "cancelado": false
+    }
+},
+{
+    "model": "bordado.ordemproducao",
+    "pk": 3,
+    "fields": {
+        "pedido_item": [
+            10,
+            2
+        ],
+        "quantidade": 50,
+        "cancelado": false,
+        "inserido_em": "2023-04-26T18:50:47.556Z"
+    }
+},
+{
+    "model": "bordado.ordemproducao",
+    "pk": 4,
+    "fields": {
+        "pedido_item": [
+            20,
+            3
+        ],
+        "quantidade": 5,
+        "cancelado": false,
+        "inserido_em": "2023-06-14T00:28:25.207Z"
+    }
+},
+{
+    "model": "bordado.apontamentoproducao",
+    "fields": {
+        "op": 3,
+        "qtd_perda": 0,
+        "qtd_prod": 25,
+        "apontado_em": "2023-04-26T18:54:38.338Z",
+        "encerrado": false
+    }
+},
+{
+    "model": "bordado.apontamentoproducao",
+    "fields": {
+        "op": 3,
+        "qtd_perda": 0,
+        "qtd_prod": 15,
+        "apontado_em": "2023-06-12T18:54:38.338Z",
+        "encerrado": false
+    }
+}
+]
