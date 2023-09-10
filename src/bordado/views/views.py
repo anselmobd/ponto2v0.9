@@ -8,7 +8,7 @@ __all__ = ['index', 'sobre']
 
 def index(request):
     if request.user.is_authenticated:
-        return render(request, 'bordado/index.html', {})
+        return render(request, 'bordado/index/main.html', {})
     else:
         return redirect('bordado:sobre')
 
