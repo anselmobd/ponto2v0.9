@@ -3,6 +3,9 @@ src/ponto2/*settings_secrets.py
 docs
 /static
 
+# vscode
+.vscode
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
