@@ -17,11 +17,13 @@ from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
 from ponto2.admin import admin
+from ponto2.views import index
 
 
 urlpatterns = [
+    path('', index, name='index'),
     path('admin/', admin.site.urls),
-    path('', include('bordado.urls')),
+    path('bordado/', include('bordado.urls')),
 
     # Autenticação
     path(
