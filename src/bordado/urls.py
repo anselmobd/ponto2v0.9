@@ -10,6 +10,7 @@ router.register(r'users', UserViewSet)
 router.register(r'clientes', ClienteViewSet)
 router.register(r'dificuldade_bordado', DificuldadeBordadoViewSet)
 router.register(r'bordado', BordadoViewSet)
+router.register(r'pedido', PedidoViewSet)
 
 app_name = 'bordado'
 urlpatterns = [

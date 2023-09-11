@@ -9,6 +9,7 @@ __all__ = [
     'ClienteSerializer',
     'DificuldadeBordadoSerializer',
     'BordadoSerializer',
+    'PedidoSerializer',
 ]
 
 
@@ -64,4 +65,16 @@ class BordadoSerializer(serializers.HyperlinkedModelSerializer):
             'cores',
             'tamanho_maximo',
             'dificuldade',
+        ]
+
+
+class PedidoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Pedido
+        fields = [
+            'numero',
+            # 'cliente',
+            'inserido_em',
+            'entrega',
+            'cancelado',
         ]
