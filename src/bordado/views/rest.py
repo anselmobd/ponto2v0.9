@@ -15,6 +15,7 @@ __all__ = [
     'BordadoViewSet',
     'PedidoViewSet',
     'PedidoItemViewSet',
+    'OrdemProducaoViewSet',
 ]
 
 
@@ -51,4 +52,10 @@ class PedidoViewSet(viewsets.ModelViewSet):
 class PedidoItemViewSet(viewsets.ModelViewSet):
     queryset = PedidoItem.objects.all()
     serializer_class = PedidoItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class OrdemProducaoViewSet(viewsets.ModelViewSet):
+    queryset = OrdemProducao.objects.all()
+    serializer_class = OrdemProducaoSerializer
     permission_classes = [permissions.IsAuthenticated]
