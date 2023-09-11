@@ -57,12 +57,13 @@ class DificuldadeBordadoSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class BordadoSerializer(serializers.HyperlinkedModelSerializer):
+    cliente = ClienteSerializer()
     dificuldade = DificuldadeBordadoSerializer()
     class Meta:
         model = Bordado
         fields = [
             'id',
-            # 'cliente',
+            'cliente',
             'nome',
             'pontos',
             'cores',
@@ -72,11 +73,12 @@ class BordadoSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PedidoSerializer(serializers.HyperlinkedModelSerializer):
+    cliente = ClienteSerializer()
     class Meta:
         model = Pedido
         fields = [
             'numero',
-            # 'cliente',
+            'cliente',
             'inserido_em',
             'entrega',
             'cancelado',
