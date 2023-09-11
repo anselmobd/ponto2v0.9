@@ -12,6 +12,7 @@ __all__ = [
     'UserViewSet',
     'ClienteViewSet',
     'DificuldadeBordadoViewSet',
+    'BordadoViewSet',
 ]
 
 
@@ -32,3 +33,8 @@ class DificuldadeBordadoViewSet(viewsets.ModelViewSet):
     serializer_class = DificuldadeBordadoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+
+class BordadoViewSet(viewsets.ModelViewSet):
+    queryset = Bordado.objects.all()
+    serializer_class = BordadoSerializer
+    permission_classes = [permissions.IsAuthenticated]

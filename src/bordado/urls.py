@@ -6,8 +6,10 @@ from .views.rest import *
 
 
 router = routers.DefaultRouter()
-router.register(r'clientes', ClienteViewSet)
 router.register(r'users', UserViewSet)
+router.register(r'clientes', ClienteViewSet)
+router.register(r'dificuldade_bordado', DificuldadeBordadoViewSet)
+router.register(r'bordado', BordadoViewSet)
 
 app_name = 'bordado'
 urlpatterns = [

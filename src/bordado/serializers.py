@@ -8,6 +8,7 @@ __all__ = [
     'UserSerializer',
     'ClienteSerializer',
     'DificuldadeBordadoSerializer',
+    'BordadoSerializer',
 ]
 
 
@@ -45,6 +46,22 @@ class DificuldadeBordadoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = DificuldadeBordado
         fields = [
+            'id',
             'ordem',
             'descricao',
+        ]
+
+
+class BordadoSerializer(serializers.HyperlinkedModelSerializer):
+    dificuldade = DificuldadeBordadoSerializer()
+    class Meta:
+        model = Bordado
+        fields = [
+            'id',
+            # 'cliente',
+            'nome',
+            'pontos',
+            'cores',
+            'tamanho_maximo',
+            'dificuldade',
         ]
