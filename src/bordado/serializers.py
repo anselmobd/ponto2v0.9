@@ -1,14 +1,13 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from bordado.models import (
-    Cliente
-)
+from bordado.models import *
 
 
 __all__ = [
     'UserSerializer',
     'ClienteSerializer',
+    'DificuldadeBordadoSerializer',
 ]
 
 
@@ -39,4 +38,13 @@ class ClienteSerializer(serializers.HyperlinkedModelSerializer):
             'parcela',
             'usuario',
             'quando',
+        ]
+
+
+class DificuldadeBordadoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = DificuldadeBordado
+        fields = [
+            'ordem',
+            'descricao',
         ]
