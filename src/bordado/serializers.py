@@ -10,6 +10,7 @@ __all__ = [
     'DificuldadeBordadoSerializer',
     'BordadoSerializer',
     'PedidoSerializer',
+    'PedidoItemSerializer',
 ]
 
 
@@ -76,5 +77,21 @@ class PedidoSerializer(serializers.HyperlinkedModelSerializer):
             # 'cliente',
             'inserido_em',
             'entrega',
+            'cancelado',
+        ]
+
+
+class PedidoItemSerializer(serializers.HyperlinkedModelSerializer):
+    pedido = PedidoSerializer()
+    bordado = BordadoSerializer()
+    class Meta:
+        model = PedidoItem
+        fields = [
+            'pedido',
+            'ordem',
+            'inserido_em',
+            'bordado',
+            'quantidade',
+            'preco',
             'cancelado',
         ]
