@@ -4,25 +4,42 @@ export default {
   template:
     /*html*/
     `
-    <h3>Clientes</h3>
+    <h4>Clientes</h4>
     <ul>
-      <li  v-for="cliente in clientes" :key="cliente.id">
-        {{ cliente.apelido }}
+      <li v-for="cliente in clientes" :key="cliente.id">
+        {{cliente.apelido}}
+      </li>
+    </ul>
+    <h4>Pedido</h4>
+    <ul>
+      <li v-for="pedido_item in pedido_itens" :key="pedido_item.id">
+        {{pedido_item.inserido_em}} -
+        {{pedido_item.pedido.cliente.apelido}} -
+        {{pedido_item.bordado.nome}}
       </li>
     </ul>
     `,
   data() {
     return {
-      clientes: {}
+      clientes: {},
+      pedido_itens: {}
     }
   },
   mounted() {
     axios.get('/bordado/api/clientes/?format=json')
     .then(response => {
-      this.clientes = response.data;
+      this.clientes = response.data.results;
     })
     .catch(error => {
       console.error('Erro ao obter clientes via API:', error);
+    });
+    axios.get('/bordado/api/pedido_item/?format=json')
+    .then(response => {
+      this.pedido_itens = response.data.results;
+      console.log(this.pedido_itens);
+    })
+    .catch(error => {
+      console.error('Erro ao obter pedido_itens via API:', error);
     });
   }
 }
