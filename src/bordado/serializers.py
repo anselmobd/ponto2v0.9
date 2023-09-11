@@ -87,6 +87,7 @@ class PedidoItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PedidoItem
         fields = [
+            'id',
             'pedido',
             'ordem',
             'inserido_em',
