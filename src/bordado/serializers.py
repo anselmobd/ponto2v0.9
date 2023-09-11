@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from bordado.models import (
@@ -5,7 +6,25 @@ from bordado.models import (
 )
 
 
+__all__ = [
+    'UserSerializer',
+    'ClienteSerializer',
+]
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name="bordado:user-detail")
+    class Meta:
+        model = User
+        fields = [
+            'url',
+            'username',
+            'email',
+        ]
+
+
 class ClienteSerializer(serializers.HyperlinkedModelSerializer):
+    usuario = UserSerializer()
     class Meta:
         model = Cliente
         fields = [
@@ -18,5 +37,6 @@ class ClienteSerializer(serializers.HyperlinkedModelSerializer):
             'boleto',
             'conta_corrente',
             'parcela',
+            'usuario',
             'quando',
         ]

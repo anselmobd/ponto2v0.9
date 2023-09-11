@@ -2,11 +2,12 @@ from django.urls import include, path
 from rest_framework import routers
 
 from .views.views import *
-from .views.rest import ClienteViewSet
+from .views.rest import *
 
 
 router = routers.DefaultRouter()
 router.register(r'clientes', ClienteViewSet)
+router.register(r'users', UserViewSet)
 
 app_name = 'bordado'
 urlpatterns = [
