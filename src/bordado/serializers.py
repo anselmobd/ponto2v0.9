@@ -12,6 +12,7 @@ __all__ = [
     'PedidoSerializer',
     'PedidoItemSerializer',
     'OrdemProducaoSerializer',
+    'ApontamentoProducaoSerializer',
 ]
 
 
@@ -109,4 +110,17 @@ class OrdemProducaoSerializer(serializers.HyperlinkedModelSerializer):
             'quantidade',
             'cancelado',
             'inserido_em',
+        ]
+
+
+class ApontamentoProducaoSerializer(serializers.HyperlinkedModelSerializer):
+    op = OrdemProducaoSerializer()
+    class Meta:
+        model = ApontamentoProducao
+        fields = [
+            'op',
+            'qtd_perda',
+            'qtd_prod',
+            'apontado_em',
+            'encerrado',
         ]
