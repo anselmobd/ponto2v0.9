@@ -1,6 +1,7 @@
 export default {
   props: [
-    'pedido_item'
+    'pedido_item',
+    'editing'
   ],
   template:
     /*html*/
@@ -10,15 +11,13 @@ export default {
       <td>{{pedido_item.pedido.cliente.apelido}}</td>
       <td>{{pedido_item.bordado.nome}}</td>
       <td>
-        <button :hidden="executando_acao" class="btn">Editar</button>
-        <button :hidden="executando_acao" class="btn">Apagar</button>
+        <button :disabled="editing" class="btn">Editar</button>
+        <button :disabled="editing" class="btn">Apagar</button>
       </td>
     </tr>
     `,
   data() {
-    return {
-      executando_acao: false
-    }
+    return {}
   },
   methods: {
     pedidoItemInseridoEmData(pedido_item) {

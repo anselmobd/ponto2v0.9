@@ -1,4 +1,7 @@
 export default {
+  props: [
+    'editing'
+  ],
   template:
     /*html*/
     `
@@ -15,7 +18,6 @@ export default {
     `,
   data() {
     return {
-      editing: false,
       cliente: '',
       bordado: '',
       error: {
@@ -32,12 +34,12 @@ export default {
     handleNovoClick(event) {
       event.preventDefault();
       this.clearInputs();
-      this.editing = true;
+      this.$emit('pedido-item-editing', true);
     },
     handleCancelaClick(event) {
       event.preventDefault();
       this.clearInputs();
-      this.editing = false;
+      this.$emit('pedido-item-editing', false);
     }
   },
   watch: {

@@ -20,13 +20,17 @@ export default {
               <th>Bordado</th>
               <th>Ações</th>
           </tr>
-          <pedido-item-input />
+          <pedido-item-input
+            @pedido-item-editing="pedidoItemEditing"
+            :editing="editing"
+          />
         </thead>
         <tbody>
           <pedido-item-list
             v-for="pedido_item in pedido_itens"
             :key="pedido_item.id"
             :pedido_item="pedido_item"
+            :editing="editing"
           />
         </tbody>
       </table>
@@ -42,6 +46,7 @@ export default {
     return {
       clientes: {},
       pedido_itens: {},
+      editing: false
     }
   },
   mounted() {
@@ -64,6 +69,9 @@ export default {
       .catch(error => {
         console.error('Erro ao obter pedido_itens via API:', error);
       });
+    },
+    pedidoItemEditing(value) {
+      this.editing = value;      
     }
   }
 }
