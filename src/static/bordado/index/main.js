@@ -13,7 +13,7 @@ export default {
     <h4>Pedido</h4>
     <ul>
       <li v-for="pedido_item in pedido_itens" :key="pedido_item.id">
-        {{pedido_item.inserido_em}} -
+        {{pedidoItemInseridoEmData(pedido_item)}} -
         {{pedido_item.pedido.cliente.apelido}} -
         {{pedido_item.bordado.nome}}
       </li>
@@ -41,5 +41,11 @@ export default {
     .catch(error => {
       console.error('Erro ao obter pedido_itens via API:', error);
     });
+  },
+  methods: {
+    pedidoItemInseridoEmData(pedido_item) {
+      var date = new Date(pedido_item.inserido_em)
+      return date.toLocaleDateString('pt-br');
+    }
   }
 }

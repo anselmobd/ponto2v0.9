@@ -51,7 +51,7 @@ class PedidoViewSet(viewsets.ModelViewSet):
 
 
 class PedidoItemViewSet(viewsets.ModelViewSet):
-    queryset = PedidoItem.objects.all()
+    queryset = PedidoItem.objects.all().order_by('-inserido_em')
     serializer_class = PedidoItemSerializer
     permission_classes = [permissions.IsAuthenticated]
 
