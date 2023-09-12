@@ -10,8 +10,8 @@ export default {
       <td>{{pedido_item.pedido.cliente.apelido}}</td>
       <td>{{pedido_item.bordado.nome}}</td>
       <td>
-        <button :disabled="executando_acao" class="btn">Editar</button>
-        <button :disabled="executando_acao" class="btn">Apagar</button>
+        <button :hidden="executando_acao" class="btn">Editar</button>
+        <button :hidden="executando_acao" class="btn">Apagar</button>
       </td>
     </tr>
     `,

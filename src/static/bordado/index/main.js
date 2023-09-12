@@ -1,15 +1,17 @@
 import axios from 'axios'
+import PedidoItemInput from 'bordado_index/PedidoItemInput.js'
 import PedidoItemList from 'bordado_index/PedidoItemList.js'
 
 export default {
   components: {
+    PedidoItemInput,
     PedidoItemList,
   },
   template:
     /*html*/
     `
     <h4 class="tela">Pedido</h4>
-    <form @submit.prevent="onSubmit">
+    <!--form @submit.prevent="onSubmit"-->
       <table>
         <thead>
           <tr>
@@ -18,15 +20,7 @@ export default {
               <th>Bordado</th>
               <th>Ações</th>
           </tr>
-          <tr class="input-row">
-              <td>-</td>
-              <td><input type="text" id="cliente" placeholder="Cliente"></td>
-              <td><input type="text" id="bordado" placeholder="Bordado"></td>
-              <td>
-                  <button class="btn">Salvar</button>
-                  <button class="btn" id="adicionar">Novo</button>
-              </td>
-          </tr>
+          <pedido-item-input />
         </thead>
         <tbody>
           <pedido-item-list
@@ -36,7 +30,7 @@ export default {
           />
         </tbody>
       </table>
-    </form>
+    <!--/form-->
     <h4>Clientes</h4>
     <ul>
       <li v-for="cliente in clientes" :key="cliente.id">
@@ -48,12 +42,6 @@ export default {
     return {
       clientes: {},
       pedido_itens: {},
-      cliente: '',
-      bordado: '',
-      error: {
-        cliente: '',
-        bordado: ''
-      }
     }
   },
   mounted() {
@@ -76,15 +64,6 @@ export default {
       .catch(error => {
         console.error('Erro ao obter pedido_itens via API:', error);
       });
-    },
-    onSubmit() {
-      let newPedido = {
-        cliente: this.cliente,
-        bordado: this.bordado
-      }
-      console.log(newPedido);
-      this.cliente = '';
-      this.bordado = '';
     }
   }
 }
