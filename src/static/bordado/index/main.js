@@ -1,9 +1,9 @@
 import axios from 'axios'
-import PedidoList from 'bordado_index/PedidoList.js'
+import PedidoItemList from 'bordado_index/PedidoItemList.js'
 
 export default {
   components: {
-    PedidoList,
+    PedidoItemList,
   },
   template:
     /*html*/
@@ -29,7 +29,7 @@ export default {
           </tr>
         </thead>
         <tbody>
-          <pedido-list
+          <pedido-item-list
             v-for="pedido_item in pedido_itens"
             :key="pedido_item.id"
             :pedido_item="pedido_item"
