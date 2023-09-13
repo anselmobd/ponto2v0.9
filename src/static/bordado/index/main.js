@@ -64,7 +64,6 @@ export default {
       axios.get('/bordado/api/pedido_item/?format=json')
       .then(response => {
         this.pedido_itens = response.data.results;
-        console.log(this.pedido_itens);
       })
       .catch(error => {
         console.error('Erro ao obter pedido_itens via API:', error);
