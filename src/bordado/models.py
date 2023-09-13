@@ -51,6 +51,7 @@ class Cliente(models.Model):
     )
     apelido = models.CharField(
         max_length=50,
+        unique=True,
     )
     cnpj9 = models.PositiveIntegerField(
         'CNPJ (raiz)',
