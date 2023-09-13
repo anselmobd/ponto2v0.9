@@ -11,27 +11,32 @@ export default {
         <input
           v-model.trim="cliente"
           :disabled="!editing"
+          @blur="blurCliente"
           @input="filterClientes"
-          @blur="showClientesSuggestions = false"
-          @keydown.down="moveDown"
-          @keydown.up="moveUp"
-          @keydown.enter="selectCurrentItem"
+          @dblclick="filterClientes"
+          @keydown.down="inputClienteKeyDown"
+          @keydown.up="inputClienteKeyUp"
+          @keydown.enter="inputClienteKeyEnter"
           type="text"
           id="cliente"
-          ref="customInput"
+          ref="inputCliente"
           placeholder="Cliente"
         />
-        <div class="custom-dropdown" :style="{ width: inputWidth + 'px', left: inputLeft + 'px' }">
-        <ul v-if="showClientesSuggestions" ref="dropdownList">
-          <li v-for="(cliente, index) in filteredClientes"
-            :key="index"
-            @click="selectCliente(cliente)"
-            :class="{ 'selected': index === selectedIndex }"
-          >
-            {{ cliente }}
-          </li>
-        </ul>
-      </div>
+        <div
+          class="custom-dropdown"
+          :style="{ width: divDropdownWidth + 'px', left: divDropdownLeft + 'px' }"
+          @mouseout="zeraOverCliente"
+        >
+          <ul v-if="showClientesDropdown" ref="dropdownList">
+            <li v-for="(cliente, index) in filteredClientes"
+              :key="index"
+              @mouseover="mouseoverCliente(cliente)"
+              :class="{ 'selected': index === selectedIndex }"
+            >
+              {{ cliente }}
+            </li>
+          </ul>
+        </div>
       </td>
       <td><input v-model.trim="bordado" :disabled="!editing" type="text" id="bordado" placeholder="Bordado"></td>
       <td>
@@ -49,12 +54,14 @@ export default {
         cliente: '',
         bordado: ''
       },
+      // variables of cliente dropdown functionallity
       clientes: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7"],
       filteredClientes: [],
-      showClientesSuggestions: false,
+      showClientesDropdown: false,
       selectedIndex: -1,
-      inputWidth: 0,
-      inputLeft: 0
+      overCliente: '',
+      divDropdownWidth: 0,
+      divDropdownLeft: 0
     }
   },
   methods: {
@@ -72,29 +79,47 @@ export default {
       this.clearInputs();
       this.$emit('pedido-item-editing', false);
     },
+    // methods of cliente dropdown functionallity
+    mouseoverCliente(cliente) {
+      this.overCliente = cliente;
+    },
+    zeraOverCliente() {
+      this.overCliente = '';
+    },
+    blurCliente(event) {
+      if (this.overCliente) {
+        event.preventDefault();
+        this.selectCliente(this.overCliente)
+        this.zeraOverCliente();
+        // this.inputClienteFocus();
+      } else {
+        this.showClientesDropdown = false
+      }
+    },
     filterClientes() {
+      this.selectedIndex = -1;
       this.filteredClientes = this.clientes.filter((cliente) =>
         cliente.toLowerCase().includes(this.cliente.toLowerCase())
       );
-      this.showClientesSuggestions = this.filteredClientes.length > 0;
+      this.showClientesDropdown = this.filteredClientes.length > 0;
     },
     selectCliente(cliente) {
       this.cliente = cliente;
-      this.showClientesSuggestions = false;
+      this.showClientesDropdown = false;
     },
-    moveDown() {
+    inputClienteKeyDown() {
       if (this.selectedIndex < this.filteredClientes.length - 1) {
         this.selectedIndex++;
         this.scrollToSelected();
       }
     },
-    moveUp() {
+    inputClienteKeyUp() {
       if (this.selectedIndex > 0) {
         this.selectedIndex--;
         this.scrollToSelected();
       }
     },
-    selectCurrentItem() {
+    inputClienteKeyEnter() {
       if (this.selectedIndex == -1) {
         if (this.filteredClientes.length == 1) {
           this.selectCliente(this.filteredClientes[0]);  
@@ -102,7 +127,6 @@ export default {
       } else {
         this.selectCliente(this.filteredClientes[this.selectedIndex]);
       }
-      this.selectedIndex = -1;
     },
     scrollToSelected() {
       this.$nextTick(() => {
@@ -116,22 +140,26 @@ export default {
       });
     },
     setInputWidth() {
-      const inputElement = this.$refs.customInput;
+      const inputElement = this.$refs.inputCliente;
       if (inputElement) {
-        this.inputWidth = inputElement.clientWidth;
-        this.inputLeft = inputElement.offsetLeft;
+        this.divDropdownWidth = inputElement.clientWidth;
+        this.divDropdownLeft = inputElement.offsetLeft;
       }
+    },
+    inputClienteFocus() {
+      this.$nextTick(() => {
+        const inputElement = this.$refs.inputCliente;
+        inputElement.focus();
+      });
     }
   },
   watch: {
     editing: function (value) {
       if (value) {
-        this.$nextTick(() => {
-          document.getElementById("cliente").focus();
-        });
+        this.inputClienteFocus();
       };
     },
-    showClientesSuggestions: function (value) {
+    showClientesDropdown: function (value) {
       if (value) {
         this.setInputWidth();
       };

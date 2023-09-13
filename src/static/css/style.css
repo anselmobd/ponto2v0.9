@@ -66,15 +66,9 @@ button.btn:disabled {
 /* Style the custom dropdown */
 .custom-dropdown {
   position: relative;
-  /* width: 300px; */
 }
 
-/* input {
-  width: 100%;
-  padding: 5px;
-} */
-
-ul {
+.custom-dropdown ul {
   list-style: none;
   padding: 0;
   border: 1px solid #ccc;
@@ -88,17 +82,17 @@ ul {
   z-index: 1000;
 }
 
-li {
+.custom-dropdown li {
   padding: 5px;
   cursor: pointer;
 }
 
-li:hover {
+.custom-dropdown li:hover {
   background-color: #f0f0f0;
 }
 
 
-.selected {
+.custom-dropdown .selected {
   background-color: #007bff;
   color: #fff;
 }
