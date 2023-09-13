@@ -11,53 +11,37 @@ export default {
     /*html*/
     `
     <h4 class="tela">Pedido</h4>
-    <!--form @submit.prevent="onSubmit"-->
-      <table>
-        <thead>
-          <tr>
-              <th>Data</th>
-              <th>Cliente</th>
-              <th>Bordado</th>
-              <th>Ações</th>
-          </tr>
-          <pedido-item-input
-            @pedido-item-editing="pedidoItemEditing"
-            :editing="editing"
-          />
-        </thead>
-        <tbody>
-          <pedido-item-list
-            v-for="pedido_item in pedido_itens"
-            :key="pedido_item.id"
-            :pedido_item="pedido_item"
-            :editing="editing"
-          />
-        </tbody>
-      </table>
-    <!--/form-->
-    <h4>Clientes</h4>
-    <ul>
-      <li v-for="cliente in clientes" :key="cliente.id">
-        {{cliente.apelido}}
-      </li>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+            <th>Data</th>
+            <th>Cliente</th>
+            <th>Bordado</th>
+            <th>Ações</th>
+        </tr>
+        <pedido-item-input
+          @pedido-item-editing="pedidoItemEditing"
+          :editing="editing"
+        />
+      </thead>
+      <tbody>
+        <pedido-item-list
+          v-for="pedido_item in pedido_itens"
+          :key="pedido_item.id"
+          :pedido_item="pedido_item"
+          :editing="editing"
+        />
+      </tbody>
+    </table>
     `,
   data() {
     return {
-      clientes: {},
       pedido_itens: {},
       editing: false
     }
   },
   mounted() {
     this.GetPedidoItens();
-    axios.get('/bordado/api/clientes/?format=json')
-    .then(response => {
-      this.clientes = response.data.results;
-    })
-    .catch(error => {
-      console.error('Erro ao obter clientes via API:', error);
-    });
   },
   methods: {
     GetPedidoItens() {
