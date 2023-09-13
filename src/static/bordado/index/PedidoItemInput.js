@@ -17,6 +17,7 @@ export default {
           @keydown.down="inputClienteKeyDown"
           @keydown.up="inputClienteKeyUp"
           @keydown.enter="inputClienteKeyEnter"
+          @keydown.tab="inputClienteKeyTab"
           type="text"
           id="cliente"
           ref="inputCliente"
@@ -26,19 +27,29 @@ export default {
           class="custom-dropdown"
           :style="{ width: divDropdownWidth + 'px', left: divDropdownLeft + 'px' }"
           @mouseout="zeraOverCliente"
+          ref="divDropdown"
         >
           <ul v-if="showClientesDropdown" ref="dropdownList">
             <li v-for="(cliente, index) in filteredClientes"
               :key="index"
               @mouseover="mouseoverCliente(cliente)"
-              :class="{ 'selected': index === selectedIndex }"
+              :class="{ 'selected': index === selectedClienteIndex }"
             >
               {{ cliente }}
             </li>
           </ul>
         </div>
       </td>
-      <td><input v-model.trim="bordado" :disabled="!editing" type="text" id="bordado" placeholder="Bordado"></td>
+      <td>
+        <input
+          v-model.trim="bordado"
+          :disabled="!editing"
+          type="text"
+          id="bordado"
+          placeholder="Bordado"
+          ref="inputClienteNext"
+        >
+      </td>
       <td>
         <button :hidden="!editing" type="button" class="btn btn-primary me-2">Salva</button>
         <button @click="handleCancelaClick" :hidden="!editing" type="button" class="btn btn-primary me-2">Cancela</button>
@@ -58,7 +69,7 @@ export default {
       clientes: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7"],
       filteredClientes: [],
       showClientesDropdown: false,
-      selectedIndex: -1,
+      selectedClienteIndex: -1,
       overCliente: '',
       divDropdownWidth: 0,
       divDropdownLeft: 0
@@ -87,17 +98,16 @@ export default {
       this.overCliente = '';
     },
     blurCliente(event) {
+      console.log('blurCliente');
       if (this.overCliente) {
-        event.preventDefault();
         this.selectCliente(this.overCliente)
         this.zeraOverCliente();
-        // this.inputClienteFocus();
       } else {
         this.showClientesDropdown = false
       }
     },
     filterClientes() {
-      this.selectedIndex = -1;
+      this.selectedClienteIndex = -1;
       this.filteredClientes = this.clientes.filter((cliente) =>
         cliente.toLowerCase().includes(this.cliente.toLowerCase())
       );
@@ -108,38 +118,44 @@ export default {
       this.showClientesDropdown = false;
     },
     inputClienteKeyDown() {
-      if (this.selectedIndex < this.filteredClientes.length - 1) {
-        this.selectedIndex++;
+      if (this.selectedClienteIndex < this.filteredClientes.length - 1) {
+        this.selectedClienteIndex++;
         this.scrollToSelected();
       }
     },
     inputClienteKeyUp() {
-      if (this.selectedIndex > 0) {
-        this.selectedIndex--;
+      if (this.selectedClienteIndex > 0) {
+        this.selectedClienteIndex--;
         this.scrollToSelected();
       }
     },
     inputClienteKeyEnter() {
-      if (this.selectedIndex == -1) {
+      console.log('inputClienteKeyEnter');
+      if (this.selectedClienteIndex == -1) {
         if (this.filteredClientes.length == 1) {
-          this.selectCliente(this.filteredClientes[0]);  
+          this.selectCliente(this.filteredClientes[0]);
+          this.zeraOverCliente();
         }
       } else {
-        this.selectCliente(this.filteredClientes[this.selectedIndex]);
+        this.selectCliente(this.filteredClientes[this.selectedClienteIndex]);
+        this.zeraOverCliente();
       }
+    },
+    inputClienteKeyTab() {
+      this.zeraOverCliente();
     },
     scrollToSelected() {
       this.$nextTick(() => {
         const dropdownList = this.$refs.dropdownList;
-        if (dropdownList && dropdownList.children[this.selectedIndex]) {
-          dropdownList.children[this.selectedIndex].scrollIntoView({
+        if (dropdownList && dropdownList.children[this.selectedClienteIndex]) {
+          dropdownList.children[this.selectedClienteIndex].scrollIntoView({
             behavior: "auto",
             block: "nearest",
           });
         }
       });
     },
-    setInputWidth() {
+    setDivWidthLeft() {
       const inputElement = this.$refs.inputCliente;
       if (inputElement) {
         this.divDropdownWidth = inputElement.clientWidth;
@@ -149,6 +165,12 @@ export default {
     inputClienteFocus() {
       this.$nextTick(() => {
         const inputElement = this.$refs.inputCliente;
+        inputElement.focus();
+      });
+    },
+    inputClienteNextFocus() {
+      this.$nextTick(() => {
+        const inputElement = this.$refs.inputClienteNext;
         inputElement.focus();
       });
     }
@@ -161,7 +183,9 @@ export default {
     },
     showClientesDropdown: function (value) {
       if (value) {
-        this.setInputWidth();
+        this.setDivWidthLeft();
+      } else {
+        this.inputClienteNextFocus();
       };
     }
   }
