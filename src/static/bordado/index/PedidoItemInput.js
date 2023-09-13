@@ -91,7 +91,8 @@ export default {
               apelido: a.apelido,
               slug: slugify(a.apelido)
             }
-          }).sort((a, b) => a.slug > b.slug);
+          }
+        ).sort((a, b) => a.slug > b.slug);
       })
       .catch(error => {
         console.error('Erro ao obter clientes via API:', error);
