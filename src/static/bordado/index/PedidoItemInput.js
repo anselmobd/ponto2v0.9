@@ -26,12 +26,16 @@ export default {
       <td>
         <input
           v-model.trim="bordado"
+          list="bordados-list"
           :disabled="!editing"
+          @focus="GetBordados"
           type="text"
           id="bordado"
           placeholder="Bordado"
-          ref="inputClienteNext"
         >
+        <datalist id="bordados-list">
+          <option v-for="bordado in bordados">{{bordado}}</option>
+        </datalist>
       </td>
       <td>
         <button :hidden="!editing" type="button" class="btn btn-primary me-2">Salva</button>
@@ -48,7 +52,8 @@ export default {
         cliente: '',
         bordado: ''
       },
-      clientes: []
+      clientes: [],
+      bordados: []
     }
   },
   mounted() {
@@ -60,6 +65,18 @@ export default {
       .then(response => {
         this.clientes = response.data.results.map(
           a => a.apelido
+        ).sort();
+      })
+      .catch(error => {
+        console.error('Erro ao obter clientes via API:', error);
+      });
+    },
+    GetBordados() {
+      console.log('GetBordados');
+      axios.get('/bordado/api/bordado/?format=json')
+      .then(response => {
+        this.bordados = response.data.results.map(
+          a => a.nome
         ).sort();
       })
       .catch(error => {
