@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { slugify } from 'js/string.js'
+
 
 export default {
   props: [
@@ -13,35 +13,15 @@ export default {
       <td>
         <input
           v-model.trim="cliente"
+          list="clientes-list"
           :disabled="!editing"
-          @blur="blurCliente"
-          @input="filterClientes"
-          @dblclick="filterClientes"
-          @keydown.down="inputClienteKeyDown"
-          @keydown.up="inputClienteKeyUp"
-          @keydown.enter="inputClienteKeyEnter"
-          @keydown.tab="inputClienteKeyTab"
           type="text"
-          id="cliente"
           ref="inputCliente"
           placeholder="Cliente"
-        />
-        <div
-          class="custom-dropdown"
-          :style="{ width: divDropdownWidth + 'px', left: divDropdownLeft + 'px' }"
-          @mouseout="zeraOverCliente"
-          ref="divDropdown"
         >
-          <ul v-if="showClientesDropdown" ref="dropdownList">
-            <li v-for="(cliente, index) in filteredClientes"
-              :key="index"
-              @mouseover="mouseoverCliente(cliente.apelido)"
-              :class="{ 'selected': index === selectedClienteIndex }"
-            >
-              {{ cliente.apelido }}
-            </li>
-          </ul>
-        </div>
+        <datalist id="clientes-list">
+          <option v-for="cliente in clientes">{{cliente}}</option>
+        </datalist>
       </td>
       <td>
         <input
@@ -68,14 +48,7 @@ export default {
         cliente: '',
         bordado: ''
       },
-      // variables of cliente dropdown functionallity
-      clientes: [],
-      filteredClientes: [],
-      showClientesDropdown: false,
-      selectedClienteIndex: -1,
-      overCliente: '',
-      divDropdownWidth: 0,
-      divDropdownLeft: 0
+      clientes: []
     }
   },
   mounted() {
@@ -86,13 +59,8 @@ export default {
       axios.get('/bordado/api/clientes/?format=json')
       .then(response => {
         this.clientes = response.data.results.map(
-          a => {
-            return {
-              apelido: a.apelido,
-              slug: slugify(a.apelido)
-            }
-          }
-        ).sort((a, b) => a.slug > b.slug);
+          a => a.apelido
+        ).sort();
       })
       .catch(error => {
         console.error('Erro ao obter clientes via API:', error);
@@ -112,86 +80,9 @@ export default {
       this.clearInputs();
       this.$emit('pedido-item-editing', false);
     },
-    // methods of cliente dropdown functionallity
-    mouseoverCliente(cliente) {
-      this.overCliente = cliente;
-    },
-    zeraOverCliente() {
-      this.overCliente = '';
-    },
-    blurCliente(event) {
-      if (this.overCliente) {
-        this.selectCliente(this.overCliente)
-        this.zeraOverCliente();
-      } else {
-        this.showClientesDropdown = false
-      }
-    },
-    filterClientes() {
-      this.selectedClienteIndex = -1;
-      this.filteredClientes = this.clientes.filter(c =>
-        c.slug.includes(slugify(this.cliente))
-        );
-      this.showClientesDropdown = this.filteredClientes.length > 0;
-    },
-    selectCliente(cliente) {
-      this.cliente = cliente;
-      this.showClientesDropdown = false;
-    },
-    inputClienteKeyDown() {
-      if (this.selectedClienteIndex < this.filteredClientes.length - 1) {
-        this.selectedClienteIndex++;
-        this.scrollToSelected();
-      }
-    },
-    inputClienteKeyUp() {
-      if (this.selectedClienteIndex > 0) {
-        this.selectedClienteIndex--;
-        this.scrollToSelected();
-      }
-    },
-    inputClienteKeyEnter() {
-      if (this.selectedClienteIndex == -1) {
-        if (this.filteredClientes.length == 1) {
-          this.selectCliente(this.filteredClientes[0].apelido);
-          this.zeraOverCliente();
-        }
-      } else {
-        this.selectCliente(this.filteredClientes[this.selectedClienteIndex].apelido);
-        this.zeraOverCliente();
-      }
-    },
-    inputClienteKeyTab() {
-      this.zeraOverCliente();
-    },
-    scrollToSelected() {
-      this.$nextTick(() => {
-        const dropdownList = this.$refs.dropdownList;
-        if (dropdownList && dropdownList.children[this.selectedClienteIndex]) {
-          dropdownList.children[this.selectedClienteIndex].scrollIntoView({
-            behavior: "auto",
-            block: "nearest",
-          });
-        }
-      });
-    },
-    setDivWidthLeft() {
-      const inputElement = this.$refs.inputCliente;
-      if (inputElement) {
-        this.divDropdownWidth = inputElement.clientWidth;
-        this.divDropdownLeft = inputElement.offsetLeft;
-      }
-    },
     inputClienteFocus() {
       this.$nextTick(() => {
-        const inputElement = this.$refs.inputCliente;
-        inputElement.focus();
-      });
-    },
-    inputClienteNextFocus() {
-      this.$nextTick(() => {
-        const inputElement = this.$refs.inputClienteNext;
-        inputElement.focus();
+        this.$refs.inputCliente.focus();
       });
     }
   },
@@ -199,13 +90,6 @@ export default {
     editing: function (value) {
       if (value) {
         this.inputClienteFocus();
-      };
-    },
-    showClientesDropdown: function (value) {
-      if (value) {
-        this.setDivWidthLeft();
-      } else {
-        this.inputClienteNextFocus();
       };
     }
   }
