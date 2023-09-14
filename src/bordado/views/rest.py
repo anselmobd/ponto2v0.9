@@ -42,6 +42,7 @@ class BordadoViewSet(viewsets.ModelViewSet):
     queryset = Bordado.objects.all()
     serializer_class = BordadoSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filterset_fields = ['cliente__apelido']
 
 
 class PedidoViewSet(viewsets.ModelViewSet):
