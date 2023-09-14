@@ -53,6 +53,7 @@ export default {
         bordado: ''
       },
       clientes: [],
+      bordados_do_cliente: null,
       bordados: []
     }
   },
@@ -72,16 +73,19 @@ export default {
       });
     },
     GetBordados() {
-      console.log('GetBordados');
-      axios.get('/bordado/api/bordado/?format=json')
-      .then(response => {
-        this.bordados = response.data.results.map(
-          a => a.nome
-        ).sort();
-      })
-      .catch(error => {
-        console.error('Erro ao obter clientes via API:', error);
-      });
+      if (this.bordados_do_cliente != this.cliente) {
+        console.log('GetBordados');
+        axios.get('/bordado/api/bordado/?format=json')
+        .then(response => {
+          this.bordados = response.data.results.map(
+            a => a.nome
+          ).sort();
+        })
+        .catch(error => {
+          console.error('Erro ao obter clientes via API:', error);
+        });
+        this.bordados_do_cliente = this.cliente;
+      }
     },
     clearInputs() {
       this.cliente = '';
