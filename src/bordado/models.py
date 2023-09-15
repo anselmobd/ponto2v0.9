@@ -108,7 +108,7 @@ class Cliente(models.Model):
     class Meta:
         db_table = "po2_cliente"
         verbose_name = "Cliente"
-        ordering = ['nome']
+        ordering = ['apelido']
         unique_together = [['cnpj9', 'cnpj4']]
 
     def natural_key(self):

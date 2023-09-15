@@ -65,7 +65,7 @@ export default {
       .then(response => {
         this.clientes = response.data.results.map(
           a => a.apelido
-        ).sort();
+        );
       })
       .catch(error => {
         console.error('Erro ao obter clientes via API:', error);
@@ -80,7 +80,7 @@ export default {
         .then(response => {
           this.bordados = response.data.results.map(
             a => a.nome
-          ).sort();
+          );
         })
         .catch(error => {
           console.error('Erro ao obter clientes via API:', error);
