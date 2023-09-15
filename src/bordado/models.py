@@ -55,14 +55,17 @@ class Cliente(models.Model):
     )
     cnpj9 = models.PositiveIntegerField(
         'CNPJ (raiz)',
-        validators=[MinValueValidator(1), MaxValueValidator(999_999_999)],
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(999_999_999)],
     )
     cnpj4 = models.PositiveSmallIntegerField(
         'CNPJ (filial)',
-        validators=[MinValueValidator(1), MaxValueValidator(9_999)],
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(9_999)],
     )
     cnpj2 = models.PositiveSmallIntegerField(
         'CNPJ (dígitos)',
+        default=0,
         validators=[MinValueValidator(0), MaxValueValidator(99)],
     )
     boleto = models.BooleanField(
@@ -109,7 +112,7 @@ class Cliente(models.Model):
         db_table = "po2_cliente"
         verbose_name = "Cliente"
         ordering = ['apelido']
-        unique_together = [['cnpj9', 'cnpj4']]
+        # unique_together = [['cnpj9', 'cnpj4']]
 
     def natural_key(self):
         return (self.cnpj9, self.cnpj4)
