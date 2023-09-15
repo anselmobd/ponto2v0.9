@@ -14,10 +14,10 @@ export default {
     <table>
       <thead>
         <tr>
-            <th>Data</th>
-            <th>Cliente</th>
-            <th>Bordado</th>
-            <th>Ações</th>
+          <th>Data</th>
+          <th>Cliente</th>
+          <th>Bordado</th>
+          <th>Ações</th>
         </tr>
         <pedido-item-input
           @pedido-item-editing="pedidoItemEditing"
@@ -25,6 +25,9 @@ export default {
         />
       </thead>
       <tbody>
+        <tr v-if="pedido_itens == null">
+          <td colspan="4">Carregando dados...</td>
+        </tr>
         <pedido-item-list
           v-for="pedido_item in pedido_itens"
           :key="pedido_item.id"
@@ -36,7 +39,7 @@ export default {
     `,
   data() {
     return {
-      pedido_itens: {},
+      pedido_itens: null,
       editing: false
     }
   },
