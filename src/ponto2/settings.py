@@ -65,6 +65,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CSRF_COOKIE_NAME = "csrftoken"
+
 ROOT_URLCONF = 'ponto2.urls'
 
 TEMPLATES = [

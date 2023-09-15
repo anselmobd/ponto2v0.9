@@ -38,7 +38,7 @@ export default {
         </datalist>
       </th>
       <th>
-        <button :hidden="!editing" type="button" class="btn btn-primary me-2">Salva</button>
+        <button @click="handleSalvaClick" :hidden="!editing" type="button" class="btn btn-primary me-2">Salva</button>
         <button @click="handleCancelaClick" :hidden="!editing" type="button" class="btn btn-primary me-2">Cancela</button>
         <button @click="handleNovoClick" :hidden="editing" type="button" class="btn btn-primary me-2">Novo</button>
       </th>
@@ -53,7 +53,8 @@ export default {
         bordado: ''
       },
       clientes: [],
-      bordados: []
+      bordados: [],
+      new_cliente: {}
     }
   },
   mounted() {
@@ -72,6 +73,28 @@ export default {
       .catch(error => {
         console.error('Erro ao obter clientes via API:', error);
       });
+    },
+    SetCliente() {
+      let cliente_existe = this.clientes.includes(this.cliente);
+      if (!cliente_existe) {
+        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios.defaults.xsrfCookieName = "csrftoken";
+        const params = new URLSearchParams();
+        params.append('format', 'json');
+        axios.post(
+          '/bordado/api/clientes/',
+          {
+            apelido: this.cliente,
+          },
+          {params: params},
+        )
+        .then(response => {
+          this.new_cliente = response.data.results;
+        })
+        .catch(error => {
+          console.error('Erro ao criar novo cliente via API:', error);
+        });
+      }
     },
     GetBordados() {
       if (this.cliente) {
@@ -99,6 +122,9 @@ export default {
       event.preventDefault();
       this.clearInputs();
       this.$emit('pedido-item-editing', true);
+    },
+    handleSalvaClick(event) {
+      this.SetCliente();
     },
     handleCancelaClick(event) {
       event.preventDefault();
