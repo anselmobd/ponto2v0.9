@@ -28,7 +28,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ClienteSerializer(serializers.HyperlinkedModelSerializer):
-    usuario = UserSerializer()
+    # usuario = UserSerializer()
     class Meta:
         model = Cliente
         fields = [
@@ -41,7 +41,7 @@ class ClienteSerializer(serializers.HyperlinkedModelSerializer):
             'boleto',
             'conta_corrente',
             'parcela',
-            'usuario',
+            # 'usuario',
             'quando',
         ]
 
