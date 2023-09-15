@@ -48,6 +48,7 @@ class Cliente(models.Model):
     # )
     nome = models.CharField(
         max_length=100,
+        blank=True,
     )
     apelido = models.CharField(
         max_length=50,
