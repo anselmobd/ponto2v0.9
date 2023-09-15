@@ -9,8 +9,8 @@ export default {
     /*html*/
     `
     <tr class="input-row">
-      <td>-</td>
-      <td>
+      <th>-</th>
+      <th>
         <input
           v-model.trim="cliente"
           list="clientes-list"
@@ -22,8 +22,8 @@ export default {
         <datalist id="clientes-list">
           <option v-for="cliente in clientes">{{cliente}}</option>
         </datalist>
-      </td>
-      <td>
+      </th>
+      <th>
         <input
           v-model.trim="bordado"
           list="bordados-list"
@@ -36,12 +36,12 @@ export default {
         <datalist id="bordados-list">
           <option v-for="bordado in bordados">{{bordado}}</option>
         </datalist>
-      </td>
-      <td>
+      </th>
+      <th>
         <button :hidden="!editing" type="button" class="btn btn-primary me-2">Salva</button>
         <button @click="handleCancelaClick" :hidden="!editing" type="button" class="btn btn-primary me-2">Cancela</button>
         <button @click="handleNovoClick" :hidden="editing" type="button" class="btn btn-primary me-2">Novo</button>
-      </td>
+      </th>
     </tr>
     `,
   data() {
