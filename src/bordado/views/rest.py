@@ -31,6 +31,9 @@ class ClienteViewSet(viewsets.ModelViewSet):
     serializer_class = ClienteSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def perform_create(self, serializer):
+        serializer.save(usuario=self.request.user)
+        
 
 class DificuldadeBordadoViewSet(viewsets.ModelViewSet):
     queryset = DificuldadeBordado.objects.all()
