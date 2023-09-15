@@ -61,7 +61,9 @@ export default {
   },
   methods: {
     GetClientes() {
-      axios.get('/bordado/api/clientes/?format=json')
+      const params = new URLSearchParams();
+      params.append('format', 'json');
+      axios.get('/bordado/api/clientes/', {params: params})
       .then(response => {
         this.clientes = response.data.results.map(
           a => a.apelido
