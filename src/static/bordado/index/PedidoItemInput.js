@@ -1,6 +1,10 @@
 import axios from 'axios'
 
 
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+
+
 export default {
   props: [
     'editing'
@@ -77,8 +81,6 @@ export default {
     SetCliente() {
       let cliente_existe = this.clientes.includes(this.cliente);
       if (!cliente_existe) {
-        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-        axios.defaults.xsrfCookieName = "csrftoken";
         const params = new URLSearchParams();
         params.append('format', 'json');
         axios.post(
@@ -95,6 +97,29 @@ export default {
           console.error('Erro ao criar novo cliente via API:', error);
         });
       }
+    },
+    SetClienteBordado() {
+      console.log('SetClienteBordado');
+      const params = new URLSearchParams();
+      params.append('format', 'json');
+      axios.post(
+        '/bordado/api/pedido_item/',
+        {
+          cliente: {
+            apelido: this.cliente
+          },
+          bordado: {
+            nome: this.bordado
+          },
+        },
+        {params: params},
+      )
+      .then(response => {
+        this.new_cliente = response.data.results;
+      })
+      .catch(error => {
+        console.error('Erro ao gravar cliente / bordado via API:', error);
+      });
     },
     GetBordados() {
       if (this.cliente) {
@@ -124,7 +149,7 @@ export default {
       this.$emit('pedido-item-editing', true);
     },
     handleSalvaClick(event) {
-      this.SetCliente();
+      this.SetClienteBordado();
     },
     handleCancelaClick(event) {
       event.preventDefault();
