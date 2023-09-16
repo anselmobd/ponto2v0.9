@@ -29,6 +29,7 @@ export default {
         </datalist>
       </th>
       <th>
+        <span v-if="error.bordado"><span class="input-error-msg">{{ error.bordado }}</span><br/></span>
         <input
           v-model.trim="bordado"
           list="bordados-list"
@@ -59,7 +60,6 @@ export default {
       },
       clientes: [],
       bordados: [],
-      pedido_item: {}
     }
   },
   mounted() {
@@ -79,7 +79,7 @@ export default {
         console.error('Erro ao obter clientes via API:', error);
       });
     },
-    SetClienteBordado() {
+    SetClienteBordado(afterSet) {
       const params = new URLSearchParams();
       params.append('format', 'json');
       axios.post(
@@ -95,14 +95,11 @@ export default {
         {params: params},
       )
       .then(response => {
-        this.pedido_item = response.data;
-        return true;
+        afterSet(true, response.data);
       })
       .catch(error => {
         console.error('Erro ao gravar cliente / bordado via API:', error);
-        if ('apelido' in error.response.data) {
-          this.error.cliente = error.response.data.apelido.join('; ');
-        }
+        afterSet(false, error.response.data);
       });
     },
     GetBordados() {
@@ -133,10 +130,23 @@ export default {
       this.$emit('pedido-item-inserting');
     },
     handleSalvaClick(event) {
-      if (this.SetClienteBordado()) {
-        this.$emit('pedido-item-para-tela', this.pedido_item);
+      for(const key in this.error)
+        this.error[key] = '';
+      this.SetClienteBordado(this.afterSalvaSet);
+    },
+    afterSalvaSet(ok, data) {
+      if (ok) {
+        this.$emit('pedido-item-para-tela', data);
+        this.clearInputs();
+      } else {
+        if ('apelido' in data) {
+          this.error.cliente = data.apelido.join('|');
+        }
+        if ('nome' in data) {
+          this.error.bordado = data.nome.join('|');
+        }
       };
-      this.clearInputs();
+      this.GetClientes();
     },
     handleCancelaClick(event) {
       event.preventDefault();
