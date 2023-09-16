@@ -63,6 +63,12 @@ button.btn:disabled {
   left: 0;
 }
 
+.input-error-msg {
+  font-weight: 400 !important;
+  font-size: small;
+  color: red;
+}
+
 /* Style the custom dropdown */
 .custom-dropdown {
   position: relative;

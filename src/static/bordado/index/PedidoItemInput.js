@@ -15,6 +15,7 @@ export default {
     <tr class="input-row">
       <th>-</th>
       <th>
+        <span v-if="error.cliente"><span class="input-error-msg">{{ error.cliente }}</span><br/></span>
         <input
           v-model.trim="cliente"
           list="clientes-list"
