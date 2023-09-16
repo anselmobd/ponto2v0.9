@@ -80,7 +80,6 @@ export default {
       });
     },
     SetClienteBordado() {
-      console.log('SetClienteBordado');
       const params = new URLSearchParams();
       params.append('format', 'json');
       axios.post(
@@ -101,6 +100,9 @@ export default {
       })
       .catch(error => {
         console.error('Erro ao gravar cliente / bordado via API:', error);
+        if ('apelido' in error.response.data) {
+          this.error.cliente = error.response.data.apelido.join('; ');
+        }
       });
     },
     GetBordados() {
