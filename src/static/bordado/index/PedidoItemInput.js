@@ -69,6 +69,7 @@ export default {
     GetClientes() {
       const params = new URLSearchParams();
       params.append('format', 'json');
+      params.append('page_size', '999999');
       axios.get('/bordado/api/clientes/', {params: params})
       .then(response => {
         this.clientes = response.data.results.map(
