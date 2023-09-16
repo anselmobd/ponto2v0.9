@@ -22,7 +22,7 @@ export default {
   methods: {
     pedidoItemInseridoEmData(pedido_item) {
       var date = new Date(pedido_item.inserido_em)
-      return date.toLocaleDateString('pt-br');
+      return date.toLocaleDateString('pt-br') + ' ' + date.toLocaleTimeString('pt-br');
     }
   }
 }
