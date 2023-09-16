@@ -58,7 +58,7 @@ export default {
       },
       clientes: [],
       bordados: [],
-      new_cliente: {}
+      pedido_item: {}
     }
   },
   mounted() {
@@ -78,26 +78,6 @@ export default {
         console.error('Erro ao obter clientes via API:', error);
       });
     },
-    SetCliente() {
-      let cliente_existe = this.clientes.includes(this.cliente);
-      if (!cliente_existe) {
-        const params = new URLSearchParams();
-        params.append('format', 'json');
-        axios.post(
-          '/bordado/api/clientes/',
-          {
-            apelido: this.cliente,
-          },
-          {params: params},
-        )
-        .then(response => {
-          this.new_cliente = response.data.results;
-        })
-        .catch(error => {
-          console.error('Erro ao criar novo cliente via API:', error);
-        });
-      }
-    },
     SetClienteBordado() {
       console.log('SetClienteBordado');
       const params = new URLSearchParams();
@@ -115,7 +95,7 @@ export default {
         {params: params},
       )
       .then(response => {
-        this.new_cliente = response.data.results;
+        this.pedido_item = response.data;
       })
       .catch(error => {
         console.error('Erro ao gravar cliente / bordado via API:', error);
