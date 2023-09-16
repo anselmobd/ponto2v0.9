@@ -66,54 +66,59 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         if 'cliente' in request.data:
-            errors = {}
             try:
-                cliente = Cliente.objects.get(
-                    apelido=request.data['cliente']['apelido']
+                errors = {}
+                try:
+                    cliente = Cliente.objects.get(
+                        apelido=request.data['cliente']['apelido']
+                    )
+                except Cliente.DoesNotExist:
+                    serializer = ClienteSerializer(data=request.data['cliente'])
+                    if serializer.is_valid():
+                        cliente = serializer.save(usuario=self.request.user)
+                    else:
+                        errors.update(serializer.errors)
+                        raise TypeError
+                except KeyError:
+                    errors.update({
+                        'cliente': {'apelido': ["KeyError"]}
+                    })
+                    raise TypeError
+
+                try:
+                    bordado = Bordado.objects.get(
+                        cliente=cliente,
+                        nome=request.data['bordado']['nome'],
+                    )
+                except Bordado.DoesNotExist:
+                    serializer = SetBordadoSerializer(data=request.data['bordado'])
+                    if serializer.is_valid():
+                        bordado = serializer.save(cliente=cliente)
+                    else:
+                        errors.update(serializer.errors)
+                        raise TypeError
+                except KeyError:
+                    errors.update({
+                        'bordado': {'nome': ["KeyError"]}
+                    })
+                    raise TypeError
+
+                pedido = Pedido(cliente=cliente)
+                pedido.save()
+
+                pedido_item = PedidoItem(
+                    pedido=pedido,
+                    ordem=1,
+                    bordado=bordado,
                 )
-            except Cliente.DoesNotExist:
-                serializer = ClienteSerializer(data=request.data['cliente'])
-                if serializer.is_valid():
-                    cliente = serializer.save(usuario=self.request.user)
-                else:
-                    errors.update(serializer.errors)
-            except KeyError:
-                errors.update({
-                    'cliente': {'apelido': ["KeyError"]}
-                })
+                pedido_item.save()
 
-            try:
-                bordado = Bordado.objects.get(
-                    cliente=cliente,
-                    nome=request.data['bordado']['nome'],
+                return Response(
+                    PedidoItemSerializer(pedido_item).data,
+                    status=status.HTTP_201_CREATED,
                 )
-            except Bordado.DoesNotExist:
-                serializer = SetBordadoSerializer(data=request.data['bordado'])
-                if serializer.is_valid():
-                    bordado = serializer.save(cliente=cliente)
-                else:
-                    errors.update(serializer.errors)
-            except KeyError:
-                errors.update({
-                    'bordado': {'nome': ["KeyError"]}
-                })
-
-            pedido = Pedido(cliente=cliente)
-            pedido.save()
-
-            pedido_item = PedidoItem(
-                pedido=pedido,
-                ordem=1,
-                bordado=bordado,
-            )
-            pedido_item.save()
-
-            if errors:
+            except Exception:
                 return Response(errors, status=status.HTTP_400_BAD_REQUEST)
-            return Response(
-                PedidoItemSerializer(pedido_item).data,
-                status=status.HTTP_201_CREATED,
-            )
 
         return super().create(request, *args, **kwargs)
 
