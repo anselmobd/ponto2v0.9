@@ -83,6 +83,7 @@ export default {
     SetClienteBordado(afterSet) {
       const params = new URLSearchParams();
       params.append('format', 'json');
+      params.append('page_size', '999999');
       axios.post(
         '/bordado/api/pedido_item/',
         {
