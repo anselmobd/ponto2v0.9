@@ -130,10 +130,10 @@ export default {
       this.$emit('pedido-item-inserting');
     },
     handleSalvaClick(event) {
-      this.clearInputs();
       if (this.SetClienteBordado()) {
         this.$emit('pedido-item-para-tela', this.pedido_item);
       };
+      this.clearInputs();
     },
     handleCancelaClick(event) {
       event.preventDefault();
