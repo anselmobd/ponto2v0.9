@@ -21,6 +21,8 @@ export default {
         </tr>
         <pedido-item-input
           @pedido-item-editing="pedidoItemEditing"
+          @pedido-item-inserting="pedidoItemInserting"
+          @pedido-item-para-tela="pedidoItemParaTela"
           :editing="editing"
         />
       </thead>
@@ -40,7 +42,20 @@ export default {
   data() {
     return {
       pedido_itens: null,
-      editing: false
+      editing: false,
+      inserting: false
+    }
+  },
+  watch: {
+    inserting: function (value) {
+      if (value) {
+        this.editing = true;
+      };
+    },
+    editing: function (value) {
+      if (!value) {
+        this.inserting = false;
+      };
     }
   },
   mounted() {
@@ -58,6 +73,15 @@ export default {
     },
     pedidoItemEditing(value) {
       this.editing = value;      
+    },
+    pedidoItemInserting() {
+      this.inserting = true;
+    },
+    pedidoItemParaTela(pedido_item) {
+      if (this.inserting) {
+        this.pedido_itens.unshift(pedido_item);
+        this.editing = false;
+      }
     }
   }
 }

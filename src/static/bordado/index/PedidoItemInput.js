@@ -96,6 +96,7 @@ export default {
       )
       .then(response => {
         this.pedido_item = response.data;
+        this.$emit('pedido-item-para-tela', this.pedido_item);
       })
       .catch(error => {
         console.error('Erro ao gravar cliente / bordado via API:', error);
@@ -126,7 +127,7 @@ export default {
     handleNovoClick(event) {
       event.preventDefault();
       this.clearInputs();
-      this.$emit('pedido-item-editing', true);
+      this.$emit('pedido-item-inserting');
     },
     handleSalvaClick(event) {
       this.SetClienteBordado();
