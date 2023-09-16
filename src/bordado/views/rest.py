@@ -65,20 +65,16 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        pprint(request.data)
         if 'cliente' in request.data:
             errors = {}
-            serialized_data = {}
             try:
                 cliente = Cliente.objects.get(
                     apelido=request.data['cliente']['apelido']
                 )
-                serialized_data.update({'cliente': ClienteSerializer(cliente).data})
             except Cliente.DoesNotExist:
                 serializer = ClienteSerializer(data=request.data['cliente'])
                 if serializer.is_valid():
                     cliente = serializer.save(usuario=self.request.user)
-                    serialized_data.update({'cliente': serializer.data})
                 else:
                     errors.update(serializer.errors)
             except KeyError:
@@ -91,12 +87,10 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
                     cliente=cliente,
                     nome=request.data['bordado']['nome'],
                 )
-                serialized_data.update({'bordado': SetBordadoSerializer(bordado).data})
             except Bordado.DoesNotExist:
                 serializer = SetBordadoSerializer(data=request.data['bordado'])
                 if serializer.is_valid():
                     bordado = serializer.save(cliente=cliente)
-                    serialized_data.update({'bordado': serializer.data})
                 else:
                     errors.update(serializer.errors)
             except KeyError:
@@ -113,13 +107,13 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
                 bordado=bordado,
             )
             pedido_item.save()
-            serialized_data.update({'pedido_item': PedidoItemSerializer(pedido_item).data})
 
             if errors:
-                pprint(errors)
                 return Response(errors, status=status.HTTP_400_BAD_REQUEST)
-            pprint(serialized_data)
-            return Response(serialized_data, status=status.HTTP_201_CREATED)
+            return Response(
+                PedidoItemSerializer(pedido_item).data,
+                status=status.HTTP_201_CREATED,
+            )
 
         return super().create(request, *args, **kwargs)
 
