@@ -28,7 +28,7 @@ export default {
       </thead>
       <tbody>
         <tr v-if="pedido_itens == null">
-          <td colspan="4">Carregando dados...</td>
+          <td colspan="4">Carregando últimos pedidos...</td>
         </tr>
         <pedido-item-list
           v-for="pedido_item in pedido_itens"
