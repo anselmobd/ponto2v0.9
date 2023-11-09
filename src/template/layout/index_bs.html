@@ -2,10 +2,11 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ponto2 . Bordado industrial - © 2023 RPR & Oxigenai</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Import Styles -->
-  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="stylesheet" href="/static/css/style_bs.css" />
   <!-- importmaps -->
   <script type="importmap">
     {
@@ -20,21 +21,13 @@
   </script>    
 </head>
 <body>
-  {% block header %}{% endblock %}
-  <main class="main">
+  <div class="container">
+    {% block header %}{% endblock %}
     {% block content %}{% endblock %}
-  </main>
-  <footer class="footer">
-    <p>
-        <span class="nowrap">Copyright &copy; <time id="year"></time></span>
-        <span class="nowrap">RPR & Oxigenai</span>
-    </p>
-  </footer>
+    <hr>
+  </div>
   {% block javascript %}{% endblock %}
-  <script>
-    const year = document.getElementById("year")
-    const thisYear = new Date().getFullYear()
-    year.textContent = thisYear
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

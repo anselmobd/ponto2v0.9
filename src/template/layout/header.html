@@ -1,16 +1,49 @@
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-      <div class="col-md-3 mb-2 mb-md-0">
-        <a href="{% url 'bordado:index' %}" class="d-inline-flex link-body-emphasis text-decoration-none">
-          RPR - Ponto2
+<header class="header">
+  <h1 class="header__h1">
+    RPR - Ponto2
+  </h1>
+
+  <section class="header__section">
+    <ul class="header__section__ul">
+      {% if request.user.is_authenticated %}
+        <li>
+          {% if app_link == 'bordado' %}
+            <span class="destaque">
+          {% else %}
+            <a href="{% url 'bordado:index' %}">
+          {% endif %}
+          Bordado
+          {% if app_link == 'bordado' %}
+            </span>
+          {% else %}
+            </a>
+          {% endif %}
+        </li>
+      {% endif %}
+      {% if app_link == 'sobre' %}
+        <span class="destaque">
+      {% else %}
+        <a href="{% url 'bordado:sobre' %}">
+      {% endif %}
+      Sobre
+      {% if app_link == 'sobre' %}
+        </span>
+      {% else %}
         </a>
-      </div>
+      {% endif %}
+    </ul>
+  </section>
 
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        {% if request.user.is_authenticated %}<li><a href="{% url 'bordado:index' %}" class="nav-link px-2{% if app_link == 'bordado' %} link-secondary{% endif %}">Bordado</a></li>{% endif %}
-        <li><a href="{% url 'bordado:sobre' %}" class="nav-link px-2{% if app_link == 'sobre' %} link-secondary{% endif %}">Sobre</a></li>
-      </ul>
-
-      <div class="col-md-3 text-end">
-        {% if request.user.is_authenticated %}{{ request.user.username }} <a href="{% url 'encerrar' %}"><button type="button" class="btn btn-outline-primary me-2">Encerrar</button></a>{% else %}<a href="{% url 'login' %}?next={% url 'bordado:index' %}"><button type="button" class="btn btn-outline-primary me-2">Identificar-se</button></a>{% endif %}
-      </div>
-    </header>
+  <section class="header__section">
+    {% if request.user.is_authenticated %}
+      {{ request.user.username }}
+      <a href="{% url 'encerrar' %}">
+        <button type="button" class="header__section__button">Encerrar</button>
+      </a>
+    {% else %}
+      <a href="{% url 'login' %}?next={% url 'bordado:index' %}">
+        <button type="button" class="header__section__button">Identificar-se</button>
+      </a>
+    {% endif %}
+  </section>
+</header>
