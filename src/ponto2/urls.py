@@ -13,9 +13,9 @@ schema_view = get_schema_view(
    openapi.Info(
       title="Snippets API",
       default_version='v1',
-      description="Test description",
+      description="Sistema Posto2 de controle de serviços de bordados computadorizados",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
+      contact=openapi.Contact(email="anselmo@oxigenai.com.br"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
