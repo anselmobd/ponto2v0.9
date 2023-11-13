@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bordado',
     'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
