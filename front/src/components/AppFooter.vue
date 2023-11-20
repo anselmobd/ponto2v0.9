@@ -6,9 +6,8 @@ const year = ref(thisYear)
 </script>
 
 <template>
-  <footer class="sticky bottom-0 text-center border-t border-solid border-gray-800 shadow-[0_-6px_5px_-5px] shadow-gray-800">
-    <span class="whitespace-nowrap">Copyright &copy; {{ year }}</span>&ThinSpace;
-    <span class="whitespace-nowrap">RPR & Oxigenai</span>
+  <footer class="sticky bottom-0 bg-slate-100 text-slate-900 text-center text-base border-t border-solid border-slate-800 shadow-[0_-3px_3px_-1px] shadow-slate-700">
+    <span class="whitespace-nowrap">Copyright &copy; {{ year }} RPR & Oxigenai</span>
   </footer>
 </template>
 
