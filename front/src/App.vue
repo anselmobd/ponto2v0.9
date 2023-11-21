@@ -3,12 +3,12 @@ import AppFooter from './components/AppFooter.vue'
 </script>
 
 <template>
-  <div class="main-body">
-    <header>
-      <img alt="Vue logo" src="./assets/logo.png" width="194" height="194" />
-    </header>
-    <main>
-    </main>
+  <div id="app">
+    <div id="nav">
+      <router-link :to="{ name: 'Bordado' }">Bordado</router-link> |
+      <router-link :to="{ name: 'Sobre' }">Sobre</router-link>
+    </div>
+    <router-view class="main-body"/>
   </div>
   <app-footer />
 </template>
