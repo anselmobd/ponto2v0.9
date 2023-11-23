@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div id="nav" class="flex row items-center justify-between border-b border-solid border-slate-800 shadow-[0_3px_3px_-1px] shadow-slate-700">
+  <div id="nav" class="px-4 flex row items-center justify-between border-b border-solid border-slate-800 shadow-[0_3px_3px_-1px] shadow-slate-700">
     <router-link :to="{ name: 'Home' }" class="text-2xl font-bold">RPR - Ponto2</router-link>
 
     <div>
