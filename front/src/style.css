@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 .main-body {
-    /* viewport height - footer height - nav */
-    min-height: calc(100vh - 1.5rem - 1px - 1.5rem);
+    /* viewport height - footer height - nav/header height */
+    min-height: calc(100vh - 1.5rem - 1px - 2rem - 1px );
 }
