@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios';
 import { ref } from 'vue'
-import router from '@/routers'
+import router from '@/router'
 import { useAuthStore } from '@/stores/auth.js';
 
 const auth = useAuthStore()

@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/auth.js';
-import router from '@/routers'
+import router from '@/router'
 
 const auth = useAuthStore()
 const { user } = storeToRefs(auth)
