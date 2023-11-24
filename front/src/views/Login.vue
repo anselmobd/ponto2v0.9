@@ -1,15 +1,63 @@
+<script setup>
+import { ref } from 'vue'
+import axios from 'axios';
+
+
+const username = ref('')
+const password = ref('')
+const alerta = ref('')
+
+function login() {
+  console.log(username.value);
+  return axios
+    .post('http://localhost:8902/api/token/', {
+      username: username.value,
+      password: password.value
+    })
+    .then(response => {
+      console.log(response.data);
+      if (response.data.accessToken) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+      }
+      return response.data;
+    })
+    .catch(error => {
+      console.error('Erro ao solicitar token:', error.response.data.detail);
+      alerta.value = error.response.data.detail;
+    });
+}
+
+</script>
+
 <template>
   <div>
     <h2 class="login__h2">Identificação</h2>
-    <form class="login__form">
+    <form @submit.prevent="login()" class="login__form">
       <p class="login__p">
         <label class="login__label" for="username">Usuário:</label>
-        <input class="login__input" type="text" name="username" id="username" placeholder="username" required>
+        <input
+          class="login__input"
+          type="text"
+          name="username"
+          id="username"
+          placeholder="login"
+          v-model="username"
+          @input="alerta = ''"
+          required>
       </p>
       <p class="login__p">
         <label class="login__label" for="password">Senha:</label>
-        <input class="login__input" type="password" name="password" id="password" placeholder="password" required>
+        <input
+          class="login__input"
+          type="password"
+          name="password"
+          id="password"
+          placeholder="senha"
+          v-model="password"
+          @input="alerta = ''"
+          required>
       </p>
+      <p v-if="alerta" class="text-red-600">{{ alerta }}</p>
       <button class="login__button" type="submit">Enviar</button>
     </form>
   </div>
