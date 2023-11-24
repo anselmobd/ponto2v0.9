@@ -1,6 +1,7 @@
 <script setup>
-import { useAuthStore } from '../stores/auth.js';
 import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/stores/auth.js';
+import router from '@/routers'
 
 const auth = useAuthStore()
 const { user } = storeToRefs(auth)
@@ -30,7 +31,7 @@ const { encerrar } = auth
         type="button"
         class="px-2 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100"
         v-if="user.name" 
-        @click.stop="encerrar()"
+        @click.stop="encerrar(); router.push({ name: 'home' })"
       >Encerrar</button>
     </div>
   </div>
