@@ -12,14 +12,12 @@ const password = ref('')
 const alerta = ref('')
 
 function login() {
-  console.log(username.value);
   return axios
     .post('http://localhost:8902/api/token/', {
       username: username.value,
       password: password.value
     })
     .then(response => {
-      console.log(response.data);
       if (response.data.access) {
         setUser(
           username.value,
