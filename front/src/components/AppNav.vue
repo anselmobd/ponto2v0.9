@@ -11,9 +11,16 @@ const { encerrar } = auth
   <div id="nav" class="px-4 flex row items-center justify-between border-b border-solid border-slate-800 shadow-[0_3px_3px_-1px] shadow-slate-700">
     <router-link :to="{ name: 'home' }" class="text-2xl font-bold">RPR - Ponto2</router-link>
 
-    <div class="menu">
-      <router-link :to="{ name: 'bordado' }">Bordado</router-link> |
-      <router-link :to="{ name: 'sobre' }">Sobre</router-link>
+    <div>
+      <router-link 
+        :to="{ name: 'bordado' }"
+        :exact-active-class="'text-cyan-600 font-bold'"
+      >Bordado</router-link>
+      |
+      <router-link
+        :to="{ name: 'sobre' }"
+        :exact-active-class="'text-cyan-600 font-bold'"
+      >Sobre</router-link>
     </div>
 
     <div>
@@ -30,8 +37,4 @@ const { encerrar } = auth
 </template>
 
 <style scoped>
-.menu .router-link-active {
-  color: rgb(52, 136, 161);
-  font-weight: bold;
-}
 </style>
