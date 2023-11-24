@@ -14,14 +14,17 @@ const { encerrar } = auth
 
     <div>
       <router-link 
+        class="px-1 border-l border-cyan-600"
+        v-if="user.name"
         :to="{ name: 'bordado' }"
         :exact-active-class="'text-cyan-600 font-bold'"
       >Bordado</router-link>
-      |
       <router-link
+        class="px-1 border-l border-cyan-600"
         :to="{ name: 'sobre' }"
         :exact-active-class="'text-cyan-600 font-bold'"
       >Sobre</router-link>
+      <span class="border-l border-cyan-600"></span>
     </div>
 
     <div>
