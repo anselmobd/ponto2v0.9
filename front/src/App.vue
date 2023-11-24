@@ -5,7 +5,7 @@ import AppNav from './components/AppNav.vue'
 
 <template>
   <app-nav />
-  <router-view class="main-body"/>
+  <router-view class="main-body px-4"/>
   <app-footer />
 </template>
 
