@@ -3,11 +3,11 @@
 
 <template>
   <div id="nav" class="px-4 flex row items-center justify-between border-b border-solid border-slate-800 shadow-[0_3px_3px_-1px] shadow-slate-700">
-    <router-link :to="{ name: 'Home' }" class="text-2xl font-bold">RPR - Ponto2</router-link>
+    <router-link :to="{ name: 'home' }" class="text-2xl font-bold">RPR - Ponto2</router-link>
 
     <div>
-      <router-link :to="{ name: 'Bordado' }">Bordado</router-link> |
-      <router-link :to="{ name: 'Sobre' }">Sobre</router-link>
+      <router-link :to="{ name: 'bordado' }">Bordado</router-link> |
+      <router-link :to="{ name: 'sobre' }">Sobre</router-link>
     </div>
     <div>
       admin

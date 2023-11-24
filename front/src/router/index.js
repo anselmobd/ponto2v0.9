@@ -7,22 +7,22 @@ import Login from '../views/Login.vue'
 const routes = [
     {
       path: "/",
-      name: "Home",
+      name: "home",
       component: Home,
     },
     {
       path: "/login",
-      name: "Login",
+      name: "login",
       component: Login,
     },
     {
       path: "/sobre",
-      name: "Sobre",
+      name: "sobre",
       component: Sobre,
     },
     {
       path: "/bordado",
-      name: "Bordado",
+      name: "bordado",
       component: Bordado,
     },
 ];
