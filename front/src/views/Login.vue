@@ -1,7 +1,11 @@
 <script setup>
-import { ref } from 'vue'
 import axios from 'axios';
+import { ref } from 'vue'
+import router from '../router/index.js'
+import { useAuthStore } from '../stores/auth.js';
 
+const auth = useAuthStore()
+const { setUser } = auth
 
 const username = ref('')
 const password = ref('')
@@ -16,10 +20,16 @@ function login() {
     })
     .then(response => {
       console.log(response.data);
-      if (response.data.accessToken) {
-        localStorage.setItem('user', JSON.stringify(response.data));
+      if (response.data.access) {
+        setUser(
+          username.value,
+          response.data.access,
+          response.data.refresh
+        );
+        username.value = '';
+        password.value = '';
+        router.push({ name: 'home' });
       }
-      return response.data;
     })
     .catch(error => {
       console.error('Erro ao solicitar token:', error.response.data.detail);
