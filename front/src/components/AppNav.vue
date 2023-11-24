@@ -11,6 +11,7 @@
     </div>
     <div>
       admin
+      <router-link :to="{ name: 'Login' }" class="px-2 py-0.5 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100">Indentificar-se</router-link>
       <button type="button" class="px-2 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100">Encerrar</button>
     </div>
   </div>
