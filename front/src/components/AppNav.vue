@@ -24,12 +24,12 @@ const { encerrar } = auth
     </div>
 
     <div>
-      <span v-if="user.id">{{user.name}}&ThickSpace;</span>
-      <router-link v-if="!user.id" :to="{ name: 'login' }" class="px-2 py-0.5 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100">Indentificar-se</router-link>
+      <span v-if="user.name">{{user.name}}&ThickSpace;</span>
+      <router-link v-if="!user.name" :to="{ name: 'login' }" class="px-2 py-0.5 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100">Indentificar-se</router-link>
       <button
         type="button"
         class="px-2 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100"
-        v-if="user.id" 
+        v-if="user.name" 
         @click.stop="encerrar()"
       >Encerrar</button>
     </div>
