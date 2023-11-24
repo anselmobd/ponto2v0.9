@@ -1,4 +1,10 @@
 <script setup>
+import { useAuthStore } from '../stores/auth.js';
+import { storeToRefs } from 'pinia';
+
+const auth = useAuthStore()
+const { user } = storeToRefs(auth)
+const { encerrar } = auth
 </script>
 
 <template>
@@ -10,9 +16,14 @@
       <router-link :to="{ name: 'sobre' }">Sobre</router-link>
     </div>
     <div>
-      admin
-      <router-link :to="{ name: 'Login' }" class="px-2 py-0.5 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100">Indentificar-se</router-link>
-      <button type="button" class="px-2 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100">Encerrar</button>
+      <span v-if="user.id">{{user.name}}&ThickSpace;</span>
+      <router-link v-if="!user.id" :to="{ name: 'login' }" class="px-2 py-0.5 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100">Indentificar-se</router-link>
+      <button
+        type="button"
+        class="px-2 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100"
+        v-if="user.id" 
+        @click.stop="encerrar()"
+      >Encerrar</button>
     </div>
   </div>
 </template>
