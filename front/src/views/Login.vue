@@ -51,6 +51,7 @@ function login() {
           name="username"
           id="username"
           placeholder="login"
+          v-focus
           v-model="username"
           @input="alerta = ''"
           required>
