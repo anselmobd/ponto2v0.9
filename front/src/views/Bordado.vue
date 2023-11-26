@@ -1,17 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '../stores/auth.js';
-import { axiosPublic } from "../common/axiosPublic.js";
+import { axiosPublic } from '../common/axiosPublic.js';
+import { authHeader } from '../services/auth-header.js'
 
 const pedido_itens = ref(null)
 
 function refreshToken(execFunction = null, param = null) {
   console.log('refreshToken');
   const auth = useAuthStore()
-  // let headers = {
-  //   'Content-Type': 'application/json',
-  // };
-  // console.log(headers);
 
   const params = new URLSearchParams();
   params.append('format', 'json');
@@ -57,11 +54,8 @@ function refreshToken(execFunction = null, param = null) {
 
 function getPedidoItens(tentativa = 1) {
   console.log('getPedidoItens', tentativa);
-  const auth = useAuthStore()
-  let headers = {
-    // 'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + auth.user.access
-  };
+
+  let headers = authHeader();
   console.log(headers);
 
   const params = new URLSearchParams();
