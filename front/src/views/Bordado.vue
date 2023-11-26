@@ -1,7 +1,7 @@
 <script setup>
-import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '../stores/auth.js';
+import { axiosPublic } from "../common/axiosPublic.js";
 
 const pedido_itens = ref(null)
 
@@ -21,8 +21,8 @@ function refreshToken(execFunction = null, param = null) {
 
   var result = 0;
 
-  axios.post(
-    'http://tt.o2:8902/api/token/refresh/',
+  axiosPublic.post(
+    '/api/token/refresh/',
     {refresh: auth.user.refresh},
     {params: params} // , headers: headers}
   )
@@ -70,8 +70,8 @@ function getPedidoItens(tentativa = 1) {
 
   var result = 0;
 
-  axios.get(
-    'http://tt.o2:8902/bordado/api/pedido_item/',
+  axiosPublic.get(
+    '/bordado/api/pedido_item/',
     {params: params, headers: headers}
   )
   .then(response => {
