@@ -32,7 +32,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     # local dev
-    '127.0.0.1', 'localhost',
+    '127.0.0.1', 'localhost', 'tt.o2',
     # server dev na tussor, acesso interno
     'intra.t',
     # server dev na tussor, acesso externo
