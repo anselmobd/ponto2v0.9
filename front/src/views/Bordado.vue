@@ -8,10 +8,10 @@ const pedido_itens = ref(null)
 function refreshToken(execFunction = null, param = null) {
   console.log('refreshToken');
   const auth = useAuthStore()
-  let headers = {
-    'Content-Type': 'application/json',
-  };
-  console.log(headers);
+  // let headers = {
+  //   'Content-Type': 'application/json',
+  // };
+  // console.log(headers);
 
   const params = new URLSearchParams();
   params.append('format', 'json');
@@ -24,10 +24,10 @@ function refreshToken(execFunction = null, param = null) {
   axios.post(
     'http://tt.o2:8902/api/token/refresh/',
     {refresh: auth.user.refresh},
-    {params: params, headers: headers}
+    {params: params} // , headers: headers}
   )
   .then(response => {
-    console.log('then');
+    console.log('refreshToken then');
     console.log(response.status);
     console.log(response.data);
     if (response.data.access) {
@@ -40,25 +40,26 @@ function refreshToken(execFunction = null, param = null) {
     result = response.status;
   })
   .catch(error => {
-    console.log('catch');
+    console.log('refreshToken catch');
     console.log(error.status);
     console.log('Erro ao dar refresh na access key:', error);
     console.log(error.response.status);
     result = error.response.status;
   })
   .finally(function () {
-    console.log('finally');
+    console.log('refreshToken finally');
     if (result == 200 && execFunction != null) {
       execFunction(param);
     }
   });
+  console.log('refreshToken fim');
 }
 
 function getPedidoItens(tentativa = 1) {
   console.log('getPedidoItens', tentativa);
   const auth = useAuthStore()
   let headers = {
-    'Content-Type': 'application/json',
+    // 'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + auth.user.access
   };
   console.log(headers);
@@ -74,24 +75,25 @@ function getPedidoItens(tentativa = 1) {
     {params: params, headers: headers}
   )
   .then(response => {
-    console.log('then');
+    console.log('getPedidoItens then');
     console.log(response.data.results);
     pedido_itens.value = response.data.results;
     result = response.status;
   })
   .catch(error => {
-    console.log('catch');
+    console.log('getPedidoItens catch');
     console.log('Erro ao obter pedido_itens via API:', error);
     console.log(error.response.status);
     result = error.response.status;
   })
   .finally(function () {
-    console.log('finally');
+    console.log('getPedidoItens finally');
     if (result == '401' && tentativa == 1) {
       console.log('status == 401');
       refreshToken(getPedidoItens, 2);
     }
   });
+  console.log('getPedidoItens fim');
 }
 
 onMounted(() => {
