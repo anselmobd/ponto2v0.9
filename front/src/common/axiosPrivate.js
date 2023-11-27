@@ -1,5 +1,5 @@
 import axios from "axios";
-import { authHeader } from '../services/auth-header.js'
+import { mountAuthHeader } from '../services/auth-header.js'
 import { refreshAccessToken } from '../common/refreshToken.js';
 
 
@@ -14,7 +14,7 @@ axiosPrivate.interceptors.request.use(
   async (config) => {
     console.log('interceptors.request')
     console.log('config', config)
-    let auth_headers = authHeader();
+    let auth_headers = mountAuthHeader();
     config.headers = {
       ...config.headers,
       ...auth_headers
@@ -47,7 +47,7 @@ axiosPrivate.interceptors.response.use(
         //   ...config.headers,
         //   authorization: `Bearer ${result?.accessToken}`,
         // };
-        let auth_headers = authHeader();
+        let auth_headers = mountAuthHeader();
         config.headers = {
           ...config.headers,
           ...auth_headers
