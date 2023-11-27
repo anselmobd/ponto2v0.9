@@ -85,28 +85,31 @@ function getPedidoItens(tentativa = 1) {
   })
   .finally(function () {
     console.log('getPedidoItens finally');
-    if (result == '401' && tentativa == 1) {
-      console.log('status == 401');
-      console.log('call refreshAccessToken');
-      // let refreshStatus =
-      refreshAccessToken()
-      .then(refreshStatusResponse => {
-        console.log('refreshAccessToken then')
-        console.log('refreshStatusResponse', refreshStatusResponse);
-        if (refreshStatusResponse == 200) {
-          console.log('entrou no if do then');
-          getPedidoItens(2);
-        // } else {
-        //   console.log('Não entrou no if do then');
-        }
-      });
-      // console.log('refreshStatus', refreshStatus);
-      // if (refreshStatus == 200) {
-      //   console.log('entrou no if');
-      //   getPedidoItens(2);
-      // }
-      // refreshToken(getPedidoItens, 2);
-    }
+    // if (result == '4401' && tentativa == 1) {
+    //   console.log('status == 401');
+    //   console.log('call refreshAccessToken');
+
+    //   refreshAccessToken()
+    //   .then(refreshStatusResponse => {
+    //     console.log('refreshAccessToken then')
+    //     console.log('refreshStatusResponse', refreshStatusResponse);
+    //     if (refreshStatusResponse == 200) {
+    //       console.log('entrou no if do then');
+    //       getPedidoItens(2);
+    //     } else {
+    //       console.log('Não entrou no if do then');
+    //     }
+    //   });
+
+    //   // const refreshStatus = refreshAccessToken();      
+    //   // console.log('refreshStatus', refreshStatus);
+    //   // if (refreshStatus == 200) {
+    //   //   console.log('entrou no if refreshStatus == 200');
+    //   //   getPedidoItens(2);
+    //   // } else {
+    //   //   console.log('Não entrou no if refreshStatus == 200');
+    //   // }
+    // }
   });
   console.log('getPedidoItens fim');
 }
