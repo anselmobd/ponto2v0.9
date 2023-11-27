@@ -2,8 +2,7 @@
 import { useAuthStore } from '../stores/auth.js';
 import { axiosPublic } from "./axiosPublic";
 
-// export async function refreshAccessToken() {
-// const refreshAccessToken = async () => {
+
 export const refreshAccessToken = async () => {
   console.log('refreshJwt');
   const auth = useAuthStore()
@@ -16,6 +15,7 @@ export const refreshAccessToken = async () => {
 
   var result = 0;
 
+  console.log('antes do try');
   try {
     const response = await axiosPublic.post(
       "/api/token/refresh/",
@@ -40,17 +40,14 @@ export const refreshAccessToken = async () => {
     console.log('pos if');
     result = response.status;
     console.log('result', result);
+    console.log('fim do try');
   } catch (error) {
     console.log('refreshJwt catch');
     console.error(error);
     encerrar();
     result = error.response.status;
+    console.log('fim do catch');
   }
+  console.log('depois do try catch');
   return result;
 };
-
-// const maxAge = 10000;
-
-// export const memoizedRefreshToken = mem(refreshTokenFn, {
-//   maxAge,
-// });
