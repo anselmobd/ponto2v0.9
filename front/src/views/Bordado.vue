@@ -1,9 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useAuthStore } from '../stores/auth.js';
-import { axiosPublic } from '../common/axiosPublic.js';
+// import { useAuthStore } from '../stores/auth.js';
+// import { axiosPublic } from '../common/axiosPublic.js';
+import { axiosPrivate } from '../common/axiosPrivate.js';
 import { refreshAccessToken } from '../common/refreshToken.js';
-import { authHeader } from '../services/auth-header.js'
+// import { authHeader } from '../services/auth-header.js'
 
 const pedido_itens = ref(null)
 
@@ -56,8 +57,8 @@ const pedido_itens = ref(null)
 function getPedidoItens(tentativa = 1) {
   console.log('getPedidoItens', tentativa);
 
-  let headers = authHeader();
-  console.log(headers);
+  // let headers = authHeader();
+  // console.log(headers);
 
   const params = new URLSearchParams();
   params.append('format', 'json');
@@ -65,9 +66,9 @@ function getPedidoItens(tentativa = 1) {
 
   var result = 0;
 
-  axiosPublic.get(
+  axiosPrivate.get(
     '/bordado/api/pedido_item/',
-    {params: params, headers: headers}
+    {params: params} // , headers: headers}
   )
   .then(response => {
     console.log('getPedidoItens then');
