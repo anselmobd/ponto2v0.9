@@ -72,6 +72,7 @@ function getPedidoItens(tentativa = 1) {
   )
   .then(response => {
     console.log('getPedidoItens then');
+    console.log(response);
     console.log(response.data.results);
     pedido_itens.value = response.data.results;
     result = response.status;
