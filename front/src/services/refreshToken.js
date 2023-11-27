@@ -1,6 +1,6 @@
 // import mem from "mem";
 import { useAuthStore } from '../stores/auth.js';
-import { axiosPublic } from "./axiosPublic";
+import { axiosPublic } from "../common/axiosPublic.js";
 
 
 export const refreshAccessToken = async () => {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { mountAuthHeader } from '../services/auth-header.js'
-import { refreshAccessToken } from '../common/refreshToken.js';
+import { refreshAccessToken } from '../services/refreshToken.js';
 
 
 export const axiosPrivate = axios.create({
