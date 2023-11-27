@@ -1,8 +1,17 @@
-import { axiosPublic } from "./axiosPublic.js";
+import axios from "axios";
 import { authHeader } from '../services/auth-header.js'
 
-export const axiosPrivate = axiosPublic;
-console.log('axiosPrivate', axiosPrivate);
+export const axiosPrivate = axios.create({
+  baseURL: "http://tt.o2:8902",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// import { axiosPublic } from "./axiosPublic.js";
+
+// export const axiosPrivate = axiosPublic;
+// console.log('axiosPrivate', axiosPrivate);
 
 axiosPrivate.interceptors.request.use(
   async (config) => {
