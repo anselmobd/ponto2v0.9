@@ -1,8 +1,9 @@
 <script setup>
-import axios from 'axios';
+// import axios from 'axios';
 import { ref } from 'vue'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth.js';
+import { axiosPublic } from '../common/axiosPublic.js';
 
 const auth = useAuthStore()
 const { setUser } = auth
@@ -12,8 +13,8 @@ const password = ref('')
 const alerta = ref('')
 
 function login() {
-  return axios
-    .post('http://localhost:8902/api/token/', {
+  return axiosPublic
+    .post('/api/token/', {
       username: username.value,
       password: password.value
     })
