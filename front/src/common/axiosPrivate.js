@@ -52,9 +52,8 @@ axiosPrivate.interceptors.response.use(
           ...config.headers,
           ...auth_headers
         };
+        return axios(config);
       }
-
-      return axios(config);
     }
     return Promise.reject(error);
   }
