@@ -11,7 +11,7 @@ export const refreshAccessToken = async () => {
   var result = 0;
   try {
     const response = await axiosPublic.post(
-      "/api/token/refreshh/",
+      "/api/token/refresh/",
       {refresh: auth.user.refresh},
       {params: params}
     );
