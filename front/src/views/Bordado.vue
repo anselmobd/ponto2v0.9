@@ -197,7 +197,7 @@ watch(status, async (newStatus) => {
 
 <template>
   <div>
-    <h4 class="text-xl text-center bg-slate-800 text-slate-100">Pedido</h4>
+    <h4 class="text-xl text-center font-bold bg-sky-900 text-slate-100">Pedido</h4>
     <table class="w-full">
       <thead>
         <tr>
@@ -279,7 +279,7 @@ th, td {
   @apply border border-solid border-slate-300 text-center
 }
 button {
-  @apply mx-0.5 px-2 border border-solid border-slate-800 rounded-lg bg-sky-600 font-bold text-slate-100
+  @apply mx-0.5 px-2 py-0.5 rounded-lg bg-sky-700 font-bold text-slate-100
 }
 button:disabled {
   @apply bg-slate-500
