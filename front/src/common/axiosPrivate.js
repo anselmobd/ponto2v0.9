@@ -8,7 +8,11 @@ export const axiosPrivate = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  xsrfHeaderName: "X-CSRFTOKEN",
+  xsrfCookieName: "csrftoken"
 });
+
+
 
 axiosPrivate.interceptors.request.use(
   async (config) => {
