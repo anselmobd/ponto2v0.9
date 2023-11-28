@@ -1,4 +1,4 @@
-function dateTime2Text(date_time) {
+export function dateTime2Text(date_time) {
   const date = date_time.toLocaleDateString(
     'pt-br',
     {
@@ -10,5 +10,3 @@ function dateTime2Text(date_time) {
   const time = date_time.toLocaleTimeString('pt-br');
   return date + ' ' + time;
 }
-
-export default dateTime2Text;
