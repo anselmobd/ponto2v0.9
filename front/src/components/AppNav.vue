@@ -11,20 +11,20 @@ const { encerrar } = auth
 <template>
   <div id="nav" class="px-4 flex row items-center justify-between border-b border-solid border-slate-800 shadow-[0_2px_2px_-1px] shadow-slate-700">
     <router-link
-      class="text-2xl font-bold"
+      class="router-link text-2xl font-bold"
       :to="{ name: 'home' }"
       :exact-active-class="'text-sky-600'"
     >RPR - Ponto2</router-link>
 
     <div>
       <router-link 
-        class="px-1 border-l border-sky-600"
+        class="router-link px-1 border-l border-sky-600"
         v-if="user.name"
         :to="{ name: 'bordado' }"
         :exact-active-class="'text-sky-600 font-bold'"
       >Bordado</router-link>
       <router-link
-        class="px-1 border-l border-sky-600"
+        class="router-link px-1 border-l border-sky-600"
         :to="{ name: 'sobre' }"
         :exact-active-class="'text-sky-600 font-bold'"
       >Sobre</router-link>
@@ -50,7 +50,8 @@ const { encerrar } = auth
 
 <style scoped>
 
-a:hover {
-  text-shadow: 1px 1px 3px  rgba(3, 132, 196, 0.6)}
+.router-link:not(.router-link-active):hover {
+  text-shadow: 1px 1px 2px  rgba(3, 132, 196, 0.7)
+}
 
 </style>
