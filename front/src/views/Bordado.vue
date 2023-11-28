@@ -279,7 +279,7 @@ th, td {
   @apply border border-solid border-slate-300 text-center
 }
 button {
-  @apply mx-0.5 px-2 py-0.5 rounded-lg bg-sky-700 font-bold text-slate-100
+  @apply mx-0.5 my-[1px] px-2 py-0.5 rounded-lg bg-sky-700 font-bold text-slate-100
 }
 button:disabled {
   @apply bg-slate-500
