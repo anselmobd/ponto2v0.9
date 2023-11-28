@@ -14,25 +14,25 @@ const { encerrar } = auth
 
     <div>
       <router-link 
-        class="px-1 border-l border-cyan-600"
+        class="px-1 border-l border-sky-600"
         v-if="user.name"
         :to="{ name: 'bordado' }"
-        :exact-active-class="'text-cyan-600 font-bold'"
+        :exact-active-class="'text-sky-600 font-bold'"
       >Bordado</router-link>
       <router-link
-        class="px-1 border-l border-cyan-600"
+        class="px-1 border-l border-sky-600"
         :to="{ name: 'sobre' }"
-        :exact-active-class="'text-cyan-600 font-bold'"
+        :exact-active-class="'text-sky-600 font-bold'"
       >Sobre</router-link>
-      <span class="border-l border-cyan-600"></span>
+      <span class="border-l border-sky-600"></span>
     </div>
 
     <div>
       <span v-if="user.name">{{user.name}}&ThickSpace;</span>
-      <router-link v-if="!user.name" :to="{ name: 'login' }" class="px-2 py-0.5 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100">Indentificar-se</router-link>
+      <router-link v-if="!user.name" :to="{ name: 'login' }" class="px-2 py-0.5 border border-solid border-slate-800 rounded-lg bg-sky-600 font-bold text-slate-100">Indentificar-se</router-link>
       <button
         type="button"
-        class="px-2 border border-solid border-slate-800 rounded-lg bg-cyan-600 font-bold text-slate-100"
+        class="px-2 border border-solid border-slate-800 rounded-lg bg-sky-600 font-bold text-slate-100"
         v-if="user.name" 
         @click.stop="encerrar(); router.push({ name: 'home' })"
       >Encerrar</button>
