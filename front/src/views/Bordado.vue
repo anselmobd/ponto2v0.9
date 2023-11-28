@@ -56,6 +56,47 @@ function getPedidoItens() {
   });
 }
 
+function GetClientes() {
+  const params = new URLSearchParams();
+  params.append('format', 'json');
+  params.append('page_size', '999999');
+
+  axiosPrivate.get(
+    '/bordado/api/clientes/',
+    {params: params}
+  )
+  .then(response => {
+    cliente.value.list = response.data.results.map(
+      clie => clie.apelido
+    );
+  })
+  .catch(error => {
+    console.error('Erro ao obter clientes via API:', error);
+  });
+}
+
+function GetBordados() {
+  bordado.value.list = [];
+  if (cliente.value) {
+    const params = new URLSearchParams();
+    params.append('format', 'json');
+    params.append('cliente__apelido', cliente.value.input);
+
+    axiosPrivate.get(
+      '/bordado/api/bordado/',
+      {params: params}
+    )
+    .then(response => {
+      bordado.value.list = response.data.results.map(
+        bord => bord.nome
+      );
+    })
+    .catch(error => {
+      console.error('Erro ao obter clientes via API:', error);
+    });
+  }
+}
+
 // event functions
 
 function handleNovoClick(event) {
@@ -86,6 +127,7 @@ onMounted(() => {
 // watch
 watch(status, async (newStatus) => {
   if (newStatus != 'b') {
+    GetClientes();
     inputClienteFocus();
   }
 })
@@ -128,6 +170,7 @@ watch(status, async (newStatus) => {
               class="mx-0.5 border border-solid border-slate-500"
               v-model.trim="bordado.input"
               :disabled="status == 'b'"
+              @focus="GetBordados"
               type="text"
               name="bordado"
               id="bordado"
