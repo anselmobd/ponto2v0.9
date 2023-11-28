@@ -97,6 +97,32 @@ function GetBordados() {
   }
 }
 
+function SetClienteBordado(afterSet) {
+  const params = new URLSearchParams();
+  params.append('format', 'json');
+  params.append('page_size', '999999');
+
+  axiosPrivate.post(
+    '/bordado/api/pedido_item/',
+    {
+      cliente: {
+        apelido: cliente.value.input
+      },
+      bordado: {
+        nome: bordado.value.input
+      },
+    },
+    {params: params},
+  )
+  .then(response => {
+    afterSet(true, response.data);
+  })
+  .catch(error => {
+    console.error('Erro ao gravar cliente / bordado via API:', error);
+    afterSet(false, error.response.data);
+  });
+}
+
 // event functions
 
 function handleNovoClick(event) {
@@ -105,7 +131,41 @@ function handleNovoClick(event) {
   status.value = 'i';
 }
 
+function handleCancelaClick(event) {
+  event.preventDefault();
+  clearInputs();
+  status.value = 'b';
+}
+
+function handleSalvaClick(event) {
+  cliente.value.error = '';
+  bordado.value.error = '';
+  SetClienteBordado(afterSalvaSet);
+}
+
 // generic functions
+
+function pedidoItemParaTela(pedido_item) {
+  if (status.value == 'i') {
+    pedido_itens.value.unshift(pedido_item);
+    status.value = 'b';
+  }
+}
+
+function afterSalvaSet(ok, data) {
+  if (ok) {
+    pedidoItemParaTela(data);
+    clearInputs();
+  } else {
+    if ('apelido' in data) {
+      cliente.value.error = data.apelido.join('|');
+    }
+    if ('nome' in data) {
+      bordado.value.error = data.nome.join('|');
+    }
+  };
+  GetClientes();
+}
 
 function pedidoItemInseridoEmData(pedido_item) {
   var date = new Date(pedido_item.inserido_em)
@@ -183,6 +243,8 @@ watch(status, async (newStatus) => {
             </datalist>
           </th>
           <th>
+            <button @click="handleSalvaClick" :hidden="status == 'b'" type="button">Salva</button>
+            <button @click="handleCancelaClick" :hidden="status == 'b'" type="button">Cancela</button>
             <button @click="handleNovoClick" :hidden="status != 'b'" type="button">Novo</button>
           </th>
         </tr>
