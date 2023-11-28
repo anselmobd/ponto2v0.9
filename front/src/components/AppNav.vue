@@ -10,7 +10,11 @@ const { encerrar } = auth
 
 <template>
   <div id="nav" class="px-4 flex row items-center justify-between border-b border-solid border-slate-800 shadow-[0_2px_2px_-1px] shadow-slate-700">
-    <router-link :to="{ name: 'home' }" class="text-2xl font-bold">RPR - Ponto2</router-link>
+    <router-link
+      class="text-2xl font-bold"
+      :to="{ name: 'home' }"
+      :exact-active-class="'text-sky-600'"
+    >RPR - Ponto2</router-link>
 
     <div>
       <router-link 
@@ -45,4 +49,8 @@ const { encerrar } = auth
 </template>
 
 <style scoped>
+
+a:hover {
+  text-shadow: 1px 1px 3px  rgba(3, 132, 196, 0.6)}
+
 </style>
