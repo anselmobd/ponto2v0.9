@@ -168,8 +168,17 @@ function afterSalvaSet(ok, data) {
 }
 
 function pedidoItemInseridoEmData(pedido_item) {
-  var date = new Date(pedido_item.inserido_em)
-  return date.toLocaleDateString('pt-br') + ' ' + date.toLocaleTimeString('pt-br');
+  const date = new Date(pedido_item.inserido_em)
+  const date_date = date.toLocaleDateString(
+    'pt-br',
+    {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit'
+    }
+  );
+  const date_time = date.toLocaleTimeString('pt-br');
+  return date_date + ' ' + date_time;
 }
 
 function inputClienteFocus() {
