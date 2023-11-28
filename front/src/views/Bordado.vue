@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, nextTick, onMounted } from 'vue'
 import { storeToRefs } from 'pinia';
+import { dateTime2Text } from "../utils/date.js";
 import { useAuthStore } from '../stores/auth.js';
 import { axiosPrivate } from '../common/axiosPrivate.js';
 
@@ -169,16 +170,7 @@ function afterSalvaSet(ok, data) {
 
 function pedidoItemInseridoEmData(pedido_item) {
   const date = new Date(pedido_item.inserido_em)
-  const date_date = date.toLocaleDateString(
-    'pt-br',
-    {
-      day: '2-digit',
-      month: '2-digit',
-      year: '2-digit'
-    }
-  );
-  const date_time = date.toLocaleTimeString('pt-br');
-  return date_date + ' ' + date_time;
+  return dateTime2Text(date);
 }
 
 function inputClienteFocus() {
