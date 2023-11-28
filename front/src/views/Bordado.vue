@@ -1,19 +1,44 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, watch, nextTick, onMounted } from 'vue'
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '../stores/auth.js';
 import { axiosPrivate } from '../common/axiosPrivate.js';
 
+const auth = useAuthStore();
+// const { user } = storeToRefs(auth)
+
 const pedido_itens = ref(null);
-const editing = ref(false);
+const status = ref('b'); // browsing editing inserting
 const cliente = ref({
   input: '',
   error: '',
-  list: []
+  list: [
+    'casd',
+    'casdfgggg',
+    'czxcv'
+  ]
 });
 const bordado = ref({
   input: '',
   error: '',
-  list: []
+  list: [
+    'basd',
+    'basdfgggg',
+    'bzxcv'
+  ]
 });
+
+const inputCliente = ref(null)
+const inputBordado = ref(null)
+
+// get set refs
+
+function clearInputs() {
+  cliente.value.input = '';
+  bordado.value.input = '';
+}
+
+// get set db
 
 function getPedidoItens() {
   const params = new URLSearchParams();
@@ -31,14 +56,40 @@ function getPedidoItens() {
   });
 }
 
+// event functions
+
+function handleNovoClick(event) {
+  event.preventDefault();
+  clearInputs();
+  status.value = 'i';
+}
+
+// generic functions
+
 function pedidoItemInseridoEmData(pedido_item) {
   var date = new Date(pedido_item.inserido_em)
   return date.toLocaleDateString('pt-br') + ' ' + date.toLocaleTimeString('pt-br');
 }
 
+function inputClienteFocus() {
+  nextTick(() => {
+    inputCliente.value.focus();
+  })
+}
+
+// Lifecycle Hooks
+
 onMounted(() => {
   getPedidoItens();
 })
+
+// watch
+watch(status, async (newStatus) => {
+  if (newStatus != 'b') {
+    inputClienteFocus();
+  }
+})
+
 </script>
 
 <template>
@@ -59,25 +110,37 @@ onMounted(() => {
             <input
               class="mx-0.5 border border-solid border-slate-500"
               v-model.trim="cliente.input"
-              :disabled="!editing"
+              :disabled="status == 'b'"
               type="text"
+              name="cliente"
+              id="cliente"
               ref="inputCliente"
               placeholder="Cliente"
+              list="cliente-list"
             >
+            <datalist id="cliente-list">
+              <option v-for="cliente1 in cliente.list">{{cliente1}}</option>
+            </datalist>
           </th>
           <th>
             <span class="text-sm text-red-700 font-bold" v-if="bordado.error" >{{ bordado.error }}<br /></span>
             <input
               class="mx-0.5 border border-solid border-slate-500"
               v-model.trim="bordado.input"
-              :disabled="!editing"
+              :disabled="status == 'b'"
               type="text"
+              name="bordado"
+              id="bordado"
               ref="inputBordado"
               placeholder="Bordado"
+              list="bordado-list"
             >
+            <datalist id="bordado-list">
+              <option v-for="bordado1 in bordado.list">{{bordado1}}</option>
+            </datalist>
           </th>
           <th>
-            -
+            <button @click="handleNovoClick" :hidden="status != 'b'" type="button">Novo</button>
           </th>
         </tr>
       </thead>
@@ -93,8 +156,8 @@ onMounted(() => {
           <td>{{pedido_item.pedido.cliente.apelido}}</td>
           <td>{{pedido_item.bordado.nome}}</td>
           <td>
-            <button :disabled="editing">Editar</button>
-            <button :disabled="editing">Apagar</button>
+            <button :disabled="status != 'b'">Editar</button>
+            <button :disabled="status != 'b'">Apagar</button>
           </td>
         </tr>
       </tbody>
