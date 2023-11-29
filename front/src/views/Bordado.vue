@@ -80,7 +80,7 @@ function cbAddClienteBordado(data, error) {
 
 function doAddClienteBordado() {
   if (cliente?.value?.input && bordado?.value?.input) {
-    setClienteBordado(
+    addClienteBordado(
       cliente.value.input,
       bordado.value.input,
       cbAddClienteBordado
