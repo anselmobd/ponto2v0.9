@@ -164,6 +164,13 @@ function handleEditarClick(event) {
   status.value = 'e';
 }
 
+function handleApagarClick(event) {
+  event.preventDefault();
+  const index = event.target.value;
+  console.log('apaga', index)
+  apagaItemNaTela(index);
+}
+
 // generic functions
 
 function pedidoItemParaTela(pedido_item) {
@@ -175,6 +182,10 @@ function pedidoItemParaTela(pedido_item) {
     pedido_itens.value.unshift(pedido_item);
   }
   status.value = 'b';
+}
+
+function apagaItemNaTela(index) {
+  pedido_itens.value.splice(index, 1);
 }
 
 function afterSalvaSet(ok, data) {
@@ -293,11 +304,15 @@ watch(status, async (newStatus) => {
           <td>{{pedido_item.bordado.nome}}-{{ pedido_item.id }}-{{ index }}</td>
           <td>
             <button
-              :value="pedido_item.id"
+              :value="index"
               @click="handleEditarClick"
               :disabled="status != 'b'"
             >Editar</button>
-            <button :disabled="status != 'b'">Apagar</button>
+            <button
+              :value="index"
+              @click="handleApagarClick"
+              :disabled="status != 'b'"
+            >Apagar</button>
           </td>
         </tr>
       </tbody>
