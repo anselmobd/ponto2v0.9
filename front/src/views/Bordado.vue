@@ -3,7 +3,7 @@ import { ref, watch, nextTick, onMounted } from 'vue'
 import { storeToRefs } from 'pinia';
 import { dateTime2Text } from "../utils/date.js";
 import { useAuthStore } from '../stores/auth.js';
-import { getPedidoItens, setClienteBordado } from '../api/pedidoItem.js';
+import { getPedidoItens, addClienteBordado } from '../api/pedidoItem.js';
 import { getClientes } from '../api/cliente.js';
 import { getBordados } from '../api/bordado.js';
 
@@ -36,6 +36,11 @@ function clearInputs() {
   pedido_itens_index = '';
 }
 
+function clearErrors() {
+  cliente.value.error = '';
+  bordado.value.error = '';
+}
+
 // DB API calls (do) and callbacks (cb)
 
 function cbGetPedidoItens(data, error) {
@@ -57,7 +62,7 @@ function doGetBordados() {
   }
 }
 
-function cbSetClienteBordado(data, error) {
+function cbAddClienteBordado(data, error) {
   if (data) {
     pedidoItemParaTela(data);
     clearInputs();
@@ -73,12 +78,12 @@ function cbSetClienteBordado(data, error) {
   getClientes(cbGetClientes);
 }
 
-function doSetClienteBordado() {
+function doAddClienteBordado() {
   if (cliente?.value?.input && bordado?.value?.input) {
     setClienteBordado(
       cliente.value.input,
       bordado.value.input,
-      cbSetClienteBordado
+      cbAddClienteBordado
     );
   }
 }
@@ -99,14 +104,13 @@ function handleCancelaClick(event) {
 
 function handleSalvaClick(event) {
   event.preventDefault();
-  cliente.value.error = '';
-  bordado.value.error = '';
+  clearErrors();
   if (pedido_itens_index) {
     console.log('salva edit')
     pedidoItemParaTela('');
     clearInputs();
   } else {
-    doSetClienteBordado();
+    doAddClienteBordado();
   }
 }
 

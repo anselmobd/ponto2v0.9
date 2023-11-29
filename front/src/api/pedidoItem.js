@@ -16,7 +16,7 @@ export function getPedidoItens(callBack) {
   });
 }
 
-export function setClienteBordado(
+export function addClienteBordado(
   cliente_apelido,
   bordado_nome,
   callBack
