@@ -6,6 +6,7 @@ import { useAuthStore } from '../stores/auth.js';
 import { axiosPrivate } from '../common/axiosPrivate.js';
 import { getPedidoItensCB } from '../api/pedidoItem.js';
 import { getClientesCB } from '../api/cliente.js';
+import { getBordadosCB } from '../api/bordado.js';
 
 const auth = useAuthStore();
 // const { user } = storeToRefs(auth)
@@ -47,25 +48,14 @@ function clientesCB(data, error) {
   if (data) cliente.value.list = data;
 }
 
-function GetBordados() {
-  bordado.value.list = [];
-  if (cliente.value) {
-    const params = new URLSearchParams();
-    params.append('format', 'json');
-    params.append('cliente__apelido', cliente.value.input);
+function bordadoCB(data, error) {
+  if (data) bordado.value.list = data;
+}
 
-    axiosPrivate.get(
-      '/bordado/api/bordado/',
-      {params: params}
-    )
-    .then(response => {
-      bordado.value.list = response.data.results.map(
-        bord => bord.nome
-      );
-    })
-    .catch(error => {
-      console.error('Erro ao obter clientes via API:', error);
-    });
+function getBordados() {
+  bordado.value.list = [];
+  if (cliente?.value?.input) {
+    getBordadosCB(cliente.value.input, bordadoCB)
   }
 }
 
@@ -233,7 +223,7 @@ watch(status, async (newStatus) => {
               class="mx-0.5 border border-solid border-slate-500"
               v-model.trim="bordado.input"
               :disabled="status == 'b'"
-              @focus="GetBordados"
+              @focus="getBordados"
               type="text"
               name="bordado"
               id="bordado"
