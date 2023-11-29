@@ -1,6 +1,7 @@
 from pprint import pprint
 
 from django.contrib.auth.models import User
+from django.db.models.deletion import ProtectedError
 from rest_framework import (
     generics,
     permissions,
@@ -82,6 +83,36 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
     queryset = PedidoItem.objects.all().order_by('-inserido_em')
     serializer_class = PedidoItemSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def destroy(self, request, *args, **kwargs):
+        """Alé de apagar o PedidoItem indicado, apaga também o pedido,
+        o bordado e o cliente, desde que estes não sejam utilizados por 
+        nenhum outro registro.
+        """
+        pedido_item = PedidoItem.objects.get(
+            id=kwargs['pk']
+        )
+
+        result = super().destroy(request, *args, **kwargs)
+
+        if pedido_item:
+            pedido_numero = pedido_item.pedido.numero
+            bordado_id = pedido_item.bordado.id
+            cliente_id = pedido_item.bordado.cliente.id
+            try:
+                Pedido.objects.get(numero=pedido_numero).delete()
+            except ProtectedError:
+                pass
+            try:
+                Bordado.objects.get(id=bordado_id).delete()
+            except ProtectedError:
+                pass
+            try:
+                Cliente.objects.get(id=cliente_id).delete()
+            except ProtectedError:
+                pass
+
+        return result
 
     def create(self, request, *args, **kwargs):
         if 'cliente' in request.data:
