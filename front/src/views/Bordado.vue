@@ -89,13 +89,16 @@ function doAddClienteBordado() {
 }
 
 function cbDelClienteBordado(index) {
-  apagaItemNaTela(index);
+  if (index != -1) {
+    apagaItemNaTela(index);
+    getPedidoItens(cbGetPedidoItens);
+  }
 }
 
 function doDelClienteBordado(index) {
   delClienteBordado(
     index,
-    42,
+    pedido_itens.value[index].id,
     cbDelClienteBordado
   );
 }

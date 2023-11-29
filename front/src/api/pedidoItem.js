@@ -37,7 +37,7 @@ export function addClienteBordado(
     callBack(response.data);
   })
   .catch(error => {
-    console.error('Erro ao gravar cliente / bordado via API:', error);
+    console.error('Erro ao gravar "cliente / bordado" via API:', error);
     callBack(null, error.response.data);
   });
 }
@@ -47,6 +47,18 @@ export function delClienteBordado(
   key,
   callBack
 ) {
-  console.log(index, key);
-  callBack(index);
+  const params = new URLSearchParams();
+  params.append('format', 'json');
+
+  axiosPrivate.delete(
+    `/bordado/api/pedido_item/${key}/`,
+    {params: params},
+  )
+  .then(response => {
+    callBack(index);
+  })
+  .catch(error => {
+    console.error('Erro ao apagar "cliente / bordado" via API:', error);
+    callBack(-1);
+  });
 }
