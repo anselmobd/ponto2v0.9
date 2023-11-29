@@ -26,7 +26,6 @@ const bordado = ref({
 // componentes do template que serão referenciados
 
 const inputCliente = ref(null)
-const inputBordado = ref(null)
 const buttonSalva = ref(null)
 
 // get set refs
@@ -211,7 +210,6 @@ watch(status, async (newStatus) => {
               type="text"
               name="bordado"
               id="bordado"
-              ref="inputBordado"
               placeholder="Bordado"
               list="bordado-list"
             >
