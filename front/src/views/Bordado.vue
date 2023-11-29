@@ -29,14 +29,18 @@ const bordado = ref({
   ]
 });
 
+// componentes do template que serão referenciados
+
 const inputCliente = ref(null)
 const inputBordado = ref(null)
+const buttonSalva = ref(null)
 
 // get set refs
 
 function clearInputs() {
   cliente.value.input = '';
   bordado.value.input = '';
+  buttonSalva.value.value = '';
 }
 
 // get set db
@@ -139,18 +143,38 @@ function handleCancelaClick(event) {
 }
 
 function handleSalvaClick(event) {
+  event.preventDefault();
   cliente.value.error = '';
   bordado.value.error = '';
-  SetClienteBordado(afterSalvaSet);
+  if (buttonSalva.value.value) {
+    console.log('salva edit')
+    pedidoItemParaTela('');
+    clearInputs();
+  } else {
+    SetClienteBordado(afterSalvaSet);
+  }
+}
+
+function handleEditarClick(event) {
+  event.preventDefault();
+  const index = event.target.value;
+  cliente.value.input = pedido_itens.value[index].pedido.cliente.apelido;
+  bordado.value.input = pedido_itens.value[index].bordado.nome;
+  buttonSalva.value.value = index;
+  status.value = 'e';
 }
 
 // generic functions
 
 function pedidoItemParaTela(pedido_item) {
-  if (status.value == 'i') {
+  if (buttonSalva.value.value) {
+    const index = buttonSalva.value.value;
+    pedido_itens.value[index].pedido.cliente.apelido = cliente.value.input;
+    pedido_itens.value[index].bordado.nome = bordado.value.input;
+  } else {
     pedido_itens.value.unshift(pedido_item);
-    status.value = 'b';
   }
+  status.value = 'b';
 }
 
 function afterSalvaSet(ok, data) {
@@ -244,7 +268,13 @@ watch(status, async (newStatus) => {
             </datalist>
           </th>
           <th>
-            <button @click="handleSalvaClick" :hidden="status == 'b'" type="button">Salva</button>
+            <button
+              type="button"
+              @click="handleSalvaClick"
+              :hidden="status == 'b'"
+              value=""
+              ref="buttonSalva"
+            >Salva</button>
             <button @click="handleCancelaClick" :hidden="status == 'b'" type="button">Cancela</button>
             <button @click="handleNovoClick" :hidden="status != 'b'" type="button">Novo</button>
           </th>
@@ -255,14 +285,18 @@ watch(status, async (newStatus) => {
           <td colspan="4">Carregando últimos pedidos...</td>
         </tr>
         <tr
-          v-for="pedido_item in pedido_itens"
+          v-for="(pedido_item, index) in pedido_itens"
           :key="pedido_item.id"
         >
           <td>{{pedidoItemInseridoEmData(pedido_item)}}</td>
           <td>{{pedido_item.pedido.cliente.apelido}}</td>
-          <td>{{pedido_item.bordado.nome}}</td>
+          <td>{{pedido_item.bordado.nome}}-{{ pedido_item.id }}-{{ index }}</td>
           <td>
-            <button :disabled="status != 'b'">Editar</button>
+            <button
+              :value="pedido_item.id"
+              @click="handleEditarClick"
+              :disabled="status != 'b'"
+            >Editar</button>
             <button :disabled="status != 'b'">Apagar</button>
           </td>
         </tr>
