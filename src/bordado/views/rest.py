@@ -8,9 +8,13 @@ from rest_framework import (
     status,
 )
 from rest_framework.response import Response
-
+from drf_spectacular.utils import (
+    extend_schema_view,
+    extend_schema,
+)
 from bordado.models import *
 from bordado.serializers import *
+from o2lib.dict import dict_keys_value
 
 
 __all__ = [
@@ -25,12 +29,19 @@ __all__ = [
 ]
 
 
+__ACTIONS = ('create', 'retrieve', 'update', 'partial_update', 'destroy', 'list')
+
+
+@extend_schema_view(
+    **dict_keys_value(__ACTIONS, extend_schema(tags=['user'])))
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
+@extend_schema_view(
+    **dict_keys_value(__ACTIONS, extend_schema(tags=['cliente'])))
 class ClienteViewSet(viewsets.ModelViewSet):
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
@@ -40,12 +51,16 @@ class ClienteViewSet(viewsets.ModelViewSet):
         serializer.save(usuario=self.request.user)
         
 
+@extend_schema_view(
+    **dict_keys_value(__ACTIONS, extend_schema(tags=['dificuldade_bordado'])))
 class DificuldadeBordadoViewSet(viewsets.ModelViewSet):
     queryset = DificuldadeBordado.objects.all()
     serializer_class = DificuldadeBordadoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
+@extend_schema_view(
+    **dict_keys_value(__ACTIONS, extend_schema(tags=['bordado'])))
 class BordadoViewSet(viewsets.ModelViewSet):
     queryset = Bordado.objects.all()
     serializer_class = BordadoSerializer
@@ -53,12 +68,16 @@ class BordadoViewSet(viewsets.ModelViewSet):
     filterset_fields = ['cliente__apelido']
 
 
+@extend_schema_view(
+    **dict_keys_value(__ACTIONS, extend_schema(tags=['pedido'])))
 class PedidoViewSet(viewsets.ModelViewSet):
     queryset = Pedido.objects.all()
     serializer_class = PedidoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
+@extend_schema_view(
+    **dict_keys_value(__ACTIONS, extend_schema(tags=['pedido_item'])))
 class PedidoItemViewSet(viewsets.ModelViewSet):
     queryset = PedidoItem.objects.all().order_by('-inserido_em')
     serializer_class = PedidoItemSerializer
@@ -123,18 +142,24 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
 
+@extend_schema_view(
+    **dict_keys_value(__ACTIONS, extend_schema(tags=['pedido_bordado'])))
 class PedidoBordadoClientecreate(generics.CreateAPIView):
     queryset = PedidoItem.objects.all().order_by('-inserido_em')
     serializer_class = PedidoItemSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
+@extend_schema_view(
+    **dict_keys_value(__ACTIONS, extend_schema(tags=['apontamento_producao'])))
 class ApontamentoProducaoViewSet(viewsets.ModelViewSet):
     queryset = ApontamentoProducao.objects.all()
     serializer_class = ApontamentoProducaoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
+@extend_schema_view(
+    **dict_keys_value(__ACTIONS, extend_schema(tags=['ordem_producao'])))
 class OrdemProducaoViewSet(viewsets.ModelViewSet):
     queryset = OrdemProducao.objects.all()
     serializer_class = OrdemProducaoSerializer
