@@ -3,8 +3,7 @@ import { ref, watch, nextTick, onMounted } from 'vue'
 import { storeToRefs } from 'pinia';
 import { dateTime2Text } from "../utils/date.js";
 import { useAuthStore } from '../stores/auth.js';
-import { axiosPrivate } from '../common/axiosPrivate.js';
-import { getPedidoItens } from '../api/pedidoItem.js';
+import { getPedidoItens, setClienteBordado } from '../api/pedidoItem.js';
 import { getClientes } from '../api/cliente.js';
 import { getBordados } from '../api/bordado.js';
 
@@ -83,32 +82,6 @@ function doSetClienteBordado() {
       cbSetClienteBordado
     );
   }
-}
-
-function setClienteBordado(
-  cliente_apelido,
-  bordado_nome,
-  callBack
-) {
-  const params = new URLSearchParams();
-  params.append('format', 'json');
-  params.append('page_size', '999999');
-
-  axiosPrivate.post(
-    '/bordado/api/pedido_item/',
-    {
-      cliente: {apelido: cliente_apelido},
-      bordado: {nome: bordado_nome}
-    },
-    {params: params},
-  )
-  .then(response => {
-    callBack(response.data);
-  })
-  .catch(error => {
-    console.error('Erro ao gravar cliente / bordado via API:', error);
-    callBack(null, error.response.data);
-  });
 }
 
 // event functions
