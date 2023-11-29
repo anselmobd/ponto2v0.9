@@ -299,9 +299,9 @@ watch(status, async (newStatus) => {
           v-for="(pedido_item, index) in pedido_itens"
           :key="pedido_item.id"
         >
-          <td>{{pedidoItemInseridoEmData(pedido_item)}}</td>
+          <td :title="`key:${pedido_item.id} index:${index}`">{{pedidoItemInseridoEmData(pedido_item)}}</td>
           <td>{{pedido_item.pedido.cliente.apelido}}</td>
-          <td>{{pedido_item.bordado.nome}}-{{ pedido_item.id }}-{{ index }}</td>
+          <td>{{pedido_item.bordado.nome}}</td>
           <td>
             <button
               :value="index"
