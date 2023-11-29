@@ -1,6 +1,6 @@
 import { axiosPrivate } from '../common/axiosPrivate.js';
 
-export function getBordadosCB(cliente_apelido, callBack) {
+export function getBordados(cliente_apelido, callBack) {
   const params = new URLSearchParams();
   params.append('format', 'json');
   params.append('cliente__apelido', cliente_apelido);

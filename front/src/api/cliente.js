@@ -1,6 +1,6 @@
 import { axiosPrivate } from '../common/axiosPrivate.js';
 
-export function getClientesCB(callBack) {
+export function getClientes(callBack) {
   const params = new URLSearchParams();
   params.append('format', 'json');
   params.append('page_size', '999999');

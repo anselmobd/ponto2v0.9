@@ -4,9 +4,9 @@ import { storeToRefs } from 'pinia';
 import { dateTime2Text } from "../utils/date.js";
 import { useAuthStore } from '../stores/auth.js';
 import { axiosPrivate } from '../common/axiosPrivate.js';
-import { getPedidoItensCB } from '../api/pedidoItem.js';
-import { getClientesCB } from '../api/cliente.js';
-import { getBordadosCB } from '../api/bordado.js';
+import { getPedidoItens } from '../api/pedidoItem.js';
+import { getClientes } from '../api/cliente.js';
+import { getBordados } from '../api/bordado.js';
 
 const auth = useAuthStore();
 // const { user } = storeToRefs(auth)
@@ -38,28 +38,28 @@ function clearInputs() {
   buttonSalva.value.value = '';
 }
 
-// API DB "callbacks"
+// DB API calls (do) and callbacks (cb)
 
-function pedidoItensCB(data, error) {
+function cbGetPedidoItens(data, error) {
   if (data) pedido_itens.value = data;
 }
 
-function clientesCB(data, error) {
+function cbGetClientes(data, error) {
   if (data) cliente.value.list = data;
 }
 
-function bordadoCB(data, error) {
+function cbGetBordado(data, error) {
   if (data) bordado.value.list = data;
 }
 
-function getBordados() {
+function doGetBordados() {
   bordado.value.list = [];
   if (cliente?.value?.input) {
-    getBordadosCB(cliente.value.input, bordadoCB)
+    getBordados(cliente.value.input, cbGetBordado)
   }
 }
 
-function clienteBordadoCB(data, error) {
+function cbSetClienteBordado(data, error) {
   if (data) {
     pedidoItemParaTela(data);
     clearInputs();
@@ -72,10 +72,24 @@ function clienteBordadoCB(data, error) {
       bordado.value.error = error.nome.join('|');
     }
   };
-  getClientesCB(clientesCB);
+  getClientes(cbGetClientes);
 }
 
-function setClienteBordadoCB(callBack) {
+function doSetClienteBordado() {
+  if (cliente?.value?.input && bordado?.value?.input) {
+    setClienteBordado(
+      cliente.value.input,
+      bordado.value.input,
+      cbSetClienteBordado
+    );
+  }
+}
+
+function setClienteBordado(
+  cliente_apelido,
+  bordado_nome,
+  callBack
+) {
   const params = new URLSearchParams();
   params.append('format', 'json');
   params.append('page_size', '999999');
@@ -83,12 +97,8 @@ function setClienteBordadoCB(callBack) {
   axiosPrivate.post(
     '/bordado/api/pedido_item/',
     {
-      cliente: {
-        apelido: cliente.value.input
-      },
-      bordado: {
-        nome: bordado.value.input
-      },
+      cliente: {apelido: cliente_apelido},
+      bordado: {nome: bordado_nome}
     },
     {params: params},
   )
@@ -124,7 +134,7 @@ function handleSalvaClick(event) {
     pedidoItemParaTela('');
     clearInputs();
   } else {
-    setClienteBordadoCB(clienteBordadoCB);
+    doSetClienteBordado();
   }
 }
 
@@ -175,13 +185,13 @@ function inputClienteFocus() {
 // Lifecycle Hooks
 
 onMounted(() => {
-  getPedidoItensCB(pedidoItensCB);
+  getPedidoItens(cbGetPedidoItens);
 })
 
 // watch
 watch(status, async (newStatus) => {
   if (newStatus != 'b') {
-    getClientesCB(clientesCB);
+    getClientes(cbGetClientes);
     inputClienteFocus();
   }
 })
@@ -224,7 +234,7 @@ watch(status, async (newStatus) => {
               class="mx-0.5 border border-solid border-slate-500"
               v-model.trim="bordado.input"
               :disabled="status == 'b'"
-              @focus="getBordados"
+              @focus="doGetBordados"
               type="text"
               name="bordado"
               id="bordado"
