@@ -11,6 +11,7 @@ const auth = useAuthStore();
 // const { user } = storeToRefs(auth)
 
 const pedido_itens = ref(null);
+const pedido_itens_index = ref('');
 const status = ref('b'); // browsing editing inserting
 const cliente = ref({
   input: '',
@@ -26,14 +27,13 @@ const bordado = ref({
 // componentes do template que serão referenciados
 
 const inputCliente = ref(null)
-const buttonSalva = ref(null)
 
 // get set refs
 
 function clearInputs() {
   cliente.value.input = '';
   bordado.value.input = '';
-  buttonSalva.value.value = '';
+  pedido_itens_index.value = '';
 }
 
 // DB API calls (do) and callbacks (cb)
@@ -101,7 +101,7 @@ function handleSalvaClick(event) {
   event.preventDefault();
   cliente.value.error = '';
   bordado.value.error = '';
-  if (buttonSalva.value.value) {
+  if (pedido_itens_index.value) {
     console.log('salva edit')
     pedidoItemParaTela('');
     clearInputs();
@@ -115,7 +115,9 @@ function handleEditarClick(event) {
   const index = event.target.value;
   cliente.value.input = pedido_itens.value[index].pedido.cliente.apelido;
   bordado.value.input = pedido_itens.value[index].bordado.nome;
-  buttonSalva.value.value = index;
+  console.log('antes', pedido_itens_index.value)
+  pedido_itens_index.value = index;
+  console.log('depois', pedido_itens_index.value)
   status.value = 'e';
 }
 
@@ -129,8 +131,8 @@ function handleApagarClick(event) {
 // generic functions
 
 function pedidoItemParaTela(pedido_item) {
-  if (buttonSalva.value.value) {
-    const index = buttonSalva.value.value;
+  if (pedido_itens_index.value) {
+    const index = pedido_itens_index.value;
     pedido_itens.value[index].pedido.cliente.apelido = cliente.value.input;
     pedido_itens.value[index].bordado.nome = bordado.value.input;
   } else {
@@ -222,8 +224,7 @@ watch(status, async (newStatus) => {
               type="button"
               @click="handleSalvaClick"
               :hidden="status == 'b'"
-              value=""
-              ref="buttonSalva"
+              :value="pedido_itens_index"
             >Salva</button>
             <button @click="handleCancelaClick" :hidden="status == 'b'" type="button">Cancela</button>
             <button @click="handleNovoClick" :hidden="status != 'b'" type="button">Novo</button>
