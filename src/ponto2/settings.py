@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    'drf_yasg',
+    # 'drf_yasg',
+    'drf_spectacular',
 
     'bordado',
 ]
@@ -137,7 +138,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -151,6 +153,19 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173"
 ]
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Ponto2 API',
+    'DESCRIPTION': 'Sistema Ponto2 de controle de serviços de bordados computadorizados',
+    'VERSION': '1.0.0',
+    'CONTACT': {
+        'name': 'Anselmo Blanco Dominguez',
+        'email': 'anselmo@oxigenai.com.br',
+    },
+    'LICENSE': {
+        'name': 'BSD License',
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
