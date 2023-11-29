@@ -11,7 +11,7 @@ const auth = useAuthStore();
 // const { user } = storeToRefs(auth)
 
 const pedido_itens = ref(null);
-const pedido_itens_index = ref('');
+var pedido_itens_index = '';
 const status = ref('b'); // browsing editing inserting
 const cliente = ref({
   input: '',
@@ -33,7 +33,7 @@ const inputCliente = ref(null)
 function clearInputs() {
   cliente.value.input = '';
   bordado.value.input = '';
-  pedido_itens_index.value = '';
+  pedido_itens_index = '';
 }
 
 // DB API calls (do) and callbacks (cb)
@@ -101,7 +101,7 @@ function handleSalvaClick(event) {
   event.preventDefault();
   cliente.value.error = '';
   bordado.value.error = '';
-  if (pedido_itens_index.value) {
+  if (pedido_itens_index) {
     console.log('salva edit')
     pedidoItemParaTela('');
     clearInputs();
@@ -115,9 +115,7 @@ function handleEditarClick(event) {
   const index = event.target.value;
   cliente.value.input = pedido_itens.value[index].pedido.cliente.apelido;
   bordado.value.input = pedido_itens.value[index].bordado.nome;
-  console.log('antes', pedido_itens_index.value)
-  pedido_itens_index.value = index;
-  console.log('depois', pedido_itens_index.value)
+  pedido_itens_index = index;
   status.value = 'e';
 }
 
@@ -131,8 +129,8 @@ function handleApagarClick(event) {
 // generic functions
 
 function pedidoItemParaTela(pedido_item) {
-  if (pedido_itens_index.value) {
-    const index = pedido_itens_index.value;
+  if (pedido_itens_index) {
+    const index = pedido_itens_index;
     pedido_itens.value[index].pedido.cliente.apelido = cliente.value.input;
     pedido_itens.value[index].bordado.nome = bordado.value.input;
   } else {
@@ -224,7 +222,6 @@ watch(status, async (newStatus) => {
               type="button"
               @click="handleSalvaClick"
               :hidden="status == 'b'"
-              :value="pedido_itens_index"
             >Salva</button>
             <button @click="handleCancelaClick" :hidden="status == 'b'" type="button">Cancela</button>
             <button @click="handleNovoClick" :hidden="status != 'b'" type="button">Novo</button>
