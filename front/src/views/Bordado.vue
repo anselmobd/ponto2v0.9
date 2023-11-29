@@ -13,20 +13,12 @@ const status = ref('b'); // browsing editing inserting
 const cliente = ref({
   input: '',
   error: '',
-  list: [
-    'casd',
-    'casdfgggg',
-    'czxcv'
-  ]
+  list: []
 });
 const bordado = ref({
   input: '',
   error: '',
-  list: [
-    'basd',
-    'basdfgggg',
-    'bzxcv'
-  ]
+  list: []
 });
 
 // componentes do template que serão referenciados
