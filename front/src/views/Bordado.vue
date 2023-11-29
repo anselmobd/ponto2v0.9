@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia';
 import { dateTime2Text } from "../utils/date.js";
 import { useAuthStore } from '../stores/auth.js';
 import { axiosPrivate } from '../common/axiosPrivate.js';
+import { getPedidoItensCB, getClientesCB } from '../api/pedidoItem.js';
 
 const auth = useAuthStore();
 // const { user } = storeToRefs(auth)
@@ -35,41 +36,14 @@ function clearInputs() {
   buttonSalva.value.value = '';
 }
 
-// get set db
+// API DB "callbacks"
 
-function getPedidoItens() {
-  const params = new URLSearchParams();
-  params.append('format', 'json');
-
-  axiosPrivate.get(
-    '/bordado/api/pedido_item/',
-    {params: params}
-  )
-  .then(response => {
-    pedido_itens.value = response.data.results;
-  })
-  .catch(error => {
-    console.log('Erro ao obter pedido_itens via API:', error)
-  });
+function pedidoItensCB(data, error) {
+  if (data) pedido_itens.value = data;
 }
 
-function GetClientes() {
-  const params = new URLSearchParams();
-  params.append('format', 'json');
-  params.append('page_size', '999999');
-
-  axiosPrivate.get(
-    '/bordado/api/clientes/',
-    {params: params}
-  )
-  .then(response => {
-    cliente.value.list = response.data.results.map(
-      clie => clie.apelido
-    );
-  })
-  .catch(error => {
-    console.error('Erro ao obter clientes via API:', error);
-  });
+function clientesCB(data, error) {
+  if (data) cliente.value.list = data;
 }
 
 function GetBordados() {
@@ -192,7 +166,7 @@ function afterSalvaSet(ok, data) {
       bordado.value.error = data.nome.join('|');
     }
   };
-  GetClientes();
+  getClientesCB(clientesCB);
 }
 
 function pedidoItemInseridoEmData(pedido_item) {
@@ -209,13 +183,13 @@ function inputClienteFocus() {
 // Lifecycle Hooks
 
 onMounted(() => {
-  getPedidoItens();
+  getPedidoItensCB(pedidoItensCB);
 })
 
 // watch
 watch(status, async (newStatus) => {
   if (newStatus != 'b') {
-    GetClientes();
+    getClientesCB(clientesCB);
     inputClienteFocus();
   }
 })
