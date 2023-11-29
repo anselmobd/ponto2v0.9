@@ -41,3 +41,12 @@ export function addClienteBordado(
     callBack(null, error.response.data);
   });
 }
+
+export function delClienteBordado(
+  index,
+  key,
+  callBack
+) {
+  console.log(index, key);
+  callBack(index);
+}

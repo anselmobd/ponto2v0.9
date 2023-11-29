@@ -3,7 +3,7 @@ import { ref, watch, nextTick, onMounted } from 'vue'
 import { storeToRefs } from 'pinia';
 import { dateTime2Text } from "../utils/date.js";
 import { useAuthStore } from '../stores/auth.js';
-import { getPedidoItens, addClienteBordado } from '../api/pedidoItem.js';
+import { getPedidoItens, addClienteBordado, delClienteBordado } from '../api/pedidoItem.js';
 import { getClientes } from '../api/cliente.js';
 import { getBordados } from '../api/bordado.js';
 
@@ -88,6 +88,18 @@ function doAddClienteBordado() {
   }
 }
 
+function cbDelClienteBordado(index) {
+  apagaItemNaTela(index);
+}
+
+function doDelClienteBordado(index) {
+  delClienteBordado(
+    index,
+    42,
+    cbDelClienteBordado
+  );
+}
+
 // event functions
 
 function handleNovoClick(event) {
@@ -99,6 +111,7 @@ function handleNovoClick(event) {
 function handleCancelaClick(event) {
   event.preventDefault();
   clearInputs();
+  clearErrors();
   status.value = 'b';
 }
 
@@ -126,8 +139,7 @@ function handleEditarClick(event) {
 function handleApagarClick(event) {
   event.preventDefault();
   const index = event.target.value;
-  console.log('apaga', index)
-  apagaItemNaTela(index);
+  doDelClienteBordado(index);
 }
 
 // generic functions
@@ -244,11 +256,11 @@ watch(status, async (newStatus) => {
           <td>{{pedido_item.pedido.cliente.apelido}}</td>
           <td>{{pedido_item.bordado.nome}}</td>
           <td>
-            <button
+            <!-- <button
               :value="index"
               @click="handleEditarClick"
               :disabled="status != 'b'"
-            >Editar</button>
+            >Editar</button> -->
             <button
               :value="index"
               @click="handleApagarClick"
