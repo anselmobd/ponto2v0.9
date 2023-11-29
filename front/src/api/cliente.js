@@ -1,17 +1,21 @@
 import { axiosPrivate } from '../common/axiosPrivate.js';
 
-export function getPedidoItensCB(callBack) {
+export function getClientesCB(callBack) {
   const params = new URLSearchParams();
   params.append('format', 'json');
+  params.append('page_size', '999999');
+
   axiosPrivate.get(
-    '/bordado/api/pedido_item/',
+    '/bordado/api/clientes/',
     {params: params}
   )
   .then(response => {
-    callBack(response.data.results);
+    callBack(response.data.results.map(
+      clie => clie.apelido
+    ));
   })
   .catch(error => {
-    console.error('Erro ao obter pedido_itens via API:', error)
+    console.error('Erro ao obter clientes via API:', error);
     callBack(null, error);
   });
 }

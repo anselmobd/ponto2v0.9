@@ -4,7 +4,8 @@ import { storeToRefs } from 'pinia';
 import { dateTime2Text } from "../utils/date.js";
 import { useAuthStore } from '../stores/auth.js';
 import { axiosPrivate } from '../common/axiosPrivate.js';
-import { getPedidoItensCB, getClientesCB } from '../api/pedidoItem.js';
+import { getPedidoItensCB } from '../api/pedidoItem.js';
+import { getClientesCB } from '../api/cliente.js';
 
 const auth = useAuthStore();
 // const { user } = storeToRefs(auth)
