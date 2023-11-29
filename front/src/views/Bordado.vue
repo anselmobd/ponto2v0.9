@@ -59,7 +59,23 @@ function getBordados() {
   }
 }
 
-function SetClienteBordado(afterSet) {
+function clienteBordadoCB(data, error) {
+  if (data) {
+    pedidoItemParaTela(data);
+    clearInputs();
+  }
+  if (error) {
+    if ('apelido' in error) {
+      cliente.value.error = error.apelido.join('|');
+    }
+    if ('nome' in error) {
+      bordado.value.error = error.nome.join('|');
+    }
+  };
+  getClientesCB(clientesCB);
+}
+
+function setClienteBordadoCB(callBack) {
   const params = new URLSearchParams();
   params.append('format', 'json');
   params.append('page_size', '999999');
@@ -77,11 +93,11 @@ function SetClienteBordado(afterSet) {
     {params: params},
   )
   .then(response => {
-    afterSet(true, response.data);
+    callBack(response.data);
   })
   .catch(error => {
     console.error('Erro ao gravar cliente / bordado via API:', error);
-    afterSet(false, error.response.data);
+    callBack(null, error.response.data);
   });
 }
 
@@ -108,7 +124,7 @@ function handleSalvaClick(event) {
     pedidoItemParaTela('');
     clearInputs();
   } else {
-    SetClienteBordado(afterSalvaSet);
+    setClienteBordadoCB(clienteBordadoCB);
   }
 }
 
@@ -143,21 +159,6 @@ function pedidoItemParaTela(pedido_item) {
 
 function apagaItemNaTela(index) {
   pedido_itens.value.splice(index, 1);
-}
-
-function afterSalvaSet(ok, data) {
-  if (ok) {
-    pedidoItemParaTela(data);
-    clearInputs();
-  } else {
-    if ('apelido' in data) {
-      cliente.value.error = data.apelido.join('|');
-    }
-    if ('nome' in data) {
-      bordado.value.error = data.nome.join('|');
-    }
-  };
-  getClientesCB(clientesCB);
 }
 
 function pedidoItemInseridoEmData(pedido_item) {
