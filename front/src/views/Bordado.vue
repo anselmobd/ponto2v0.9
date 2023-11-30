@@ -11,8 +11,10 @@ const auth = useAuthStore();
 // const { user } = storeToRefs(auth)
 
 const pedido_itens = ref(null);
+const pedido_itens_next = ref(null);
 const pedido_itens_loading = ref(false);
 var pedido_itens_index = '';
+
 const status = ref('b'); // browsing editing inserting
 const cliente = ref({
   input: '',
@@ -45,13 +47,27 @@ function clearErrors() {
 // DB API calls (do) and callbacks (cb)
 
 function cbGetPedidoItens(data, error) {
-  if (data?.results) pedido_itens.value = data.results;
+  if (data) {
+    if (data?.results) pedido_itens.value = data.results;
+    pedido_itens_next.value = data.next;
+  }
   pedido_itens_loading.value = false;
 }
 
 function doGetPedidoItens() {
   pedido_itens_loading.value = true;
-  getPedidoItens(cbGetPedidoItens);
+  getPedidoItens(1, cbGetPedidoItens);
+}
+
+function cbAppendGetPedidoItens(data, error) {
+  if (data) {
+    if (data?.results) pedido_itens.value = pedido_itens.value.concat(data.results);
+    pedido_itens_next.value = data.next;
+  }
+}
+
+function doAppendGetPedidoItens() {
+  getPedidoItens(pedido_itens_next.value, cbAppendGetPedidoItens);
 }
 
 function cbGetClientes(data, error) {
@@ -156,6 +172,11 @@ function handleApagarClick(event) {
 function reloadPedidoItens(event) {
   event.preventDefault();
   doGetPedidoItens();
+}
+
+function handleMaisPedidosClick(event) {
+  event.preventDefault();
+  doAppendGetPedidoItens();
 }
 
 // generic functions
@@ -275,7 +296,7 @@ watch(status, async (newStatus) => {
           <td colspan="5">
             <span v-if="pedido_itens">Recarregando</span>
             <span v-else>Carregando</span>
-            últimos pedidos...</td>
+            os pedidos mais recentes...</td>
         </tr>
         <tr
           v-for="(pedido_item, index) in pedido_itens"
@@ -305,6 +326,10 @@ watch(status, async (newStatus) => {
         </tr>
       </tbody>
     </table>
+    <button
+      v-if="pedido_itens_next"
+      @click="handleMaisPedidosClick"
+    >Mais pedidos</button>
   </div>
 </template>
 

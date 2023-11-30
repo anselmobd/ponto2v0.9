@@ -1,8 +1,9 @@
 import { axiosPrivate } from '../common/axiosPrivate.js';
 
-export function getPedidoItens(callBack) {
+export function getPedidoItens(page, callBack) {
   const params = new URLSearchParams();
   params.append('format', 'json');
+  params.append('page', page);
   axiosPrivate.get(
     '/bordado/api/pedido_item/',
     {params: params}
