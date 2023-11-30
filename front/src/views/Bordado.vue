@@ -56,7 +56,7 @@ function cbGetPedidoItens(data, error) {
 
 function doGetPedidoItens() {
   pedido_itens_loading.value = true;
-  getPedidoItens(1, cbGetPedidoItens);
+  getPedidoItens({callBack: cbGetPedidoItens});
 }
 
 function cbAppendGetPedidoItens(data, error) {
@@ -67,7 +67,7 @@ function cbAppendGetPedidoItens(data, error) {
 }
 
 function doAppendGetPedidoItens() {
-  getPedidoItens(pedido_itens_next.value, cbAppendGetPedidoItens);
+  getPedidoItens({page: pedido_itens_next.value, callBack: cbAppendGetPedidoItens});
 }
 
 function cbGetClientes(data, error) {

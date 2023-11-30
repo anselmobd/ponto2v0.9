@@ -1,6 +1,6 @@
 import { axiosPrivate } from '../common/axiosPrivate.js';
 
-export function getPedidoItens(page, callBack) {
+export function getPedidoItens({page=1, callBack=()=>{}}) {
   const params = new URLSearchParams();
   params.append('format', 'json');
   params.append('page', page);
