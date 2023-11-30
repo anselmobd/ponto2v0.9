@@ -142,7 +142,8 @@ function handleEditarClick(event) {
 function handleApagarClick(event) {
   event.preventDefault();
   const index = event.target.value;
-  doDelClienteBordado(index);
+  const answer = window.confirm('Confirma apagar?')
+  if (answer) doDelClienteBordado(index);
 }
 
 function reloadPage(event) {
