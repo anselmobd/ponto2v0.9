@@ -101,6 +101,7 @@ function cbAddClienteBordado(data, error) {
   if (data) {
     pedidoItemParaTela(data);
     clearInputs();
+    doGetFirstsPedidoItens();
   }
   if (error) {
     if ('apelido' in error) {
