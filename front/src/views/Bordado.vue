@@ -320,7 +320,7 @@ watch(status, async (newStatus) => {
             <router-link
               class="button text-lg"
               :to="{ name: 'home' }"
-              :exact-active-class="'text-sky-600'"
+              :disabled="status != 'b'"
             >&vrtri;</router-link>
           </td>
         </tr>
