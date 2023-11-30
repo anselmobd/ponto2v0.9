@@ -99,6 +99,7 @@ class PedidoItemAdmin(admin.ModelAdmin):
     fields = [
         'pedido',
         'ordem',
+        'usuario',
         'inserido_em',
         'bordado',
         'quantidade',
@@ -107,6 +108,7 @@ class PedidoItemAdmin(admin.ModelAdmin):
     ]
     readonly_fields = [
         'ordem',
+        'usuario',
         'inserido_em',
     ]
 
