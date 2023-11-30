@@ -13,6 +13,7 @@ const auth = useAuthStore();
 const pedido_itens = ref(null);
 const pedido_itens_next = ref(null);
 const pedido_itens_loading = ref(false);
+const pedido_itens_filtro_apelido = ref(null);
 var pedido_itens_index = '';
 
 const status = ref('b'); // browsing inserting filtering
@@ -56,7 +57,10 @@ function cbGetPedidoItens(data, error) {
 
 function doGetPedidoItens() {
   pedido_itens_loading.value = true;
-  getPedidoItens({callBack: cbGetPedidoItens});
+  getPedidoItens({
+    cliente_apelido: pedido_itens_filtro_apelido.value,
+    callBack: cbGetPedidoItens
+  });
 }
 
 function cbAppendGetPedidoItens(data, error) {
@@ -67,7 +71,11 @@ function cbAppendGetPedidoItens(data, error) {
 }
 
 function doAppendGetPedidoItens() {
-  getPedidoItens({page: pedido_itens_next.value, callBack: cbAppendGetPedidoItens});
+  getPedidoItens({
+    page: pedido_itens_next.value,
+    cliente_apelido: pedido_itens_filtro_apelido.value,
+    callBack: cbAppendGetPedidoItens
+  });
 }
 
 function cbGetClientes(data, error) {
@@ -141,15 +149,17 @@ function handleCancelaClick(event) {
   status.value = 'b';
 }
 
-function handleSalvaClick(event) {
+function handleSalvaFiltraClick(event) {
   event.preventDefault();
   if (status.value == 'i') {
     clearErrors();
+    status.value = 'b';
     doAddClienteBordado();
   } else if (status.value == 'f') {
-    console.log('aplica filtro')
+    pedido_itens_filtro_apelido.value = cliente.value.input;
     clearInputs();
     status.value = 'b';
+    doGetPedidoItens();
   }
 }
 
@@ -228,7 +238,7 @@ watch(status, async (newStatus) => {
         <tr>
           <th>Data</th>
           <th>Pedido</th>
-          <th>Cliente</th>
+          <th>Cliente<span v-if="pedido_itens_filtro_apelido" ><br />{{ pedido_itens_filtro_apelido }}</span></th>
           <th>Bordado</th>
           <th>Ações</th>
         </tr>
@@ -274,9 +284,9 @@ watch(status, async (newStatus) => {
           <th>
             <button
               type="button"
-              @click="handleSalvaClick"
+              @click="handleSalvaFiltraClick"
               :hidden="status == 'b'"
-            >Salva</button>
+            ><span v-if="status == 'i'">Salva</span><span v-if="status == 'f'">Filtra</span></button>
             <button
               type="button"
               @click="handleCancelaClick"
