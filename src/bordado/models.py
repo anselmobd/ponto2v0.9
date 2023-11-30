@@ -275,6 +275,13 @@ class PedidoItem(models.Model):
     cancelado = models.BooleanField(
         default=False,
     )
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        verbose_name="usuário",
+    )
 
     objects = PedidoItemManager()
 
@@ -284,6 +291,13 @@ class PedidoItem(models.Model):
 
     def __str__(self):
         return f"Pedido {self.pedido.numero:04d}; ordem {self.ordem}; {self.quantidade} * {self.bordado}"
+
+    def cleanned_usuario(self):
+        return SingletonLoggedInUser().user
+
+    def clean(self):
+        super().clean()
+        self.usuario = self.cleanned_usuario()
 
     def save(self, *args, **kwargs):
         if not self.id:
