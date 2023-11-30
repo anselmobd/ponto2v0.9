@@ -220,7 +220,7 @@ watch(status, async (newStatus) => {
           <th>
             <span class="text-sm text-red-700 font-bold" v-if="cliente.error" >{{ cliente.error }}<br /></span>
             <input
-              class="mx-0.5 border border-solid border-slate-500"
+              class="mx-0.5 border border-solid border-slate-500 disabled:border-slate-200"
               v-model.trim="cliente.input"
               :disabled="status == 'b'"
               type="text"
@@ -237,7 +237,7 @@ watch(status, async (newStatus) => {
           <th>
             <span class="text-sm text-red-700 font-bold" v-if="bordado.error" >{{ bordado.error }}<br /></span>
             <input
-              class="mx-0.5 border border-solid border-slate-500"
+              class="mx-0.5 border border-solid border-slate-500 disabled:border-slate-200"
               v-model.trim="bordado.input"
               :disabled="status == 'b'"
               @focus="doGetBordados"
