@@ -31,11 +31,12 @@ const bordado = ref({
 // componentes do template que serão referenciados
 
 const inputCliente = ref(null)
+const inputBordado = ref(null)
 
 // get set refs
 
-function clearInputs() {
-  cliente.value.input = '';
+function clearInputs(cliente_apelido = '') {
+  cliente.value.input = cliente_apelido;
   bordado.value.input = '';
   pedido_itens_index = '';
 }
@@ -138,7 +139,7 @@ function doDelClienteBordado(index) {
 
 function handleNovoClick(event) {
   event.preventDefault();
-  clearInputs();
+  clearInputs(pedido_itens_filtro_apelido.value);
   status.value = 'i';
 }
 
@@ -214,6 +215,12 @@ function inputClienteFocus() {
   })
 }
 
+function inputBordadoFocus() {
+  nextTick(() => {
+    inputBordado.value.focus();
+  })
+}
+
 // Lifecycle Hooks
 
 onMounted(() => {
@@ -221,10 +228,18 @@ onMounted(() => {
 })
 
 // watch
-watch(status, async (newStatus) => {
+watch(status, (newStatus) => {
   if (newStatus != 'b') {
     getClientes(cbGetClientes);
-    inputClienteFocus();
+    if (newStatus == 'f') {
+      inputClienteFocus();
+    } else if (newStatus == 'i') {
+      if (pedido_itens_filtro_apelido.value) {
+        inputBordadoFocus();
+      } else {
+        inputClienteFocus();
+      }
+    }
   }
 })
 
@@ -252,7 +267,7 @@ watch(status, async (newStatus) => {
             <input
               class="mx-0.5 border border-solid border-slate-500 disabled:border-slate-200"
               v-model.trim="cliente.input"
-              :disabled="status == 'b'"
+              :disabled="status == 'b' || (status == 'i' && pedido_itens_filtro_apelido)"
               type="text"
               name="cliente"
               id="cliente"
@@ -274,6 +289,7 @@ watch(status, async (newStatus) => {
               type="text"
               name="bordado"
               id="bordado"
+              ref="inputBordado"
               placeholder="Bordado"
               list="bordado-list"
             >
