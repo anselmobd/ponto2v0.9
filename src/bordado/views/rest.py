@@ -162,6 +162,7 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
                     pedido=pedido,
                     ordem=1,
                     bordado=bordado,
+                    usuario=self.request.user,
                 )
                 pedido_item.save()
 

@@ -101,6 +101,8 @@ class PedidoSerializer(serializers.HyperlinkedModelSerializer):
 class PedidoItemSerializer(serializers.HyperlinkedModelSerializer):
     pedido = PedidoSerializer()
     bordado = BordadoSerializer()
+    usuario = UserSerializer()
+
     class Meta:
         model = PedidoItem
         fields = [
@@ -112,6 +114,7 @@ class PedidoItemSerializer(serializers.HyperlinkedModelSerializer):
             'quantidade',
             'preco',
             'cancelado',
+            'usuario',
         ]
 
 
