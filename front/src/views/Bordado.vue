@@ -45,7 +45,7 @@ function clearErrors() {
 // DB API calls (do) and callbacks (cb)
 
 function cbGetPedidoItens(data, error) {
-  if (data) pedido_itens.value = data;
+  if (data?.results) pedido_itens.value = data.results;
   pedido_itens_loading.value = false;
 }
 

@@ -8,7 +8,7 @@ export function getPedidoItens(callBack) {
     {params: params}
   )
   .then(response => {
-    callBack(response.data.results);
+    callBack(response.data);
   })
   .catch(error => {
     console.error('Erro ao obter pedido_itens via API:', error)
