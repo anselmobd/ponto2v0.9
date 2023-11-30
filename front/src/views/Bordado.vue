@@ -11,6 +11,7 @@ const auth = useAuthStore();
 // const { user } = storeToRefs(auth)
 
 const pedido_itens = ref(null);
+const pedido_itens_loading = ref(false);
 var pedido_itens_index = '';
 const status = ref('b'); // browsing editing inserting
 const cliente = ref({
@@ -45,6 +46,12 @@ function clearErrors() {
 
 function cbGetPedidoItens(data, error) {
   if (data) pedido_itens.value = data;
+  pedido_itens_loading.value = false;
+}
+
+function doGetPedidoItens() {
+  pedido_itens_loading.value = true;
+  getPedidoItens(cbGetPedidoItens);
 }
 
 function cbGetClientes(data, error) {
@@ -91,7 +98,7 @@ function doAddClienteBordado() {
 function cbDelClienteBordado(index) {
   if (index != -1) {
     apagaItemNaTela(index);
-    getPedidoItens(cbGetPedidoItens);
+    doGetPedidoItens();
   }
 }
 
@@ -146,9 +153,9 @@ function handleApagarClick(event) {
   if (answer) doDelClienteBordado(index);
 }
 
-function reloadPage(event) {
-  console.log('reload');
-  location.reload();
+function reloadPedidoItens(event) {
+  event.preventDefault();
+  doGetPedidoItens();
 }
 
 // generic functions
@@ -182,7 +189,7 @@ function inputClienteFocus() {
 // Lifecycle Hooks
 
 onMounted(() => {
-  getPedidoItens(cbGetPedidoItens);
+  doGetPedidoItens();
 })
 
 // watch
@@ -197,7 +204,7 @@ watch(status, async (newStatus) => {
 
 <template>
   <div>
-    <h4 class="text-xl text-center font-bold bg-sky-900 text-slate-100">Pedido <a href="#" @click="reloadPage">&olarr;</a></h4>
+    <h4 class="text-xl text-center font-bold bg-sky-900 text-slate-100">Pedido <a href="#" @click="reloadPedidoItens">&olarr;</a></h4>
     <table class="w-full">
       <thead>
         <tr>
@@ -256,8 +263,11 @@ watch(status, async (newStatus) => {
         </tr>
       </thead>
       <tbody>
-        <tr v-if="!pedido_itens">
-          <td colspan="5">Carregando últimos pedidos...</td>
+        <tr v-if="pedido_itens_loading">
+          <td colspan="5">
+            <span v-if="pedido_itens">Recarregando</span>
+            <span v-else>Carregando</span>
+            últimos pedidos...</td>
         </tr>
         <tr
           v-for="(pedido_item, index) in pedido_itens"
@@ -278,6 +288,11 @@ watch(status, async (newStatus) => {
               @click="handleApagarClick"
               :disabled="status != 'b'"
             >Apagar</button>
+            <router-link
+              class="button text-lg"
+              :to="{ name: 'home' }"
+              :exact-active-class="'text-sky-600'"
+            >&vrtri;</router-link>
           </td>
         </tr>
       </tbody>
@@ -292,7 +307,7 @@ watch(status, async (newStatus) => {
 th, td {
   @apply border border-solid border-slate-300 text-center
 }
-button {
+button, .button {
   @apply mx-0.5 my-[1px] px-2 py-0.5 rounded-lg bg-sky-700 font-bold text-slate-100
 }
 button:disabled {
