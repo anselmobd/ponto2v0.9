@@ -48,7 +48,7 @@ function clearErrors() {
 
 // DB API calls (do) and callbacks (cb)
 
-function cbGetPedidoItens(data, error) {
+function cbGetFirstsPedidoItens(data, error) {
   if (data) {
     if (data?.results) pedido_itens.value = data.results;
     pedido_itens_next.value = data.next;
@@ -56,12 +56,12 @@ function cbGetPedidoItens(data, error) {
   pedido_itens_loading.value = false;
 }
 
-function doGetPedidoItens() {
+function doGetFirstsPedidoItens() {
   pedido_itens_next.value = 1;
-  doCallPedidoItens(cbGetPedidoItens)
+  doGetPedidoItens(cbGetFirstsPedidoItens)
 }
 
-function cbAppendGetPedidoItens(data, error) {
+function cbGetMorePedidoItens(data, error) {
   if (data) {
     if (data?.results) pedido_itens.value = pedido_itens.value.concat(data.results);
     pedido_itens_next.value = data.next;
@@ -69,11 +69,11 @@ function cbAppendGetPedidoItens(data, error) {
   pedido_itens_loading.value = false;
 }
 
-function doAppendGetPedidoItens() {
-  doCallPedidoItens(cbAppendGetPedidoItens)
+function doGetMorePedidoItens() {
+  doGetPedidoItens(cbGetMorePedidoItens)
 }
 
-function doCallPedidoItens(callBack) {
+function doGetPedidoItens(callBack) {
   pedido_itens_loading.value = true;
   getPedidoItens({
     page: pedido_itens_next.value,
@@ -126,7 +126,7 @@ function doAddClienteBordado() {
 function cbDelClienteBordado(index) {
   if (index != -1) {
     apagaItemNaTela(index);
-    doGetPedidoItens();
+    doGetFirstsPedidoItens();
   }
 }
 
@@ -163,7 +163,7 @@ function handleSalvaFiltraClick(event) {
     pedido_itens_filtro_apelido.value = cliente.value.input;
     clearInputs();
     status.value = 'b';
-    doGetPedidoItens();
+    doGetFirstsPedidoItens();
   }
 }
 
@@ -176,7 +176,7 @@ function handleFiltroClick(event) {
 function handleCancelaFiltroClick(event) {
   event.preventDefault();
   pedido_itens_filtro_apelido.value = null;
-  doGetPedidoItens();
+  doGetFirstsPedidoItens();
 }
 
 function handleApagarClick(event) {
@@ -188,12 +188,12 @@ function handleApagarClick(event) {
 
 function reloadPedidoItens(event) {
   event.preventDefault();
-  doGetPedidoItens();
+  doGetFirstsPedidoItens();
 }
 
 function handleMaisPedidosClick(event) {
   event.preventDefault();
-  doAppendGetPedidoItens();
+  doGetMorePedidoItens();
 }
 
 // generic functions
@@ -233,7 +233,7 @@ function inputBordadoFocus() {
 // Lifecycle Hooks
 
 onMounted(() => {
-  doGetPedidoItens();
+  doGetFirstsPedidoItens();
 })
 
 // watch
