@@ -257,8 +257,16 @@ watch(status, async (newStatus) => {
               @click="handleSalvaClick"
               :hidden="status == 'b'"
             >Salva</button>
-            <button @click="handleCancelaClick" :hidden="status == 'b'" type="button">Cancela</button>
-            <button @click="handleNovoClick" :hidden="status != 'b'" type="button">Novo</button>
+            <button
+              type="button"
+              @click="handleCancelaClick"
+              :hidden="status == 'b'"
+            >Cancela</button>
+            <button
+              type="button"
+              @click="handleNovoClick"
+              :hidden="status != 'b'"
+            >Novo</button>
           </th>
         </tr>
       </thead>
