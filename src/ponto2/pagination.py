@@ -12,13 +12,17 @@ class CustomPageNumberPagination(PageNumberPagination):
             previous = self.page.previous_page_number()
         except Exception:
             previous = None
+        try:
+            next = self.page.next_page_number()
+        except Exception:
+            next = None
         return Response({
             'count': self.page.paginator.count,
             'per_page': self.page.paginator.per_page,
             'page': self.page.number,
             'next_link': self.get_next_link(),
             'previous_link': self.get_previous_link(),
-            'next': self.page.next_page_number(),
+            'next': next,
             'previous': previous,
             'results': data,
         })
