@@ -256,7 +256,7 @@ watch(status, async (newStatus) => {
       </thead>
       <tbody>
         <tr v-if="!pedido_itens">
-          <td colspan="4">Carregando últimos pedidos...</td>
+          <td colspan="5">Carregando últimos pedidos...</td>
         </tr>
         <tr
           v-for="(pedido_item, index) in pedido_itens"
