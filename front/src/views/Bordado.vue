@@ -201,11 +201,13 @@ watch(status, async (newStatus) => {
       <thead>
         <tr>
           <th>Data</th>
+          <th>Pedido</th>
           <th>Cliente</th>
           <th>Bordado</th>
           <th>Ações</th>
         </tr>
         <tr class="table__tr-input">
+          <th>-</th>
           <th>-</th>
           <th>
             <span class="text-sm text-red-700 font-bold" v-if="cliente.error" >{{ cliente.error }}<br /></span>
@@ -261,6 +263,7 @@ watch(status, async (newStatus) => {
           :key="pedido_item.id"
         >
           <td :title="`key:${pedido_item.id} index:${index}`">{{pedidoItemInseridoEmData(pedido_item)}}</td>
+          <td>{{pedido_item.id}}</td>
           <td>{{pedido_item.pedido.cliente.apelido}}</td>
           <td>{{pedido_item.bordado.nome}}</td>
           <td>
