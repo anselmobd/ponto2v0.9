@@ -15,7 +15,7 @@ const pedido_itens_next = ref(null);
 const pedido_itens_loading = ref(false);
 var pedido_itens_index = '';
 
-const status = ref('b'); // browsing editing inserting
+const status = ref('b'); // browsing inserting filtering
 const cliente = ref({
   input: '',
   error: '',
@@ -143,19 +143,13 @@ function handleCancelaClick(event) {
 
 function handleSalvaClick(event) {
   event.preventDefault();
-  clearErrors();
-  if (pedido_itens_index) {
-    console.log('salva edit')
-    pedidoItemParaTela('');
+  if (status.value == 'i') {
+    clearErrors();
+    doAddClienteBordado();
+  } else if (status.value == 'f') {
+    console.log('aplica filtro')
     clearInputs();
-  } else {
-    if (status.value == 'i') {
-      doAddClienteBordado();
-    } else {
-      console.log('aplica filtro')
-      clearInputs();
-      status.value = 'b';
-    }
+    status.value = 'b';
   }
 }
 
@@ -163,15 +157,6 @@ function handleFiltroClick(event) {
   event.preventDefault();
   clearInputs();
   status.value = 'f';
-}
-
-function handleEditarClick(event) {
-  event.preventDefault();
-  const index = event.target.value;
-  cliente.value.input = pedido_itens.value[index].pedido.cliente.apelido;
-  bordado.value.input = pedido_itens.value[index].bordado.nome;
-  pedido_itens_index = index;
-  status.value = 'e';
 }
 
 function handleApagarClick(event) {
@@ -326,11 +311,6 @@ watch(status, async (newStatus) => {
           <td>{{pedido_item.pedido.cliente.apelido}}</td>
           <td>{{pedido_item.bordado.nome}}</td>
           <td>
-            <!-- <button
-              :value="index"
-              @click="handleEditarClick"
-              :disabled="status != 'b'"
-            >Editar</button> -->
             <button
               :value="index"
               @click="handleApagarClick"
