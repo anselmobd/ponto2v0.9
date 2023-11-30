@@ -17,7 +17,7 @@ __all__ = [
 ]
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
@@ -28,7 +28,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True
 
 
-class ClienteSerializer(serializers.HyperlinkedModelSerializer):
+class ClienteSerializer(serializers.ModelSerializer):
     # usuario = UserSerializer()
     class Meta:
         model = Cliente
@@ -47,7 +47,7 @@ class ClienteSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class DificuldadeBordadoSerializer(serializers.HyperlinkedModelSerializer):
+class DificuldadeBordadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = DificuldadeBordado
         fields = [
@@ -57,7 +57,7 @@ class DificuldadeBordadoSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class BordadoSerializer(serializers.HyperlinkedModelSerializer):
+class BordadoSerializer(serializers.ModelSerializer):
     cliente = ClienteSerializer()
     dificuldade = DificuldadeBordadoSerializer()
     class Meta:
@@ -73,7 +73,7 @@ class BordadoSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class SetBordadoSerializer(serializers.HyperlinkedModelSerializer):
+class SetBordadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bordado
         fields = [
@@ -85,7 +85,7 @@ class SetBordadoSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class PedidoSerializer(serializers.HyperlinkedModelSerializer):
+class PedidoSerializer(serializers.ModelSerializer):
     cliente = ClienteSerializer()
     class Meta:
         model = Pedido
@@ -98,7 +98,7 @@ class PedidoSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class PedidoItemSerializer(serializers.HyperlinkedModelSerializer):
+class PedidoItemSerializer(serializers.ModelSerializer):
     pedido = PedidoSerializer()
     bordado = BordadoSerializer()
     usuario = UserSerializer()
@@ -118,7 +118,7 @@ class PedidoItemSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class OrdemProducaoSerializer(serializers.HyperlinkedModelSerializer):
+class OrdemProducaoSerializer(serializers.ModelSerializer):
     pedido_item = PedidoItemSerializer()
     class Meta:
         model = OrdemProducao
@@ -131,7 +131,7 @@ class OrdemProducaoSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class ApontamentoProducaoSerializer(serializers.HyperlinkedModelSerializer):
+class ApontamentoProducaoSerializer(serializers.ModelSerializer):
     op = OrdemProducaoSerializer()
     class Meta:
         model = ApontamentoProducao
