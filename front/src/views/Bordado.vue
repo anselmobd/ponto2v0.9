@@ -149,8 +149,20 @@ function handleSalvaClick(event) {
     pedidoItemParaTela('');
     clearInputs();
   } else {
-    doAddClienteBordado();
+    if (status.value == 'i') {
+      doAddClienteBordado();
+    } else {
+      console.log('aplica filtro')
+      clearInputs();
+      status.value = 'b';
+    }
   }
+}
+
+function handleFiltroClick(event) {
+  event.preventDefault();
+  clearInputs();
+  status.value = 'f';
 }
 
 function handleEditarClick(event) {
@@ -236,8 +248,10 @@ watch(status, async (newStatus) => {
           <th>Ações</th>
         </tr>
         <tr class="table__tr-input">
-          <th>-</th>
-          <th>-</th>
+          <th colspan="2">
+            <span class="font-bold" v-if="status == 'i'">Inserindo</span>
+            <span class="font-bold" v-if="status == 'f'">Filtrando</span>
+          </th>
           <th>
             <span class="text-sm text-red-700 font-bold" v-if="cliente.error" >{{ cliente.error }}<br /></span>
             <input
@@ -260,7 +274,7 @@ watch(status, async (newStatus) => {
             <input
               class="mx-0.5 border border-solid border-slate-500 disabled:border-slate-200"
               v-model.trim="bordado.input"
-              :disabled="status == 'b'"
+              :disabled="status != 'i'"
               @focus="doGetBordados"
               type="text"
               name="bordado"
@@ -288,6 +302,11 @@ watch(status, async (newStatus) => {
               @click="handleNovoClick"
               :hidden="status != 'b'"
             >Novo</button>
+            <button
+              type="button"
+              @click="handleFiltroClick"
+              :hidden="status != 'b'"
+            >Filtro</button>
           </th>
         </tr>
       </thead>
