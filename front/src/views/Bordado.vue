@@ -11,7 +11,7 @@ const auth = useAuthStore();
 // const { user } = storeToRefs(auth)
 
 const pedido_itens = ref(null);
-const pedido_itens_next = ref(null);
+const pedido_itens_next = ref(1);
 const pedido_itens_loading = ref(false);
 const pedido_itens_filtro_apelido = ref(null);
 var pedido_itens_index = '';
@@ -57,11 +57,8 @@ function cbGetPedidoItens(data, error) {
 }
 
 function doGetPedidoItens() {
-  pedido_itens_loading.value = true;
-  getPedidoItens({
-    cliente_apelido: pedido_itens_filtro_apelido.value,
-    callBack: cbGetPedidoItens
-  });
+  pedido_itens_next.value = 1;
+  doCallPedidoItens(cbGetPedidoItens)
 }
 
 function cbAppendGetPedidoItens(data, error) {
@@ -69,13 +66,19 @@ function cbAppendGetPedidoItens(data, error) {
     if (data?.results) pedido_itens.value = pedido_itens.value.concat(data.results);
     pedido_itens_next.value = data.next;
   }
+  pedido_itens_loading.value = false;
 }
 
 function doAppendGetPedidoItens() {
+  doCallPedidoItens(cbAppendGetPedidoItens)
+}
+
+function doCallPedidoItens(callBack) {
+  pedido_itens_loading.value = true;
   getPedidoItens({
     page: pedido_itens_next.value,
     cliente_apelido: pedido_itens_filtro_apelido.value,
-    callBack: cbAppendGetPedidoItens
+    callBack: callBack
   });
 }
 
@@ -330,9 +333,11 @@ watch(status, (newStatus) => {
       <tbody>
         <tr v-if="pedido_itens_loading">
           <td colspan="5">
-            <span v-if="pedido_itens">Recarregando</span>
-            <span v-else>Carregando</span>
-            os pedidos mais recentes...</td>
+            <span v-if="pedido_itens_next == 1 && !pedido_itens">Carregando</span>
+            <span v-if="pedido_itens_next == 1 && pedido_itens">Recarregando</span>
+            <span v-if="pedido_itens_next == 1"> os pedidos mais recentes...</span>
+            <span v-if="pedido_itens_next > 1">Carregando mais pedidos...</span>
+          </td>
         </tr>
         <tr
           v-for="(pedido_item, index) in pedido_itens"
@@ -348,11 +353,10 @@ watch(status, (newStatus) => {
               @click="handleApagarClick"
               :disabled="status != 'b'"
             >Apagar</button>
-            <router-link
+            <button
               class="button text-lg"
-              :to="{ name: 'home' }"
               :disabled="status != 'b'"
-            >&vrtri;</router-link>
+            >&vrtri;</button>
           </td>
         </tr>
       </tbody>
