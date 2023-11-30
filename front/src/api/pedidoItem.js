@@ -1,14 +1,24 @@
 import { axiosPrivate } from '../common/axiosPrivate.js';
 
-export function getPedidoItens({page=1, callBack=()=>{}}) {
+export function getPedidoItens({
+  page=1,
+  cliente_apelido=null,
+  callBack=()=>{}
+}) {
   const params = new URLSearchParams();
   params.append('format', 'json');
-  params.append('page', page);
+  if (page && page >1) {
+    params.append('page', page);
+  }
+  if (cliente_apelido) {
+    params.append('pedido__cliente__apelido', cliente_apelido);
+  }
   axiosPrivate.get(
     '/bordado/api/pedido_item/',
     {params: params}
   )
   .then(response => {
+    console.log(response.data);
     callBack(response.data);
   })
   .catch(error => {
