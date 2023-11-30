@@ -18,14 +18,14 @@ __all__ = [
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name="bordado:user-detail")
     class Meta:
         model = User
         fields = [
-            'url',
+            'id',
             'username',
             'email',
         ]
+        read_only=True
 
 
 class ClienteSerializer(serializers.HyperlinkedModelSerializer):

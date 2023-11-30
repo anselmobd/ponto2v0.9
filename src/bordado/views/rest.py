@@ -36,7 +36,7 @@ __ACTIONS = ('create', 'retrieve', 'update', 'partial_update', 'destroy', 'list'
 
 @extend_schema_view(
     **dict_keys_value(__ACTIONS, extend_schema(tags=['user'])))
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
