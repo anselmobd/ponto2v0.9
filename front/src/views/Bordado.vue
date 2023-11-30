@@ -170,6 +170,12 @@ function handleFiltroClick(event) {
   status.value = 'f';
 }
 
+function handleCancelaFiltroClick(event) {
+  event.preventDefault();
+  pedido_itens_filtro_apelido.value = null;
+  doGetPedidoItens();
+}
+
 function handleApagarClick(event) {
   event.preventDefault();
   const index = event.target.value;
@@ -253,7 +259,7 @@ watch(status, (newStatus) => {
         <tr>
           <th>Data</th>
           <th>Pedido</th>
-          <th>Cliente<span v-if="pedido_itens_filtro_apelido" ><br />{{ pedido_itens_filtro_apelido }}</span></th>
+          <th>Cliente<span v-if="pedido_itens_filtro_apelido" ><br/><span class="text-indigo-700">{{ pedido_itens_filtro_apelido }}</span><a href="#" class="button" @click="handleCancelaFiltroClick">&cross;</a></span></th>
           <th>Bordado</th>
           <th>Ações</th>
         </tr>
