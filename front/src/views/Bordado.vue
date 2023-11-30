@@ -145,6 +145,11 @@ function handleApagarClick(event) {
   doDelClienteBordado(index);
 }
 
+function reloadPage(event) {
+  console.log('reload');
+  location.reload();
+}
+
 // generic functions
 
 function pedidoItemParaTela(pedido_item) {
@@ -191,7 +196,7 @@ watch(status, async (newStatus) => {
 
 <template>
   <div>
-    <h4 class="text-xl text-center font-bold bg-sky-900 text-slate-100">Pedido</h4>
+    <h4 class="text-xl text-center font-bold bg-sky-900 text-slate-100">Pedido <a href="#" @click="reloadPage">&olarr;</a></h4>
     <table class="w-full">
       <thead>
         <tr>
