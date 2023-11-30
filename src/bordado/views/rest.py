@@ -2,6 +2,7 @@ from pprint import pprint
 
 from django.contrib.auth.models import User
 from django.db.models.deletion import ProtectedError
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import (
     generics,
     permissions,
@@ -59,7 +60,6 @@ class DificuldadeBordadoViewSet(viewsets.ModelViewSet):
     serializer_class = DificuldadeBordadoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-
 @extend_schema_view(
     **dict_keys_value(__ACTIONS, extend_schema(tags=['bordado'])))
 class BordadoViewSet(viewsets.ModelViewSet):
@@ -83,6 +83,8 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
     queryset = PedidoItem.objects.all().order_by('-inserido_em')
     serializer_class = PedidoItemSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['pedido__cliente__apelido']
 
     def destroy(self, request, *args, **kwargs):
         """Alé de apagar o PedidoItem indicado, apaga também o pedido,
