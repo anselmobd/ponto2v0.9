@@ -283,7 +283,7 @@ watch(status, (newStatus) => {
           <th>
             <span class="text-sm text-red-700 font-bold" v-if="cliente.error" >{{ cliente.error }}<br /></span>
             <input
-              class="mx-0.5 border border-solid border-slate-500 disabled:border-slate-200"
+              class="mx-0.5 border border-solid border-slate-500 disabled:border-slate-200 rounded"
               v-model.trim="cliente.input"
               :disabled="status == 'b' || (status == 'i' && pedido_itens_filtro_apelido)"
               type="text"
@@ -300,7 +300,7 @@ watch(status, (newStatus) => {
           <th>
             <span class="text-sm text-red-700 font-bold" v-if="bordado.error" >{{ bordado.error }}<br /></span>
             <input
-              class="mx-0.5 border border-solid border-slate-500 disabled:border-slate-200"
+              class="mx-0.5 border border-solid border-slate-500 disabled:border-slate-200 rounded"
               v-model.trim="bordado.input"
               :disabled="status != 'i'"
               @focus="doGetBordados"
