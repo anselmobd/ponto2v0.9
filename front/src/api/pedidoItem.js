@@ -18,7 +18,6 @@ export function getPedidoItens({
     {params: params}
   )
   .then(response => {
-    console.log(response.data);
     callBack(response.data);
   })
   .catch(error => {
