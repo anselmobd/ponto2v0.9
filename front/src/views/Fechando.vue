@@ -26,6 +26,10 @@ const valor = ref(0)
 const valor_final = ref(0)
 const alerta = ref('')
 
+// variaveis
+
+var inputValorFinalFocused = false;
+
 // DB API calls (do) and callbacks (cb)
 
 function cbPedidoItem(data, error) {
@@ -73,7 +77,15 @@ watch(programacao, (_) => {
 })
 
 watch(ajuste, (_) => {
-  calcValorFinal();
+  if (!inputValorFinalFocused) {
+    calcValorFinal();
+  }
+})
+
+watch(valor_final, (_) => {
+  if (inputValorFinalFocused) {
+    calcAjuste();
+  }
 })
 
 // generic functions
@@ -84,9 +96,16 @@ function calcValor() {
 }
 
 function calcValorFinal() {
-  const calculo = quantidade.value * valor_unitario.value +
-      programacao.value + ajuste.value;
+  const calculo = quantidade.value * valor_unitario.value
+    + programacao.value + ajuste.value;
   valor_final.value = ptBrCurrencyFormat.format(calculo);
+}
+
+function calcAjuste() {
+  const calculo = valor_final.value
+    - quantidade.value * valor_unitario.value
+    - programacao.value;
+  ajuste.value = ptBrCurrencyFormat.format(calculo);
 }
 
 </script>
@@ -191,7 +210,18 @@ function calcValorFinal() {
                   required>
               </td>
               <td>
-                 {{ valor_final }}
+                 <input
+                  class="px-2 py-1 w-24 border-2 rounded"
+                  type="number"
+                  step="0.01"
+                  name="valor_final"
+                  id="valor_final"
+                  placeholder="0,00"
+                  v-model="valor_final"
+                  @focus="inputValorFinalFocused = true"
+                  @blur="inputValorFinalFocused = false"
+                  @input="alerta = ''"
+                  required>
               </td>
             </tr>
           </tbody>
