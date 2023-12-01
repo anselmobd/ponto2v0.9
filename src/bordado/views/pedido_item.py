@@ -144,6 +144,9 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
             pedido_item.preco = request.data['valor_unitario']
             pedido_item.save()
 
+            pedido_item.pedido.entrega = request.data['data_entrega']
+            pedido_item.pedido.save()
+
             return Response(
                 PedidoItemSerializer(pedido_item).data,
                 status=status.HTTP_200_OK,

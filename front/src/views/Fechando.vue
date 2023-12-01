@@ -46,8 +46,9 @@ function cbPedidoItem(data, error) {
     pedido_item.value = data;
     const date = new Date(pedido_item.value.inserido_em);
     inserido_em.value = dateTime2Text(date);
-    quantidade.value = pedido_item.value.quantidade
-    valor_unitario.value = parseFloat(pedido_item.value.preco)
+    quantidade.value = pedido_item.value.quantidade;
+    valor_unitario.value = parseFloat(pedido_item.value.preco);
+    data_entrega.value = pedido_item.value.pedido.entrega;
   }
 }
 
