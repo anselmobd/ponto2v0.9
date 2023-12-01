@@ -257,7 +257,7 @@ watch(status, (newStatus) => {
 
 <template>
   <div>
-    <h4 class="text-xl text-center font-bold bg-sky-900 text-slate-100">Pedido <a href="#" @click="reloadPedidoItens">&olarr;</a></h4>
+    <h4 class="text-xl text-center font-bold bg-sky-900 text-slate-100">Pedido <a @click="reloadPedidoItens">&olarr;</a></h4>
     <table class="w-full">
       <thead>
         <tr>
@@ -344,7 +344,7 @@ watch(status, (newStatus) => {
           v-for="(pedido_item, index) in pedido_itens"
           :key="pedido_item.id"
         >
-          <td :title="`key:${pedido_item.id} index:${index}`">{{pedidoItemInseridoEmData(pedido_item)}}</td>
+          <td :title="`Usuário: ${pedido_item.usuario.username}`">{{pedidoItemInseridoEmData(pedido_item)}}</td>
           <td>{{pedido_item.id}}</td>
           <td>{{pedido_item.pedido.cliente.apelido}}</td>
           <td>{{pedido_item.bordado.nome}}</td>
