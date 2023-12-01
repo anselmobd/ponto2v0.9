@@ -48,6 +48,8 @@ function cbPedidoItem(data, error) {
     inserido_em.value = dateTime2Text(date);
     quantidade.value = pedido_item.value.quantidade;
     valor_unitario.value = parseFloat(pedido_item.value.preco);
+    programacao.value = parseFloat(pedido_item.value.programacao);
+    ajuste.value = parseFloat(pedido_item.value.ajuste);
     data_entrega.value = pedido_item.value.pedido.entrega;
   }
 }
