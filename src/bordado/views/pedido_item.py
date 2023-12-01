@@ -25,13 +25,12 @@ from bordado.serializers import (
 )
 from o2lib.dict import dict_keys_value
 
+from bordado.views.rest_consts import *
+
 
 __all__ = [
     'PedidoItemViewSet',
 ]
-
-
-__ACTIONS = ('create', 'retrieve', 'update', 'partial_update', 'destroy', 'list')
 
 
 @extend_schema_view(
@@ -131,3 +130,9 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
                 return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
         return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        pprint(request)
+        pprint(args)
+        pprint(kwargs)
+        raise Exception

@@ -19,6 +19,7 @@ from bordado.serializers import *
 from o2lib.dict import dict_keys_value
 
 from bordado.views.pedido_item import PedidoItemViewSet
+from bordado.views.rest_consts import *
 
 
 __all__ = [
@@ -31,9 +32,6 @@ __all__ = [
     'OrdemProducaoViewSet',
     'ApontamentoProducaoViewSet',
 ]
-
-
-__ACTIONS = ('create', 'retrieve', 'update', 'partial_update', 'destroy', 'list')
 
 
 @extend_schema_view(
