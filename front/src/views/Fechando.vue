@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
-import { getPedidoItem } from '../api/pedidoItem.js';
+import { getPedidoItem, saveFechamento } from '../api/pedidoItem.js';
 import { dateTime2Text, date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
@@ -46,6 +46,8 @@ function cbPedidoItem(data, error) {
     pedido_item.value = data;
     const date = new Date(pedido_item.value.inserido_em);
     inserido_em.value = dateTime2Text(date);
+    quantidade.value = pedido_item.value.quantidade
+    valor_unitario.value = parseFloat(pedido_item.value.preco)
   }
 }
 
@@ -56,16 +58,50 @@ function doGetPedidoItem() {
   });
 }
 
+function cbSaveFechamento(data, error) {
+  if (data) {
+    console.log('salvo fechamento')
+    console.log(data);
+  }
+  if (error) {
+    console.log('erro salvando fechamento')
+    console.log(error);
+  };
+}
+
+function doSaveFechamento() {
+  console.log('doSaveFechamento');
+  if (
+    data_entrega?.value &&
+    quantidade?.value &&
+    valor_unitario?.value
+  ) {
+    console.log('doSaveFechamento if');
+    saveFechamento({
+      id: route.params.id,
+      data_entrega: data_entrega.value,
+      quantidade: quantidade.value,
+      valor_unitario: valor_unitario.value,
+      programacao: programacao.value,
+      ajuste: ajuste.value,
+      callBack: cbSaveFechamento,
+    });
+  }
+}
+
 // events
 
 function formGrava() {
   console.log('grava');
+  doSaveFechamento();
 }
 
 // Lifecycle Hooks
 
 onMounted(() => {
   doGetPedidoItem();
+  calcValor();
+  calcValorFinal();
 })
 
 // watch
