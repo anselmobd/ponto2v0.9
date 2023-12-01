@@ -47,7 +47,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <h2 class="my-4 font-bold text-lg">Fechando pedido <span class="text-indigo-700">{{ route.params.id }}</span></h2>
+    <h2 class="my-4 font-bold text-xl">Fechando pedido <span class="text-indigo-700">{{ route.params.id }}</span></h2>
     <div v-if="pedido_item">
       <table class="w-full">
         <thead>
@@ -67,31 +67,42 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
+      <h3 class="my-4 font-bold text-lg">Dados do bordado</h3>
       <form @submit.prevent="formGrava()">
-        <p class="my-4">
-          <label class="block" for="username">Data de entrega</label>
-          <input
-            class="px-2 py-1 w-40 border-2 rounded-xl"
-            type="date"
-            name="data"
-            id="data"
-            v-focus
-            v-model="data"
-            @input="alerta = ''"
-            required>
-        </p>
-        <p class="my-4">
-          <label class="block" for="password">Quantidade</label>
-          <input
-            class="px-2 py-1 w-24 border-2 rounded-xl"
-            type="number"
-            name="quantidade"
-            id="quantidade"
-            placeholder="0"
-            v-model="quantidade"
-            @input="alerta = ''"
-            required>
-        </p>
+        <table class="w-full">
+          <thead>
+            <tr>
+              <th><label for="data">Data de entrega</label></th>
+              <th><label for="quantidade">Quantidade</label></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input
+                  class="px-2 py-1 w-40 border-2 rounded"
+                  type="date"
+                  name="data"
+                  id="data"
+                  v-focus
+                  v-model="data"
+                  @input="alerta = ''"
+                  required>
+              </td>
+              <td>
+                <input
+                  class="px-2 py-1 w-24 border-2 rounded"
+                  type="number"
+                  name="quantidade"
+                  id="quantidade"
+                  placeholder="0"
+                  v-model="quantidade"
+                  @input="alerta = ''"
+                  required>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <p v-if="alerta" class="my-4 text-red-600">{{ alerta }}</p>
         <button
           class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
