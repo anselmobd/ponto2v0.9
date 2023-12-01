@@ -26,6 +26,25 @@ export function getPedidoItens({
   });
 }
 
+export function getPedidoItem({
+  id=null,
+  callBack=()=>{}
+}) {
+  const params = new URLSearchParams();
+  params.append('format', 'json');
+  axiosPrivate.get(
+    `/bordado/api/pedido_item/${id}/`,
+    {params: params}
+  )
+  .then(response => {
+    callBack(response.data);
+  })
+  .catch(error => {
+    console.error('Erro ao obter pedido_item '+id+' via API:', error)
+    callBack(null, error);
+  });
+}
+
 export function addClienteBordado(
   cliente_apelido,
   bordado_nome,
