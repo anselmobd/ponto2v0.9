@@ -5,6 +5,9 @@ import { getPedidoItem } from '../api/pedidoItem.js';
 import { dateTime2Text, date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
+// TODO
+// - valores: não permitir valores com fração de centavo
+
 const route = useRoute();
 
 // valores recebidos de DB
