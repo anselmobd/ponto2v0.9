@@ -1,8 +1,9 @@
 <script setup>
 import { useRoute } from "vue-router";
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { getPedidoItem } from '../api/pedidoItem.js';
 import { dateTime2Text } from "../utils/date.js";
+import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
 const route = useRoute();
 
@@ -13,14 +14,16 @@ const inserido_em = ref(null)
 
 // valores em inputs
 
-const data = ref('')
-const quantidade = ref('')
-const valor_unitario = ref('')
-const programacao = ref('0,00')
-const ajuste = ref('0,00')
+const data = ref(null)
+const quantidade = ref(0)
+const valor_unitario = ref(0)
+const programacao = ref(0)
+const ajuste = ref(0)
 
 // outros valores reativos
 
+const valor = ref(0)
+const valor_final = ref(0)
 const alerta = ref('')
 
 // DB API calls (do) and callbacks (cb)
@@ -52,6 +55,39 @@ function formGrava() {
 onMounted(() => {
   doGetPedidoItem();
 })
+
+// watch
+
+watch(quantidade, (_) => {
+  calcValor();
+  calcValorFinal();
+})
+
+watch(valor_unitario, (_) => {
+  calcValor();
+  calcValorFinal();
+})
+
+watch(programacao, (_) => {
+  calcValorFinal();
+})
+
+watch(ajuste, (_) => {
+  calcValorFinal();
+})
+
+// generic functions
+
+function calcValor() {
+  const calculo = quantidade.value * valor_unitario.value;
+  valor.value = ptBrCurrencyFormat.format(calculo);
+}
+
+function calcValorFinal() {
+  const calculo = quantidade.value * valor_unitario.value +
+      programacao.value + ajuste.value;
+  valor_final.value = ptBrCurrencyFormat.format(calculo);
+}
 
 </script>
 
@@ -85,8 +121,10 @@ onMounted(() => {
               <th><label for="data">Data de entrega</label></th>
               <th><label for="quantidade">Quantidade</label></th>
               <th><label for="valor_unitario">Valor unitário</label></th>
+              <th>Valor</th>
               <th><label for="programacao">Programação</label></th>
               <th><label for="ajuste">Ajuste</label></th>
+              <th>Valor final</th>
             </tr>
           </thead>
           <tbody>
@@ -126,6 +164,9 @@ onMounted(() => {
                   required>
               </td>
               <td>
+                 {{ valor }}
+              </td>
+              <td>
                 <input
                   class="px-2 py-1 w-24 border-2 rounded"
                   type="number"
@@ -148,6 +189,9 @@ onMounted(() => {
                   v-model="ajuste"
                   @input="alerta = ''"
                   required>
+              </td>
+              <td>
+                 {{ valor_final }}
               </td>
             </tr>
           </tbody>
