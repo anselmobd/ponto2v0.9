@@ -105,7 +105,7 @@ export function saveFechamento({
   params.append('format', 'json');
   params.append('tipo', 'fechamento');
 
-  axiosPrivate.post(
+  axiosPrivate.put(
     `/bordado/api/pedido_item/${id}/`,
     {
       data_entrega: data_entrega,
