@@ -113,6 +113,8 @@ class PedidoItemSerializer(serializers.ModelSerializer):
             'bordado',
             'quantidade',
             'preco',
+            'programacao',
+            'ajuste',
             'cancelado',
             'usuario',
         ]
