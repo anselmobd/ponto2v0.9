@@ -47,12 +47,26 @@ onMounted(() => {
 
 <template>
   <div>
-    <h2 class="my-4 font-bold text-lg">Fechando pedido {{ route.params.id }}</h2>
+    <h2 class="my-4 font-bold text-lg">Fechando pedido <span class="text-indigo-700">{{ route.params.id }}</span></h2>
     <div v-if="pedido_item">
-      <p class="my-4">Cliente: {{ pedido_item.pedido.cliente.apelido }}</p>
-      <p class="my-4">Bordado: {{ pedido_item.bordado.nome }}</p>
-      <p class="my-4">Inserido em: {{ inserido_em }}</p>
-      <p class="my-4">Usuário: {{ pedido_item.usuario.username }}</p>
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Usuário</th>
+            <th>Data</th>
+            <th>Cliente</th>
+            <th>Bordado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ pedido_item.usuario.username }}</td>
+            <td>{{inserido_em}}</td>
+            <td>{{pedido_item.pedido.cliente.apelido}}</td>
+            <td>{{pedido_item.bordado.nome}}</td>
+          </tr>
+        </tbody>
+      </table>
       <form @submit.prevent="formGrava()">
         <p class="my-4">
           <label class="block" for="username">Data de entrega</label>
@@ -87,3 +101,9 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+th, td {
+  @apply border border-solid border-slate-300 text-center
+}
+</style>
