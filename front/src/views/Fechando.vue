@@ -6,11 +6,21 @@ import { dateTime2Text } from "../utils/date.js";
 
 const route = useRoute();
 
+// valores recebidos de DB
+
 const pedido_item = ref('')
 const inserido_em = ref(null)
 
+// valores em inputs
+
 const data = ref('')
 const quantidade = ref('')
+const valor_unitario = ref('')
+const programacao = ref('0,00')
+const ajuste = ref('0,00')
+
+// outros valores reativos
+
 const alerta = ref('')
 
 // DB API calls (do) and callbacks (cb)
@@ -33,8 +43,8 @@ function doGetPedidoItem() {
 
 // events
 
-function formGrava(event) {
-  event.preventDefault();
+function formGrava() {
+  console.log('grava');
 }
 
 // Lifecycle Hooks
@@ -68,12 +78,15 @@ onMounted(() => {
         </tbody>
       </table>
       <h3 class="my-4 font-bold text-lg">Dados do bordado</h3>
-      <form @submit.prevent="formGrava()">
+        <form @submit.prevent="formGrava()">
         <table class="w-full">
           <thead>
             <tr>
               <th><label for="data">Data de entrega</label></th>
               <th><label for="quantidade">Quantidade</label></th>
+              <th><label for="valor_unitario">Valor unitário</label></th>
+              <th><label for="programacao">Programação</label></th>
+              <th><label for="ajuste">Ajuste</label></th>
             </tr>
           </thead>
           <tbody>
@@ -100,12 +113,48 @@ onMounted(() => {
                   @input="alerta = ''"
                   required>
               </td>
+              <td>
+                <input
+                  class="px-2 py-1 w-24 border-2 rounded"
+                  type="number"
+                  step="0.01"
+                  name="valor_unitario"
+                  id="valor_unitario"
+                  placeholder="0,00"
+                  v-model="valor_unitario"
+                  @input="alerta = ''"
+                  required>
+              </td>
+              <td>
+                <input
+                  class="px-2 py-1 w-24 border-2 rounded"
+                  type="number"
+                  step="0.01"
+                  name="programacao"
+                  id="programacao"
+                  placeholder="0,00"
+                  v-model="programacao"
+                  @input="alerta = ''"
+                  required>
+              </td>
+              <td>
+                <input
+                  class="px-2 py-1 w-24 border-2 rounded"
+                  type="number"
+                  step="0.01"
+                  name="ajuste"
+                  id="ajuste"
+                  placeholder="0,00"
+                  v-model="ajuste"
+                  @input="alerta = ''"
+                  required>
+              </td>
             </tr>
           </tbody>
         </table>
         <p v-if="alerta" class="my-4 text-red-600">{{ alerta }}</p>
         <button
-          class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
+          class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100 float-right"
           type="submit"
         >Grava</button>
       </form>
@@ -114,6 +163,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+table  {
+  @apply my-4
+}
 th, td {
   @apply border border-solid border-slate-300 text-center
 }
