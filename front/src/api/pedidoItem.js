@@ -92,19 +92,21 @@ export function delClienteBordado(
   });
 }
 
-export function saveFechamento(
-  data_entrega,
-  quantidade,
-  valor_unitario,
-  programacao,
-  ajuste,
-  callBack
-) {
+export function saveFechamento({
+  id=null,
+  data_entrega=null,
+  quantidade=null,
+  valor_unitario=null,
+  programacao=null,
+  ajuste=null,
+  callBack=()=>{}
+}) {
   const params = new URLSearchParams();
   params.append('format', 'json');
+  params.append('tipo', 'fechamento');
 
   axiosPrivate.post(
-    '/bordado/api/pedido_item/',
+    `/bordado/api/pedido_item/${id}/`,
     {
       data_entrega: data_entrega,
       quantidade: quantidade,
