@@ -135,4 +135,12 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
         pprint(request)
         pprint(args)
         pprint(kwargs)
-        raise Exception
+
+        pedido_item = PedidoItem.objects.get(
+            id=kwargs['pk']
+        )
+
+        return Response(
+            PedidoItemSerializer(pedido_item).data,
+            status=status.HTTP_200_OK,
+        )
