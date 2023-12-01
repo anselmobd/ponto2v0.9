@@ -8,6 +8,7 @@ from rest_framework import (
     status,
 )
 from rest_framework.response import Response
+from rest_framework.request import Request
 from drf_spectacular.utils import (
     extend_schema_view,
     extend_schema,
@@ -132,31 +133,19 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        print('update')
-        pprint(request)
-        pprint(args)
-        pprint(kwargs)
+        if request.query_params.get('tipo', '-') == 'fechamento':
+            pprint(request.data)
 
-        pedido_item = PedidoItem.objects.get(
-            id=kwargs['pk']
-        )
+            pedido_item = PedidoItem.objects.get(
+                id=kwargs['pk']
+            )
 
-        return Response(
-            PedidoItemSerializer(pedido_item).data,
-            status=status.HTTP_200_OK,
-        )
+            pedido_item.quantidade = request.data['quantidade']
+            pedido_item.preco = request.data['valor_unitario']
+            pedido_item.save()
 
-    def partial_update(self, request, *args, **kwargs):
-        print('partial_update')
-        pprint(request)
-        pprint(args)
-        pprint(kwargs)
-
-        pedido_item = PedidoItem.objects.get(
-            id=kwargs['pk']
-        )
-
-        return Response(
-            PedidoItemSerializer(pedido_item).data,
-            status=status.HTTP_200_OK,
-        )
+            return Response(
+                PedidoItemSerializer(pedido_item).data,
+                status=status.HTTP_200_OK,
+            )
+        return super().update(request, *args, **kwargs)
