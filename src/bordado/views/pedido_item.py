@@ -132,6 +132,22 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
+        print('update')
+        pprint(request)
+        pprint(args)
+        pprint(kwargs)
+
+        pedido_item = PedidoItem.objects.get(
+            id=kwargs['pk']
+        )
+
+        return Response(
+            PedidoItemSerializer(pedido_item).data,
+            status=status.HTTP_200_OK,
+        )
+
+    def partial_update(self, request, *args, **kwargs):
+        print('partial_update')
         pprint(request)
         pprint(args)
         pprint(kwargs)
