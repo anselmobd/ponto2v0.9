@@ -91,3 +91,34 @@ export function delClienteBordado(
     callBack(-1);
   });
 }
+
+export function saveFechamento(
+  data_entrega,
+  quantidade,
+  valor_unitario,
+  programacao,
+  ajuste,
+  callBack
+) {
+  const params = new URLSearchParams();
+  params.append('format', 'json');
+
+  axiosPrivate.post(
+    '/bordado/api/pedido_item/',
+    {
+      data_entrega: data_entrega,
+      quantidade: quantidade,
+      valor_unitario: valor_unitario,
+      programacao: programacao,
+      ajuste: ajuste
+    },
+    {params: params},
+  )
+  .then(response => {
+    callBack(response.data);
+  })
+  .catch(error => {
+    console.error('Erro ao salvar dados de fechamento via API:', error);
+    callBack(null, error.response.data);
+  });
+}
