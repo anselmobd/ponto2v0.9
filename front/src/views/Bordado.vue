@@ -1,4 +1,5 @@
 <script setup>
+import router from '@/router'
 import { ref, watch, nextTick, onMounted } from 'vue'
 import { storeToRefs } from 'pinia';
 import { dateTime2Text } from "../utils/date.js";
@@ -197,6 +198,12 @@ function handleMaisPedidosClick(event) {
   doGetMorePedidoItens();
 }
 
+function handleFechandoClick(event) {
+  event.preventDefault();
+  const id = event.target.value;
+  router.push({ name: 'fechando', params: { id: id } });
+}
+
 // generic functions
 
 function pedidoItemParaTela(pedido_item) {
@@ -355,7 +362,8 @@ watch(status, (newStatus) => {
               :disabled="status != 'b'"
             >Apagar</button>
             <button
-              class="button text-lg"
+              :value="pedido_item.id"
+              @click="handleFechandoClick"
               :disabled="status != 'b'"
             >&vrtri;</button>
           </td>
