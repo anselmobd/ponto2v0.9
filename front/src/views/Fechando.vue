@@ -51,7 +51,13 @@ function cbPedidoItem(data, error) {
     valor_unitario.value = parseFloat(pedido_item.value.preco);
     programacao.value = parseFloat(pedido_item.value.programacao);
     ajuste.value = parseFloat(pedido_item.value.ajuste);
-    data_entrega.value = pedido_item.value.pedido.entrega;
+    if (pedido_item.value.pedido.entrega) {
+      data_entrega.value = pedido_item.value.pedido.entrega;
+    } else {
+      if (!data_entrega.value) {
+        data_entrega.value = strDoisDiasDepois;
+      }
+    }
   }
 }
 
