@@ -272,6 +272,19 @@ class PedidoItem(models.Model):
         validators=[MinValueValidator(0.01), MaxValueValidator(1_000_000)],
         default=0,
     )
+    programacao = models.DecimalField(
+        'Pogramação',
+        max_digits=9,
+        decimal_places=2,
+        validators=[MinValueValidator(0.01), MaxValueValidator(1_000_000)],
+        default=0,
+    )
+    ajuste = models.DecimalField(
+        max_digits=7,
+        decimal_places=2,
+        validators=[MinValueValidator(-1_000), MaxValueValidator(1_000)],
+        default=0,
+    )
     cancelado = models.BooleanField(
         default=False,
     )

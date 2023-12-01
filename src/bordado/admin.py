@@ -104,6 +104,8 @@ class PedidoItemAdmin(admin.ModelAdmin):
         'bordado',
         'quantidade',
         'preco',
+        'programacao',
+        'ajuste',
         'cancelado',
     ]
     readonly_fields = [
