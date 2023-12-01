@@ -4,6 +4,7 @@ import { ref, onMounted, watch } from 'vue'
 import { getPedidoItem, saveFechamento } from '../api/pedidoItem.js';
 import { dateTime2Text, date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
+import { floatRound } from "../utils/number.js";
 
 // TODO
 // - valores: não permitir valores com fração de centavo
@@ -145,14 +146,14 @@ function calcValor() {
 function calcValorFinal() {
   const calculo = quantidade.value * valor_unitario.value
     + programacao.value + ajuste.value;
-  valor_final.value = ptBrCurrencyFormat.format(calculo);
+  valor_final.value = floatRound(calculo, 2);
 }
 
 function calcAjuste() {
   const calculo = valor_final.value
     - quantidade.value * valor_unitario.value
     - programacao.value;
-  ajuste.value = ptBrCurrencyFormat.format(calculo);
+  ajuste.value = floatRound(calculo, 2);
 }
 
 </script>
