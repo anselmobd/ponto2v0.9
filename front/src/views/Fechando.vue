@@ -2,7 +2,7 @@
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
 import { getPedidoItem } from '../api/pedidoItem.js';
-import { dateTime2Text } from "../utils/date.js";
+import { dateTime2Text, date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
 const route = useRoute();
@@ -12,9 +12,19 @@ const route = useRoute();
 const pedido_item = ref('')
 const inserido_em = ref(null)
 
+// variaveis comuns
+
+  // para data de entrega
+const dataAtual = new Date();
+const doisDiasDepois = new Date(dataAtual.getTime() + (2 * 86400000));
+const strDoisDiasDepois = date2InputText(doisDiasDepois);
+
+  // auxiliar para cálculos
+var inputValorFinalFocused = false;
+
 // valores em inputs
 
-const data = ref(null)
+const data_entrega = ref(strDoisDiasDepois)
 const quantidade = ref(0)
 const valor_unitario = ref(0)
 const programacao = ref(0)
@@ -26,15 +36,10 @@ const valor = ref(0)
 const valor_final = ref(0)
 const alerta = ref('')
 
-// variaveis
-
-var inputValorFinalFocused = false;
-
 // DB API calls (do) and callbacks (cb)
 
 function cbPedidoItem(data, error) {
   if (data) {
-    console.log(data);
     pedido_item.value = data;
     const date = new Date(pedido_item.value.inserido_em);
     inserido_em.value = dateTime2Text(date);
@@ -137,7 +142,7 @@ function calcAjuste() {
         <table class="w-full">
           <thead>
             <tr>
-              <th><label for="data">Data de entrega</label></th>
+              <th><label for="data_entrega">Data de entrega</label></th>
               <th><label for="quantidade">Quantidade</label></th>
               <th><label for="valor_unitario">Valor unitário</label></th>
               <th>Valor</th>
@@ -152,10 +157,10 @@ function calcAjuste() {
                 <input
                   class="px-2 py-1 w-40 border-2 rounded"
                   type="date"
-                  name="data"
-                  id="data"
+                  name="data_entrega"
+                  id="data_entrega"
                   v-focus
-                  v-model="data"
+                  v-model="data_entrega"
                   @input="alerta = ''"
                   required>
               </td>
