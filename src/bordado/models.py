@@ -269,7 +269,7 @@ class PedidoItem(models.Model):
         'Preço',
         max_digits=9,
         decimal_places=2,
-        validators=[MinValueValidator(1), MaxValueValidator(1_000_000)],
+        validators=[MinValueValidator(0.01), MaxValueValidator(1_000_000)],
         default=0,
     )
     cancelado = models.BooleanField(
