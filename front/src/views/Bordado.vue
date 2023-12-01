@@ -268,6 +268,7 @@ watch(status, (newStatus) => {
     <table class="w-full">
       <thead>
         <tr>
+          <th>Usuário</th>
           <th>Data</th>
           <th>Pedido</th>
           <th>Cliente<span v-if="pedido_itens_filtro_apelido" ><br/><span class="text-indigo-700">{{ pedido_itens_filtro_apelido }}</span><a href="#" class="button" @click="handleCancelaFiltroClick">&cross;</a></span></th>
@@ -275,7 +276,7 @@ watch(status, (newStatus) => {
           <th>Ações</th>
         </tr>
         <tr class="table__tr-input">
-          <th colspan="2">
+          <th colspan="3">
             <span class="font-bold" v-if="status == 'i'">Inserindo</span>
             <span class="font-bold" v-if="status == 'f'">Filtrando</span>
           </th>
@@ -340,7 +341,7 @@ watch(status, (newStatus) => {
       </thead>
       <tbody>
         <tr v-if="pedido_itens_loading">
-          <td colspan="5">
+          <td colspan="6">
             <span v-if="pedido_itens_next == 1 && !pedido_itens">Carregando</span>
             <span v-if="pedido_itens_next == 1 && pedido_itens">Recarregando</span>
             <span v-if="pedido_itens_next == 1"> os pedidos mais recentes...</span>
@@ -351,7 +352,8 @@ watch(status, (newStatus) => {
           v-for="(pedido_item, index) in pedido_itens"
           :key="pedido_item.id"
         >
-          <td :title="`Usuário: ${pedido_item.usuario.username}`">{{pedidoItemInseridoEmData(pedido_item)}}</td>
+          <td>{{ pedido_item.usuario.username }}</td>
+          <td>{{pedidoItemInseridoEmData(pedido_item)}}</td>
           <td>{{pedido_item.id}}</td>
           <td>{{pedido_item.pedido.cliente.apelido}}</td>
           <td>{{pedido_item.bordado.nome}}</td>
