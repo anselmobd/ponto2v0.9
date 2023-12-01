@@ -359,6 +359,7 @@ watch(status, (newStatus) => {
           <td>{{pedido_item.bordado.nome}}</td>
           <td>
             <button
+              v-if="!pedido_item.quantidade"
               :value="index"
               @click="handleApagarClick"
               :disabled="status != 'b'"
