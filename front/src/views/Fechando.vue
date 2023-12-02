@@ -16,7 +16,7 @@ const route = useRoute();
 const pedido_item = ref('')
 const inserido_em = ref(null)
 const pedido_itens_bordado = ref([])
-// const pedido_itens_cliente = ref([])
+const pedido_itens_cliente = ref([])
 
 // variaveis comuns
 
@@ -137,6 +137,20 @@ function doGetFirstsPedidoItensBordado(callBack) {
   });
 }
 
+function cbGetFirstsPedidoItensCliente(data, error) {
+  if (data) {
+    console.log('cbGetFirstsPedidoItensCliente', data)
+    if (data?.results) pedido_itens_cliente.value = data.results;
+  }
+}
+
+function doGetFirstsPedidoItensCliente(callBack) {
+  console.log('doGetFirstsPedidoItensCliente', pedido_item)
+  getPedidoItens({
+    cliente_apelido: pedido_item.value.pedido.cliente.apelido,
+    callBack: cbGetFirstsPedidoItensCliente
+  });
+}
 
 // events
 
@@ -162,7 +176,8 @@ onMounted(() => {
 
 watch(pedido_item, (_) => {
   if (pedido_item) {
-    doGetFirstsPedidoItensBordado();  
+    doGetFirstsPedidoItensBordado();
+    doGetFirstsPedidoItensCliente();
   }
 })
 
@@ -346,7 +361,7 @@ function calcAjuste() {
     </div>
 
     <div v-if="pedido_itens_bordado">
-      <h3 class="my-4 font-bold text-lg">Dados dos últimos pedidos desse bordado</h3>
+      <h3 class="my-4 font-bold text-lg">Últimos pedidos desse bordado</h3>
       <table class="w-full">
         <thead>
           <tr>
@@ -361,16 +376,61 @@ function calcAjuste() {
         </thead>
         <tbody>
           <tr
-            v-for="pedido_item in pedido_itens_bordado"
-            :key="pedido_item.id" :hidden="pedido_item.quantidade == 0 || pedido_item.id == route.params.id"
+            v-for="pedido_item_bord in pedido_itens_bordado"
+            :key="pedido_item_bord.id" :hidden="pedido_item_bord.quantidade == 0 || pedido_item_bord.id == route.params.id"
           >
-            <td>{{ pedido_item.id }}</td>
-            <td>{{ pedido_item.quantidade }}</td>
-            <td>{{ pedido_item.preco }}</td>
-            <td>{{ pedido_item.quantidade * pedido_item.preco }}</td>
-            <td>{{ pedido_item.programacao }}</td>
-            <td>{{ pedido_item.ajuste }}</td>
-            <td>{{ (pedido_item.quantidade * pedido_item.preco) + pedido_item.programacao + pedido_item.ajuste }}</td>
+            <td>{{ pedido_item_bord.id }}</td>
+            <td>{{ pedido_item_bord.quantidade }}</td>
+            <td>{{ ptBrCurrencyFormat.format(pedido_item_bord.preco) }}</td>
+            <td>{{ ptBrCurrencyFormat.format(pedido_item_bord.quantidade * pedido_item_bord.preco) }}</td>
+            <td>{{ ptBrCurrencyFormat.format(pedido_item_bord.programacao) }}</td>
+            <td>{{ ptBrCurrencyFormat.format(pedido_item_bord.ajuste) }}</td>
+            <td>{{ ptBrCurrencyFormat.format(
+              (pedido_item_bord.quantidade * pedido_item_bord.preco)
+              + parseFloat(pedido_item_bord.programacao) + parseFloat(pedido_item_bord.ajuste)
+            ) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div v-if="pedido_itens_cliente">
+      <h3 class="my-4 font-bold text-lg">Últimos pedidos de outros bordados desse cliente</h3>
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Pedido</th>
+            <th>Bordado</th>
+            <th>Quantidade</th>
+            <th>Valor unitário</th>
+            <th>Valor</th>
+            <th>Programação</th>
+            <th>Ajuste</th>
+            <th>Valor final</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="pedido_item_clie in pedido_itens_cliente"
+            :key="pedido_item_clie.id"
+            :hidden="
+              pedido_item_clie.quantidade == 0
+              || pedido_item_clie.id == route.params.id
+              || pedido_item_clie.bordado.nome == pedido_item.bordado.nome
+            "
+          >
+            <td>{{ pedido_item_clie.id }}</td>
+            <td>{{ pedido_item_clie.bordado.nome }}</td>
+            <td>{{ pedido_item_clie.quantidade }}</td>
+            <td>{{ ptBrCurrencyFormat.format(pedido_item_clie.preco) }}</td>
+            <td>{{ ptBrCurrencyFormat.format(pedido_item_clie.quantidade * pedido_item_clie.preco) }}</td>
+            <td>{{ ptBrCurrencyFormat.format(pedido_item_clie.programacao) }}</td>
+            <td>{{ ptBrCurrencyFormat.format(pedido_item_clie.ajuste) }}</td>
+            <td>{{ ptBrCurrencyFormat.format(
+              (pedido_item_clie.quantidade * pedido_item_clie.preco)
+              + parseFloat(pedido_item_clie.programacao) + parseFloat(pedido_item_clie.ajuste)
+            ) }}</td>
           </tr>
         </tbody>
       </table>
