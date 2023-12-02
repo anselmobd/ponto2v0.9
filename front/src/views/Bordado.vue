@@ -204,6 +204,12 @@ function handleFechandoClick(event) {
   router.push({ name: 'fechando', params: { id: id } });
 }
 
+function handleFinanceiroClick(event) {
+  event.preventDefault();
+  const id = event.target.value;
+  router.push({ name: 'financeiro', params: { id: id } });
+}
+
 // generic functions
 
 function pedidoItemParaTela(pedido_item) {
@@ -372,6 +378,14 @@ watch(status, (newStatus) => {
               :disabled="status != 'b'"
               title="Fecha pedido"
             >🪡</button>
+            <button
+              v-if="pedido_item.quantidade"
+              class="button-text-shadow"
+              :value="pedido_item.id"
+              @click="handleFinanceiroClick"
+              :disabled="status != 'b'"
+              title="Financeiro"
+            >💲</button>
           </td>
         </tr>
       </tbody>
