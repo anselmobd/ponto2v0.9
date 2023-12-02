@@ -132,27 +132,15 @@ onMounted(() => {
         <table class="w-full">
           <thead>
             <tr>
-              <th>Valor</th>
               <th>Tipo</th>
               <th>Nº NF</th>
+              <th>Valor</th>
               <th>Data</th>
               <th>Parcelamento</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>
-                <input
-                  class="w-36 mx-0.5 border border-solid border-slate-500 rounded"
-                  v-model="comunicado.valor_total"
-                  type="number"
-                  step="0.01"
-                  name="valor_total"
-                  id="valor_total"
-                  placeholder="0,00"
-                  required
-                >
-              </td>
               <td>
                 <input
                   class="mx-0.5 border border-solid border-slate-500 rounded"
@@ -178,6 +166,18 @@ onMounted(() => {
                   name="nf"
                   id="nf"
                   placeholder="999"
+                >
+              </td>
+              <td>
+                <input
+                  class="w-36 mx-0.5 border border-solid border-slate-500 rounded"
+                  v-model="comunicado.valor_total"
+                  type="number"
+                  step="0.01"
+                  name="valor_total"
+                  id="valor_total"
+                  placeholder="0,00"
+                  required
                 >
               </td>
               <td>
@@ -222,6 +222,30 @@ onMounted(() => {
           >Cancela</button>
         </p>
       </div>
+
+      <h3 class="my-4 font-bold text-lg text-center">Comunicados</h3>
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Nº</th>
+            <th>Tipo</th>
+            <th>Nº NF</th>
+            <th>Valor</th>
+            <th>Data</th>
+            <th>Parcelamento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
 
     </div>
   </div>
