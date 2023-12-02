@@ -332,6 +332,59 @@ class PedidoItem(models.Model):
     natural_key.dependencies = ['bordado.pedido']
 
 
+class Cobranca(models.Model):
+    admin_order = 550
+    valor = models.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        validators=[MinValueValidator(0.01), MaxValueValidator(1_000_000)],
+        default=0,
+    )
+    tipo = models.CharField(
+        max_length=50,
+    )
+    nf = models.PositiveIntegerField(
+        'NF',
+        blank=True,
+        null=True,
+    )
+    data = models.DateField(
+        blank=True,
+        null=True,
+    )
+    parcelamento = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+    )
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        verbose_name="usuário",
+    )
+    quando = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        result = f'{self.id}: {self.tipo}'
+        if self.nf:
+             result = f'{result} ({self.nf})'
+        return result
+
+    def cleanned_usuario(self):
+        return SingletonLoggedInUser().user
+
+    def clean(self):
+        super().clean()
+        self.usuario = self.cleanned_usuario()
+
+    class Meta:
+        db_table = "po2_cobranca"
+        verbose_name = "Cobrança"
+        ordering = ['-id']
+
+
 class OrdemProducao(models.Model):
     admin_order = 600
     numero = models.AutoField(
