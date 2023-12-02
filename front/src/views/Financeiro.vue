@@ -11,6 +11,7 @@ const route = useRoute();
 
 const pedido_itens = ref('')
 const pedidos_selecionados = ref([])
+const comunicado = ref({})
 
 // DB API calls (do) and callbacks (cb)
 
@@ -32,6 +33,15 @@ function doGetPedidoItens(callBack) {
   });
 }
 
+// events
+
+function handleComunicarClick(event) {
+  event.preventDefault(pedidos_selecionados.value);
+  comunicado.value.valor_total = pedido_itens.value.map((ped_item) => {
+    return pedidos_selecionados.value.includes(ped_item.id) ? ped_item.valor_final : 0
+  }).reduce((soma, valor) => soma + valor, 0);
+}
+
 // Lifecycle Hooks
 
 onMounted(() => {
@@ -51,6 +61,7 @@ onMounted(() => {
       <h3 class="my-4 font-bold text-lg text-center">Pedidos</h3>
       <button
         class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
+        @click="handleComunicarClick"
       >Comunicar</button>
 
       <table class="w-full">
@@ -81,6 +92,39 @@ onMounted(() => {
             <td>{{pedido_item.id}}</td>
             <td>{{pedido_item.bordado.nome}}</td>
             <td class="!text-right">{{ ptBrCurrencyFormat.format(pedido_item.valor_final) }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="my-4 font-bold text-lg text-center">Inserindo comunicado</h3>
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Valor</th>
+            <th>Tipo</th>
+            <th>Nº NF</th>
+            <th>Data</th>
+            <th>Parcelamento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input
+                  class="px-2 py-1 w-24 border-2 rounded"
+                  type="number"
+                  step="0.01"
+                  name="valor_total"
+                  id="valor_total"
+                  placeholder="0,00"
+                  v-model="comunicado.valor_total"
+                  @input="alerta = ''"
+                  required>
+            </td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
           </tr>
         </tbody>
       </table>
