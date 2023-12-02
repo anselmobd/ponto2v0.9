@@ -15,6 +15,7 @@ __all__ = [
     'Bordado',
     'Pedido',
     'PedidoItem',
+    'Cobranca',
     'OrdemProducao',
     'ApontamentoProducao',
 ]
