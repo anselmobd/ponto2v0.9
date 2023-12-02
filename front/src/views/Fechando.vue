@@ -306,14 +306,16 @@ function calcAjuste() {
           </tbody>
         </table>
         <p v-if="alerta" class="my-4 text-red-600">{{ alerta }}</p>
-        <button
-          class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100 float-right"
-          type="submit"
-        >Grava</button>
-        <button
-          class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100 float-left"
-          @click="handleApagaClick"
-        >Apaga fechamento</button>
+        <p class="flex flex-row-reverse place-content-between">
+          <button
+            class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
+            type="submit"
+          >Grava</button>
+          <button
+            class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
+            @click="handleApagaClick"
+          >Apaga fechamento</button>
+        </p>
       </form>
     </div>
   </div>
