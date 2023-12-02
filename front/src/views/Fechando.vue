@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
-import { getPedidoItem, saveFechamento, delFechamento } from '../api/pedidoItem.js';
+import { getPedidoItem, saveFechamento, delFechamento, getPedidoItens } from '../api/pedidoItem.js';
 import { dateTime2Text, date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 import { floatRound } from "../utils/number.js";
@@ -15,6 +15,8 @@ const route = useRoute();
 
 const pedido_item = ref('')
 const inserido_em = ref(null)
+const pedido_itens_bordado = ref([])
+// const pedido_itens_cliente = ref([])
 
 // variaveis comuns
 
@@ -119,6 +121,23 @@ function doDelFechamento() {
   });
 }
 
+function cbGetFirstsPedidoItensBordado(data, error) {
+  if (data) {
+    console.log('cbGetFirstsPedidoItensBordado', data)
+    if (data?.results) pedido_itens_bordado.value = data.results;
+  }
+}
+
+function doGetFirstsPedidoItensBordado(callBack) {
+  console.log('doGetFirstsPedidoItensBordado', pedido_item)
+  getPedidoItens({
+    cliente_apelido: pedido_item.value.pedido.cliente.apelido,
+    bordado_nome: pedido_item.value.bordado.nome,
+    callBack: cbGetFirstsPedidoItensBordado
+  });
+}
+
+
 // events
 
 function formGrava() {
@@ -140,6 +159,12 @@ onMounted(() => {
 })
 
 // watch
+
+watch(pedido_item, (_) => {
+  if (pedido_item) {
+    doGetFirstsPedidoItensBordado();  
+  }
+})
 
 watch(quantidade, (_) => {
   calcValor();
@@ -211,6 +236,7 @@ function calcAjuste() {
           </tr>
         </tbody>
       </table>
+
       <h3 class="my-4 font-bold text-lg">Dados do bordado</h3>
         <form @submit.prevent="formGrava()">
         <table class="w-full">
@@ -318,6 +344,38 @@ function calcAjuste() {
         </p>
       </form>
     </div>
+
+    <div v-if="pedido_itens_bordado">
+      <h3 class="my-4 font-bold text-lg">Dados dos últimos pedidos desse bordado</h3>
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Pedido</th>
+            <th>Quantidade</th>
+            <th>Valor unitário</th>
+            <th>Valor</th>
+            <th>Programação</th>
+            <th>Ajuste</th>
+            <th>Valor final</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="pedido_item in pedido_itens_bordado"
+            :key="pedido_item.id" :hidden="pedido_item.quantidade == 0 || pedido_item.id == route.params.id"
+          >
+            <td>{{ pedido_item.id }}</td>
+            <td>{{ pedido_item.quantidade }}</td>
+            <td>{{ pedido_item.preco }}</td>
+            <td>{{ pedido_item.quantidade * pedido_item.preco }}</td>
+            <td>{{ pedido_item.programacao }}</td>
+            <td>{{ pedido_item.ajuste }}</td>
+            <td>{{ (pedido_item.quantidade * pedido_item.preco) + pedido_item.programacao + pedido_item.ajuste }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </template>
 
