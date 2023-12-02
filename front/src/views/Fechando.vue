@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
-import { getPedidoItem, saveFechamento } from '../api/pedidoItem.js';
+import { getPedidoItem, saveFechamento, delFechamento } from '../api/pedidoItem.js';
 import { dateTime2Text, date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 import { floatRound } from "../utils/number.js";
@@ -54,9 +54,7 @@ function cbPedidoItem(data, error) {
     if (pedido_item.value.pedido.entrega) {
       data_entrega.value = pedido_item.value.pedido.entrega;
     } else {
-      if (!data_entrega.value) {
-        data_entrega.value = strDoisDiasDepois;
-      }
+      data_entrega.value = strDoisDiasDepois;
     }
   }
 }
@@ -99,11 +97,38 @@ function doSaveFechamento() {
   }
 }
 
+function cbDelFechamento(data, error) {
+  if (data) {
+    console.log('apagado fechamento')
+    console.log(data);
+    doGetPedidoItem();
+    calcValor();
+    calcValorFinal();
+  }
+  if (error) {
+    console.log('erro apagando fechamento')
+    console.log(error);
+  };
+}
+
+function doDelFechamento() {
+  console.log('doDelFechamento');
+  delFechamento({
+    id: route.params.id,
+    callBack: cbDelFechamento,
+  });
+}
+
 // events
 
 function formGrava() {
   console.log('grava');
   doSaveFechamento();
+}
+
+function handleApagaClick(event) {
+  event.preventDefault();
+  doDelFechamento();
 }
 
 // Lifecycle Hooks
@@ -285,6 +310,10 @@ function calcAjuste() {
           class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100 float-right"
           type="submit"
         >Grava</button>
+        <button
+          class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100 float-left"
+          @click="handleApagaClick"
+        >Apaga fechamento</button>
       </form>
     </div>
   </div>
