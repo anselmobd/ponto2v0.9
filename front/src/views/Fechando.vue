@@ -384,9 +384,6 @@ function calcAjuste() {
           <tr
             v-for="pedido_item_bord in pedido_itens_bordado"
             :key="pedido_item_bord.id"
-            :hidden="
-              pedido_item_bord.quantidade == 0 
-            "
           >
             <td>{{ pedido_item_bord.id }}</td>
             <td>{{ pedido_item_bord.quantidade }}</td>
@@ -422,9 +419,6 @@ function calcAjuste() {
           <tr
             v-for="pedido_item_clie in pedido_itens_cliente"
             :key="pedido_item_clie.id"
-            :hidden="
-              pedido_item_clie.quantidade == 0
-            "
           >
             <td>{{ pedido_item_clie.id }}</td>
             <td>{{ pedido_item_clie.bordado.nome }}</td>
