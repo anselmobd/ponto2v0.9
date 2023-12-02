@@ -44,6 +44,25 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
     filterset_fields = ['pedido__cliente__apelido']
 
     def destroy(self, request, *args, **kwargs):
+        if request.query_params.get('tipo', '-') == 'fechamento':
+            pedido_item = PedidoItem.objects.get(
+                id=kwargs['pk']
+            )
+
+            pedido_item.quantidade = 0
+            pedido_item.preco = 0
+            pedido_item.programacao = 0
+            pedido_item.ajuste = 0
+            pedido_item.save()
+
+            pedido_item.pedido.entrega = None
+            pedido_item.pedido.save()
+
+            return Response(
+                PedidoItemSerializer(pedido_item).data,
+                status=status.HTTP_200_OK,
+            )
+
         """Alé de apagar o PedidoItem indicado, apaga também o pedido,
         o bordado e o cliente, desde que estes não sejam utilizados por 
         nenhum outro registro.
@@ -134,8 +153,6 @@ class PedidoItemViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         if request.query_params.get('tipo', '-') == 'fechamento':
-            pprint(request.data)
-
             pedido_item = PedidoItem.objects.get(
                 id=kwargs['pk']
             )
