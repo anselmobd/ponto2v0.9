@@ -80,13 +80,11 @@ function cbSaveFechamento(data, error) {
 }
 
 function doSaveFechamento() {
-  console.log('doSaveFechamento');
   if (
     data_entrega?.value &&
     quantidade?.value &&
     valor_unitario?.value
   ) {
-    console.log('doSaveFechamento if');
     saveFechamento({
       id: route.params.id,
       data_entrega: data_entrega.value,
@@ -114,7 +112,6 @@ function cbDelFechamento(data, error) {
 }
 
 function doDelFechamento() {
-  console.log('doDelFechamento');
   delFechamento({
     id: route.params.id,
     callBack: cbDelFechamento,
@@ -123,7 +120,6 @@ function doDelFechamento() {
 
 function cbGetFirstsPedidoItensBordado(data, error) {
   if (data) {
-    console.log('cbGetFirstsPedidoItensBordado', data)
     if (data?.results) pedido_itens_bordado.value =
       data.results.filter((item) => {
         return item.id != route.params.id
@@ -132,7 +128,6 @@ function cbGetFirstsPedidoItensBordado(data, error) {
 }
 
 function doGetFirstsPedidoItensBordado(callBack) {
-  console.log('doGetFirstsPedidoItensBordado', pedido_item)
   getPedidoItens({
     cliente_apelido: pedido_item.value.pedido.cliente.apelido,
     bordado_nome: pedido_item.value.bordado.nome,
@@ -142,7 +137,6 @@ function doGetFirstsPedidoItensBordado(callBack) {
 
 function cbGetFirstsPedidoItensCliente(data, error) {
   if (data) {
-    console.log('cbGetFirstsPedidoItensCliente', data.results);
     if (data?.results) pedido_itens_cliente.value = 
       data.results.filter((item) => {
         return item.bordado.nome != pedido_item.value.bordado.nome
@@ -151,7 +145,6 @@ function cbGetFirstsPedidoItensCliente(data, error) {
 }
 
 function doGetFirstsPedidoItensCliente(callBack) {
-  console.log('doGetFirstsPedidoItensCliente', pedido_item)
   getPedidoItens({
     cliente_apelido: pedido_item.value.pedido.cliente.apelido,
     callBack: cbGetFirstsPedidoItensCliente
@@ -161,7 +154,6 @@ function doGetFirstsPedidoItensCliente(callBack) {
 // events
 
 function formGrava() {
-  console.log('grava');
   doSaveFechamento();
 }
 
