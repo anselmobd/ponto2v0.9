@@ -24,6 +24,18 @@ const comunicado = ref({})
 
 const status = ref('b'); // 'b' browsing; 'c' inserting comunicado;
 
+// get set refs
+
+function clearComunicado() {
+  comunicado.value = {
+    valor_total: 0,
+    tipo: '',
+    nf: null,
+    data: strDataAtual,
+    parcelamento: '',
+  };
+}
+
 // DB API calls (do) and callbacks (cb)
 
 function cbGetPedidoItens(data, error) {
@@ -47,12 +59,18 @@ function doGetPedidoItens(callBack) {
 // events
 
 function handleComunicarClick(event) {
-  event.preventDefault(pedidos_selecionados.value);
+  event.preventDefault();
   comunicado.value.valor_total = pedido_itens.value.map((ped_item) => {
     return pedidos_selecionados.value.includes(ped_item.id) ? ped_item.valor_final : 0
   }).reduce((soma, valor) => soma + valor, 0);
   comunicado.value.data = strDataAtual;
   status.value = 'c';
+}
+
+function handleCancelaClick(event) {
+  event.preventDefault();
+  status.value = 'b';
+  clearComunicado();
 }
 
 // Lifecycle Hooks
@@ -193,7 +211,18 @@ onMounted(() => {
             </tr>
           </tbody>
         </table>
+        <p class="flex flex-row-reverse place-content-between">
+          <button
+            type="button"
+            @click="handleSalvaFiltraClick"
+          >Grava</button>
+          <button
+            type="button"
+            @click="handleCancelaClick"
+          >Cancela</button>
+        </p>
       </div>
+
     </div>
   </div>
 </template>
