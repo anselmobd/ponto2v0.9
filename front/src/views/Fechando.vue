@@ -68,10 +68,17 @@ function doGetPedidoItem() {
   });
 }
 
+function doGetPedidoItemAndCalc() {
+  doGetPedidoItem();
+  calcValor();
+  calcValorFinal();
+}
+
 function cbSaveFechamento(data, error) {
   if (data) {
     console.log('salvo fechamento')
     console.log(data);
+    doGetPedidoItemAndCalc();
   }
   if (error) {
     console.log('erro salvando fechamento')
@@ -101,9 +108,7 @@ function cbDelFechamento(data, error) {
   if (data) {
     console.log('apagado fechamento')
     console.log(data);
-    doGetPedidoItem();
-    calcValor();
-    calcValorFinal();
+    doGetPedidoItemAndCalc();
   }
   if (error) {
     console.log('erro apagando fechamento')
@@ -165,9 +170,7 @@ function handleApagaClick(event) {
 // Lifecycle Hooks
 
 onMounted(() => {
-  doGetPedidoItem();
-  calcValor();
-  calcValorFinal();
+  doGetPedidoItemAndCalc();
 })
 
 // watch
@@ -351,6 +354,7 @@ function calcAjuste() {
             type="submit"
           >Grava</button>
           <button
+            v-if="pedido_item.quantidade"
             class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
             @click="handleApagaClick"
           >Apaga fechamento</button>
