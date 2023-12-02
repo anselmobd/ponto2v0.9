@@ -3,6 +3,7 @@ import router from '@/router'
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
 import { getPedidoItens } from '../api/pedidoItem.js';
+import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
 const route = useRoute();
 
@@ -14,7 +15,12 @@ const pedido_itens = ref('')
 
 function cbGetPedidoItens(data, error) {
   if (data) {
-    if (data?.results) pedido_itens.value = data.results;
+    if (data?.results) pedido_itens.value = data.results.map((ped_item) => {
+      ped_item.valor_final =
+        ped_item.quantidade * parseFloat(ped_item.preco)
+        + parseFloat(ped_item.programacao) + parseFloat(ped_item.ajuste);
+      return ped_item;
+    });
   }
 }
 
@@ -43,9 +49,11 @@ onMounted(() => {
       <table class="w-full">
         <thead>
           <tr>
+            <th>Seleção</th>
             <th>Data entrega</th>
             <th>Pedido</th>
             <th>Bordado</th>
+            <th>Valor</th>
           </tr>
         </thead>
         <tbody>
@@ -53,9 +61,18 @@ onMounted(() => {
             v-for="pedido_item in pedido_itens"
             :key="pedido_item.id"
           >
+            <td>
+              <input
+                type="checkbox"
+                :id="`pedido_item_${pedido_item.id}`"
+                :name="`pedido_item_${pedido_item.id}`"
+                :value="pedido_item.id"
+              >
+            </td>
             <td>{{pedido_item.pedido.entrega}}</td>
             <td>{{pedido_item.id}}</td>
             <td>{{pedido_item.bordado.nome}}</td>
+            <td class="!text-right">{{ ptBrCurrencyFormat.format(pedido_item.valor_final) }}</td>
           </tr>
         </tbody>
       </table>
