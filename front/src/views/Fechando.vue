@@ -232,7 +232,7 @@ function calcAjuste() {
 
 <template>
   <div>
-    <h2 class="my-4 font-bold text-xl">Fechando pedido <span class="text-indigo-700">{{ route.params.id }}</span></h2>
+    <h2 class="pt-4 font-bold text-xl">Fechando pedido <span class="text-indigo-700">{{ route.params.id }}</span></h2>
     <div v-if="pedido_item">
       <table class="w-full">
         <thead>
