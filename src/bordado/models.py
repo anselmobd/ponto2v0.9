@@ -16,6 +16,7 @@ __all__ = [
     'Pedido',
     'PedidoItem',
     'Cobranca',
+    'PedidoItemCobranca',
     'OrdemProducao',
     'ApontamentoProducao',
 ]
@@ -304,7 +305,7 @@ class PedidoItem(models.Model):
         return self.pedido.cliente
 
     def __str__(self):
-        return f"Pedido {self.pedido.numero:04d}; ordem {self.ordem}; {self.quantidade} * {self.bordado}"
+        return f"{self.id}: Pedido {self.pedido.numero:04d}; ordem {self.ordem}; {self.quantidade} * {self.bordado}"
 
     def cleanned_usuario(self):
         return SingletonLoggedInUser().user
@@ -334,7 +335,7 @@ class PedidoItem(models.Model):
 
 
 class Cobranca(models.Model):
-    admin_order = 550
+    admin_order = 530
     valor = models.DecimalField(
         max_digits=9,
         decimal_places=2,
@@ -371,6 +372,7 @@ class Cobranca(models.Model):
         result = f'{self.id}: {self.tipo}'
         if self.nf:
              result = f'{result} ({self.nf})'
+        result = f'{result} [{self.data}]'
         return result
 
     def cleanned_usuario(self):
@@ -387,6 +389,7 @@ class Cobranca(models.Model):
 
 
 class PedidoItemCobranca(models.Model):
+    admin_order = 560
     pedido_item = models.ForeignKey(
         PedidoItem,
         on_delete=models.PROTECT,
