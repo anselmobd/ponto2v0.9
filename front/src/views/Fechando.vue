@@ -124,7 +124,10 @@ function doDelFechamento() {
 function cbGetFirstsPedidoItensBordado(data, error) {
   if (data) {
     console.log('cbGetFirstsPedidoItensBordado', data)
-    if (data?.results) pedido_itens_bordado.value = data.results;
+    if (data?.results) pedido_itens_bordado.value =
+      data.results.filter((item) => {
+        return item.id != route.params.id
+      });
   }
 }
 
@@ -139,8 +142,11 @@ function doGetFirstsPedidoItensBordado(callBack) {
 
 function cbGetFirstsPedidoItensCliente(data, error) {
   if (data) {
-    console.log('cbGetFirstsPedidoItensCliente', data)
-    if (data?.results) pedido_itens_cliente.value = data.results;
+    console.log('cbGetFirstsPedidoItensCliente', data.results);
+    if (data?.results) pedido_itens_cliente.value = 
+      data.results.filter((item) => {
+        return item.bordado.nome != pedido_item.value.bordado.nome
+      });
   }
 }
 
@@ -377,7 +383,10 @@ function calcAjuste() {
         <tbody>
           <tr
             v-for="pedido_item_bord in pedido_itens_bordado"
-            :key="pedido_item_bord.id" :hidden="pedido_item_bord.quantidade == 0 || pedido_item_bord.id == route.params.id"
+            :key="pedido_item_bord.id"
+            :hidden="
+              pedido_item_bord.quantidade == 0 
+            "
           >
             <td>{{ pedido_item_bord.id }}</td>
             <td>{{ pedido_item_bord.quantidade }}</td>
@@ -415,8 +424,6 @@ function calcAjuste() {
             :key="pedido_item_clie.id"
             :hidden="
               pedido_item_clie.quantidade == 0
-              || pedido_item_clie.id == route.params.id
-              || pedido_item_clie.bordado.nome == pedido_item.bordado.nome
             "
           >
             <td>{{ pedido_item_clie.id }}</td>
