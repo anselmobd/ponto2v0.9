@@ -336,6 +336,10 @@ class PedidoItem(models.Model):
 
 class Cobranca(models.Model):
     admin_order = 530
+    cliente = models.ForeignKey(
+        Cliente,
+        on_delete=models.PROTECT,
+    )
     valor = models.DecimalField(
         max_digits=9,
         decimal_places=2,
@@ -351,8 +355,6 @@ class Cobranca(models.Model):
         null=True,
     )
     data = models.DateField(
-        blank=True,
-        null=True,
     )
     parcelamento = models.CharField(
         max_length=50,
