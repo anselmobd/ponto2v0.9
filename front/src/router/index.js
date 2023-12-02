@@ -35,7 +35,7 @@ const routes = [
       component: Fechando,
     },
     {
-      path: "/financeiro/:id",
+      path: "/financeiro/:apelido",
       name: "financeiro",
       component: Financeiro,
     },

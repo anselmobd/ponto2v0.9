@@ -206,8 +206,8 @@ function handleFechandoClick(event) {
 
 function handleFinanceiroClick(event) {
   event.preventDefault();
-  const id = event.target.value;
-  router.push({ name: 'financeiro', params: { id: id } });
+  const apelido = event.target.value;
+  router.push({ name: 'financeiro', params: { apelido: apelido } });
 }
 
 // generic functions
@@ -381,7 +381,7 @@ watch(status, (newStatus) => {
             <button
               v-if="pedido_item.quantidade"
               class="button-text-shadow"
-              :value="pedido_item.id"
+              :value="pedido_item.pedido.cliente.apelido"
               @click="handleFinanceiroClick"
               :disabled="status != 'b'"
               title="Financeiro"
