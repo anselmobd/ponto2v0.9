@@ -10,6 +10,7 @@ const route = useRoute();
 // valores recebidos de DB
 
 const pedido_itens = ref('')
+const pedidos_selecionados = ref([])
 
 // DB API calls (do) and callbacks (cb)
 
@@ -46,6 +47,12 @@ onMounted(() => {
       <a title="Voltar" class="button text-xl cursor-pointer" @click.prevent="router.go(-1)">&#x2190;</a>
     </div>
     <div v-if="pedido_itens">
+
+      <h3 class="my-4 font-bold text-lg text-center">Pedidos</h3>
+      <button
+        class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
+      >Comunicar</button>
+
       <table class="w-full">
         <thead>
           <tr>
@@ -67,6 +74,7 @@ onMounted(() => {
                 :id="`pedido_item_${pedido_item.id}`"
                 :name="`pedido_item_${pedido_item.id}`"
                 :value="pedido_item.id"
+                v-model="pedidos_selecionados"
               >
             </td>
             <td>{{pedido_item.pedido.entrega}}</td>
@@ -76,6 +84,7 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
+
     </div>
   </div>
 </template>
