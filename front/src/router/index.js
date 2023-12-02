@@ -6,6 +6,7 @@ import Bordado from '../views/Bordado.vue'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Fechando from '../views/Fechando.vue'
+import Financeiro from '../views/Financeiro.vue'
 
 const routes = [
     {
@@ -32,6 +33,11 @@ const routes = [
       path: "/fechando/:id",
       name: "fechando",
       component: Fechando,
+    },
+    {
+      path: "/financeiro/:id",
+      name: "financeiro",
+      component: Financeiro,
     },
 ];
 
