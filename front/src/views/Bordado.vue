@@ -103,6 +103,7 @@ function cbAddClienteBordado(data, error) {
     pedidoItemParaTela(data);
     clearInputs();
     doGetFirstsPedidoItens();
+    status.value = 'b';
   }
   if (error) {
     if ('apelido' in error) {
@@ -116,6 +117,7 @@ function cbAddClienteBordado(data, error) {
 }
 
 function doAddClienteBordado() {
+  clearErrors();
   if (cliente?.value?.input && bordado?.value?.input) {
     addClienteBordado(
       cliente.value.input,
@@ -158,8 +160,6 @@ function handleCancelaClick(event) {
 function handleSalvaFiltraClick(event) {
   event.preventDefault();
   if (status.value == 'i') {
-    clearErrors();
-    status.value = 'b';
     doAddClienteBordado();
   } else if (status.value == 'f') {
     pedido_itens_filtro_apelido.value = cliente.value.input;
