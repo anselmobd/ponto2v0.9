@@ -360,15 +360,18 @@ watch(status, (newStatus) => {
           <td>
             <button
               v-if="!pedido_item.quantidade"
+              class="button-text-shadow"
               :value="index"
               @click="handleApagarClick"
               :disabled="status != 'b'"
-            >Apagar</button>
+            >🗑️</button>
             <button
+              class="button-text-shadow"
               :value="pedido_item.id"
               @click="handleFechandoClick"
               :disabled="status != 'b'"
-            >&vrtri;</button>
+              title="Fecha pedido"
+            >🪡</button>
           </td>
         </tr>
       </tbody>
@@ -392,5 +395,8 @@ button, .button {
 }
 button:disabled {
   @apply bg-slate-500
+}
+.button-text-shadow {
+  text-shadow: 0px 0px 0.5px whitesmoke
 }
 </style>
