@@ -3,6 +3,7 @@ import router from '@/router'
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
 import { getPedidoItens } from '../api/pedidoItem.js';
+import { getPedidoItensCobrancas } from '../api/pedidoItemCobranca.js';
 import { date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
@@ -10,7 +11,8 @@ const route = useRoute();
 
 // valores recebidos de DB
 
-const pedido_itens = ref('')
+const pedido_itens = ref([])
+const pedido_itens_cobrancas = ref([])
 const pedidos_selecionados = ref([])
 const comunicado = ref({})
 
@@ -56,6 +58,19 @@ function doGetPedidoItens(callBack) {
   });
 }
 
+function cbGetPedidoItensCobrancas(data, error) {
+  if (data) {
+    if (data?.results) pedido_itens_cobrancas.value = data.results;
+  }
+}
+
+function doGetPedidoItensCobrancas(callBack) {
+  getPedidoItensCobrancas({
+    cliente_apelido: route.params.apelido,
+    callBack: cbGetPedidoItensCobrancas
+  });
+}
+
 // events
 
 function handleComunicarClick(event) {
@@ -77,6 +92,7 @@ function handleCancelaClick(event) {
 
 onMounted(() => {
   doGetPedidoItens();
+  doGetPedidoItensCobrancas();
 })
 
 </script>
@@ -236,13 +252,16 @@ onMounted(() => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
+          <tr
+            v-for="ped_item_cobranca in pedido_itens_cobrancas"
+            :key="ped_item_cobranca.id"
+          >
+            <td>{{ ped_item_cobranca.id }}</td>
+            <td>{{ ped_item_cobranca.tipo }}</td>
+            <td>{{ ped_item_cobranca.nf }}</td>
+            <td>{{ ped_item_cobranca.valor }}</td>
+            <td>{{ ped_item_cobranca.data }}</td>
+            <td>{{ ped_item_cobranca.parcelamento }}</td>
           </tr>
         </tbody>
       </table>
