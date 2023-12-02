@@ -3,6 +3,7 @@ import { axiosPrivate } from '../common/axiosPrivate.js';
 export function getPedidoItens({
   page=1,
   cliente_apelido=null,
+  bordado_nome=null,
   callBack=()=>{}
 }) {
   const params = new URLSearchParams();
@@ -12,6 +13,9 @@ export function getPedidoItens({
   }
   if (cliente_apelido) {
     params.append('pedido__cliente__apelido', cliente_apelido);
+  }
+  if (bordado_nome) {
+    params.append('bordado__nome', bordado_nome);
   }
   axiosPrivate.get(
     '/bordado/api/pedido_item/',
