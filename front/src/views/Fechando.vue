@@ -360,7 +360,7 @@ function calcAjuste() {
       </form>
     </div>
 
-    <div v-if="pedido_itens_bordado">
+    <div v-if="pedido_itens_bordado.length > 0">
       <h3 class="my-4 font-bold text-lg">Últimos pedidos desse bordado</h3>
       <table class="w-full">
         <thead>
@@ -394,8 +394,7 @@ function calcAjuste() {
       </table>
     </div>
 
-
-    <div v-if="pedido_itens_cliente">
+    <div v-if="pedido_itens_cliente.length > 0">
       <h3 class="my-4 font-bold text-lg">Últimos pedidos de outros bordados desse cliente</h3>
       <table class="w-full">
         <thead>
