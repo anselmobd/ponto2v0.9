@@ -118,6 +118,12 @@ function cbAddClienteBordado(data, error) {
 
 function doAddClienteBordado() {
   clearErrors();
+  if (!cliente?.value?.input) {
+    cliente.value.error = 'Campo cliente vazio.';
+  }
+  if (!bordado?.value?.input) {
+    bordado.value.error = 'Campo bordado vazio.';
+  }
   if (cliente?.value?.input && bordado?.value?.input) {
     addClienteBordado(
       cliente.value.input,
