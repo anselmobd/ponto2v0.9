@@ -30,6 +30,7 @@ __all__ = [
     'PedidoViewSet',
     'PedidoItemViewSet',
     'CobrancaViewSet',
+    'PedidoItemCobrancaViewSet',
     'OrdemProducaoViewSet',
     'ApontamentoProducaoViewSet',
 ]
@@ -83,6 +84,14 @@ class PedidoViewSet(viewsets.ModelViewSet):
 class CobrancaViewSet(viewsets.ModelViewSet):
     queryset = Cobranca.objects.all()
     serializer_class = CobrancaSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+@extend_schema_view(
+    **dict_keys_value(__ACTIONS, extend_schema(tags=['pedido_item_cobranca'])))
+class PedidoItemCobrancaViewSet(viewsets.ModelViewSet):
+    queryset = PedidoItemCobranca.objects.all()
+    serializer_class = PedidoItemCobrancaSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
