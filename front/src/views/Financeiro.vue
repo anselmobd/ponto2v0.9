@@ -3,6 +3,7 @@ import router from '@/router'
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
 import { getPedidoItens } from '../api/pedidoItem.js';
+import { date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
 const route = useRoute();
@@ -12,6 +13,16 @@ const route = useRoute();
 const pedido_itens = ref('')
 const pedidos_selecionados = ref([])
 const comunicado = ref({})
+
+// variaveis comuns
+
+  // para inicializar com data atual
+  const dataAtual = new Date();
+  const strDataAtual = date2InputText(dataAtual);
+
+// outros valores reativos
+
+const status = ref('b'); // 'b' browsing; 'c' inserting comunicado;
 
 // DB API calls (do) and callbacks (cb)
 
@@ -40,6 +51,8 @@ function handleComunicarClick(event) {
   comunicado.value.valor_total = pedido_itens.value.map((ped_item) => {
     return pedidos_selecionados.value.includes(ped_item.id) ? ped_item.valor_final : 0
   }).reduce((soma, valor) => soma + valor, 0);
+  comunicado.value.data = strDataAtual;
+  status.value = 'c';
 }
 
 // Lifecycle Hooks
@@ -96,39 +109,91 @@ onMounted(() => {
         </tbody>
       </table>
 
-      <h3 class="my-4 font-bold text-lg text-center">Inserindo comunicado</h3>
-      <table class="w-full">
-        <thead>
-          <tr>
-            <th>Valor</th>
-            <th>Tipo</th>
-            <th>Nº NF</th>
-            <th>Data</th>
-            <th>Parcelamento</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <input
-                  class="px-2 py-1 w-24 border-2 rounded"
+      <div v-if="status == 'c'">
+        <h3 class="my-4 font-bold text-lg text-center">Inserindo comunicado</h3>
+        <table class="w-full">
+          <thead>
+            <tr>
+              <th>Valor</th>
+              <th>Tipo</th>
+              <th>Nº NF</th>
+              <th>Data</th>
+              <th>Parcelamento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input
+                  class="w-36 mx-0.5 border border-solid border-slate-500 rounded"
+                  v-model="comunicado.valor_total"
                   type="number"
                   step="0.01"
                   name="valor_total"
                   id="valor_total"
                   placeholder="0,00"
-                  v-model="comunicado.valor_total"
-                  @input="alerta = ''"
-                  required>
-            </td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-          </tr>
-        </tbody>
-      </table>
-
+                  required
+                >
+              </td>
+              <td>
+                <input
+                  class="mx-0.5 border border-solid border-slate-500 rounded"
+                  v-model.trim="comunicado.tipo"
+                  type="text"
+                  name="tipo"
+                  id="tipo"
+                  placeholder="Tipo"
+                  list="tipo-list"
+                  required
+                  v-focus
+                >
+                <datalist id="tipo-list">
+                  <option>Mail</option>
+                  <option>Zap</option>
+                </datalist>
+              </td>
+              <td>
+                <input
+                  class="w-20 mx-0.5 border border-solid border-slate-500 rounded"
+                  v-model="comunicado.nf"
+                  type="number"
+                  name="nf"
+                  id="nf"
+                  placeholder="999"
+                >
+              </td>
+              <td>
+                <input
+                  class="mx-0.5 border border-solid border-slate-500 rounded"
+                  v-model="comunicado.data"
+                  type="date"
+                  name="data"
+                  id="data"
+                  required
+                >
+              </td>
+              <td>
+                <input
+                  class="mx-0.5 border border-solid border-slate-500 rounded"
+                  v-model.trim="comunicado.parcelamento"
+                  type="text"
+                  name="parcelamento"
+                  id="parcelamento"
+                  placeholder="10 30 60"
+                  list="parcelamento-list"
+                  required
+                >
+                <datalist id="parcelamento-list">
+                  <option>0</option>
+                  <option>10</option>
+                  <option>10 30 60</option>
+                  <option>30 60 90</option>
+                </datalist>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
