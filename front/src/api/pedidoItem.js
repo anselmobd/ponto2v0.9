@@ -124,3 +124,24 @@ export function saveFechamento({
     callBack(null, error.response.data);
   });
 }
+
+export function delFechamento({
+  id=null,
+  callBack=()=>{}
+}) {
+  const params = new URLSearchParams();
+  params.append('format', 'json');
+  params.append('tipo', 'fechamento');
+
+  axiosPrivate.delete(
+    `/bordado/api/pedido_item/${id}/`,
+    {params: params},
+  )
+  .then(response => {
+    callBack(response.data);
+  })
+  .catch(error => {
+    console.error('Erro ao apagar fechamento via API:', error);
+    callBack(null, error.response.data);
+  });
+}
