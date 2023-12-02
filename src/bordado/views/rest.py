@@ -93,6 +93,8 @@ class PedidoItemCobrancaViewSet(viewsets.ModelViewSet):
     queryset = PedidoItemCobranca.objects.all()
     serializer_class = PedidoItemCobrancaSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['pedido_item__pedido__cliente__apelido']
 
 
 @extend_schema_view(
