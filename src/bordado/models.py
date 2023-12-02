@@ -386,6 +386,32 @@ class Cobranca(models.Model):
         ordering = ['-id']
 
 
+class PedidoItemCobranca(models.Model):
+    pedido_item = models.ForeignKey(
+        PedidoItem,
+        on_delete=models.PROTECT,
+        blank=False,
+        null=False,
+    )
+    cobranca = models.ForeignKey(
+        Cobranca,
+        on_delete=models.PROTECT,
+        blank=False,
+        null=False,
+    )
+    valor = models.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        validators=[MinValueValidator(0.01), MaxValueValidator(1_000_000)],
+        default=0,
+    )
+
+    class Meta:
+        db_table = "po2_pedido_item_cobranca"
+        verbose_name = "Cobrança de item de pedido"
+        verbose_name_plural = "Cobranças de itens de pedido"
+
+
 class OrdemProducao(models.Model):
     admin_order = 600
     numero = models.AutoField(
