@@ -12,6 +12,7 @@ __all__ = [
     'SetBordadoSerializer',
     'PedidoSerializer',
     'PedidoItemSerializer',
+    'CobrancaSerializer',
     'OrdemProducaoSerializer',
     'ApontamentoProducaoSerializer',
 ]
@@ -117,6 +118,23 @@ class PedidoItemSerializer(serializers.ModelSerializer):
             'ajuste',
             'cancelado',
             'usuario',
+        ]
+
+
+class CobrancaSerializer(serializers.ModelSerializer):
+    usuario = UserSerializer()
+
+    class Meta:
+        model = Cobranca
+        fields = [
+            'id',
+            'tipo',
+            'nf',
+            'valor',
+            'data',
+            'parcelamento',
+            'usuario',
+            'quando',
         ]
 
 
