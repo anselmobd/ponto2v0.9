@@ -1,7 +1,7 @@
+import router from '@/router'
 import axios from "axios";
 import { mountAuthHeader } from '../services/authHeader.js'
 import { refreshAccessToken } from '../services/refreshToken.js';
-
 
 export const axiosPrivate = axios.create({
   baseURL: "http://tt.o2:8902",
@@ -11,8 +11,6 @@ export const axiosPrivate = axios.create({
   xsrfHeaderName: "X-CSRFTOKEN",
   xsrfCookieName: "csrftoken"
 });
-
-
 
 axiosPrivate.interceptors.request.use(
   async (config) => {
@@ -42,6 +40,8 @@ axiosPrivate.interceptors.response.use(
           ...auth_headers
         };
         return axios(config);
+      } else {
+        router.push({ name: 'login' });
       }
     }
     return Promise.reject(error);
