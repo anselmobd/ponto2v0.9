@@ -364,6 +364,7 @@ class Cobranca(models.Model):
     )
     parcelamento = models.CharField(
         max_length=50,
+        default='0',
         blank=True,
         null=True,
     )
