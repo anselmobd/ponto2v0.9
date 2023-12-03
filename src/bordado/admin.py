@@ -143,6 +143,22 @@ class PedidoItemCobrancaAdmin(admin.ModelAdmin):
     ]
 
 
+@admin.register(Lancamento)
+class LancamentoAdmin(admin.ModelAdmin):
+    list_display = [
+        'data',
+        'cobranca',
+        'informacao',
+        'valor',
+        'usuario',
+        'quando',
+    ]
+    readonly_fields = [
+        'usuario',
+        'quando',
+    ]
+
+
 @admin.register(OrdemProducao)
 class OrdemProducaoAdmin(admin.ModelAdmin):
     list_display = [

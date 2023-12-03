@@ -21,6 +21,7 @@ __all__ = [
     'PedidoItem',
     'Cobranca',
     'PedidoItemCobranca',
+    'Lancamento',
     'OrdemProducao',
     'ApontamentoProducao',
 ]
@@ -454,13 +455,6 @@ class Lancamento(models.Model):
         verbose_name="usuário",
     )
     quando = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        result = f'{self.id}: {self.tipo}'
-        if self.nf:
-             result = f'{result} ({self.nf})'
-        result = f'{result} [{self.data}]'
-        return result
 
     def cleanned_usuario(self):
         return SingletonLoggedInUser().user
