@@ -1,7 +1,11 @@
 from pprint import pprint
 
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import (
+    MaxValueValidator,
+    MinLengthValidator,
+    MinValueValidator,
+)
 from django.db import models
 
 from o2lib.classes.logged_in_user import SingletonLoggedInUser
@@ -348,6 +352,8 @@ class Cobranca(models.Model):
     )
     tipo = models.CharField(
         max_length=50,
+        validators=[MinLengthValidator(
+            1, "O campo Tipo deve conter ao menos um caractere.")],
     )
     nf = models.PositiveIntegerField(
         'NF',
