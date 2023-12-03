@@ -46,6 +46,10 @@ function cbGetPedidoItens(data, error) {
       ped_item.valor_final =
         ped_item.quantidade * parseFloat(ped_item.preco)
         + parseFloat(ped_item.programacao) + parseFloat(ped_item.ajuste);
+      ped_item.cobrado = ped_item.cobrancas.map((cobr) => {
+        return parseFloat(cobr.valor)
+      }).reduce((soma, valor) => soma + valor, 0);
+      ped_item.acobrar = ped_item.cobrado - ped_item.valor_final;
       return ped_item;
     });
   }
