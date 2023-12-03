@@ -44,3 +44,34 @@ export function getCobranca({
     callBack(null, error);
   });
 }
+
+export function addCobranca({
+  payload= {
+    "cliente": {
+      "apelido": null,
+    },
+    "tipo": null,
+    "nf": null,
+    "valor": null,
+    "data": null,
+    "parcelamento": null,
+    "pedido_itens": []
+  },  
+  callBack=()=>{}
+}) {
+  const params = new URLSearchParams();
+  params.append('format', 'json');
+  console.log('addCobranca', payload);
+  axiosPrivate.post(
+    `/bordado/api/cobranca/`,
+    payload,
+    {params: params}
+  )
+  .then(response => {
+    callBack(response.data);
+  })
+  .catch(error => {
+    console.error('Erro ao adicionar cobranca via API:', error)
+    callBack(null, error);
+  });
+}
