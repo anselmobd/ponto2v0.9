@@ -148,7 +148,7 @@ onMounted(() => {
       <button
         class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
         @click="handleComunicarClick"
-      >Comunicar</button>
+      >Comunicar cobrança</button>
 
       <div v-if="status == 'c'">
         <h3 class="my-4 font-bold text-lg text-center">Inserindo comunicado</h3>
