@@ -100,28 +100,6 @@ class PedidoSerializer(serializers.ModelSerializer):
         ]
 
 
-class PedidoItemSerializer(serializers.ModelSerializer):
-    pedido = PedidoSerializer()
-    bordado = BordadoSerializer()
-    usuario = UserSerializer()
-
-    class Meta:
-        model = PedidoItem
-        fields = [
-            'id',
-            'pedido',
-            'ordem',
-            'inserido_em',
-            'bordado',
-            'quantidade',
-            'preco',
-            'programacao',
-            'ajuste',
-            'cancelado',
-            'usuario',
-        ]
-
-
 class CobrancaSerializer(serializers.ModelSerializer):
     cliente = ClienteSerializer()
     usuario = UserSerializer()
@@ -138,6 +116,42 @@ class CobrancaSerializer(serializers.ModelSerializer):
             'parcelamento',
             'usuario',
             'quando',
+        ]
+
+
+class PedidoItemCobrancasSerializer(serializers.ModelSerializer):
+    cobranca = CobrancaSerializer()
+
+    class Meta:
+        model = PedidoItemCobranca
+        fields = [
+            'id',
+            'cobranca',
+            'valor',
+        ]
+
+
+class PedidoItemSerializer(serializers.ModelSerializer):
+    pedido = PedidoSerializer()
+    bordado = BordadoSerializer()
+    usuario = UserSerializer()
+    cobrancas = PedidoItemCobrancasSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = PedidoItem
+        fields = [
+            'id',
+            'pedido',
+            'ordem',
+            'inserido_em',
+            'bordado',
+            'quantidade',
+            'preco',
+            'programacao',
+            'ajuste',
+            'cobrancas',
+            'cancelado',
+            'usuario',
         ]
 
 
