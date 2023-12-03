@@ -425,6 +425,55 @@ class PedidoItemCobranca(models.Model):
         verbose_name_plural = "Cobranças de itens de pedido"
 
 
+class Lancamento(models.Model):
+    admin_order = 580
+    data = models.DateField(
+    )
+    cobranca = models.ForeignKey(
+        Cobranca,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=False,
+    )
+    informacao = models.CharField(
+        'Informação',
+        max_length=50,
+        default='0',
+    )
+    valor = models.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        validators=[MinValueValidator(-1_000_000), MaxValueValidator(1_000_000)],
+        default=0,
+    )
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        verbose_name="usuário",
+    )
+    quando = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        result = f'{self.id}: {self.tipo}'
+        if self.nf:
+             result = f'{result} ({self.nf})'
+        result = f'{result} [{self.data}]'
+        return result
+
+    def cleanned_usuario(self):
+        return SingletonLoggedInUser().user
+
+    def clean(self):
+        super().clean()
+        self.usuario = self.cleanned_usuario()
+
+    class Meta:
+        db_table = "po2_lancamento"
+        verbose_name = "Lançamento"
+
+
 class OrdemProducao(models.Model):
     admin_order = 600
     numero = models.AutoField(
