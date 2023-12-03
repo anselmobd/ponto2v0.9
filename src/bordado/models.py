@@ -450,6 +450,9 @@ class Lancamento(models.Model):
         validators=[MinValueValidator(-1_000_000), MaxValueValidator(1_000_000)],
         default=0,
     )
+    calculando = models.BooleanField(
+        default=False,
+    )
     saldo_cliente = models.DecimalField(
         max_digits=9,
         decimal_places=2,
