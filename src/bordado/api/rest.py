@@ -18,8 +18,8 @@ from bordado.models import *
 from bordado.serializers import *
 from o2lib.dict import dict_keys_value
 
-from bordado.views.pedido_item import PedidoItemViewSet
-from bordado.views.rest_consts import *
+from bordado.api.pedido_item import PedidoItemViewSet
+from bordado.api.rest_consts import *
 
 
 __all__ = [

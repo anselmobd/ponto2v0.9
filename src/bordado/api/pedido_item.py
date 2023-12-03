@@ -26,7 +26,7 @@ from bordado.serializers import (
 )
 from o2lib.dict import dict_keys_value
 
-from bordado.views.rest_consts import *
+from bordado.api.rest_consts import *
 
 
 __all__ = [
