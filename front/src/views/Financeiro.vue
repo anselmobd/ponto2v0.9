@@ -78,7 +78,9 @@ function doGetCobrancas(callBack) {
 function cbAddCobranca(data, error) {
   if (data) {
     status.value = 'b';
+    pedidos_selecionados.value = [];
     clearComunicado();
+    doGetPedidoItens();
     doGetCobrancas();
   }
   if (error) {
