@@ -146,8 +146,7 @@ class PedidoItemCobrancaAdmin(admin.ModelAdmin):
 @admin.register(Lancamento)
 class LancamentoAdmin(admin.ModelAdmin):
     list_display = [
-        'data',
-        'id',
+        '__str__',
         'cobranca',
         'informacao',
         'valor',

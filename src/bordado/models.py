@@ -428,10 +428,10 @@ class PedidoItemCobranca(models.Model):
 
 class Lancamento(models.Model):
     admin_order = 580
-    # cliente = models.ForeignKey(
-    #     Cliente,
-    #     on_delete=models.PROTECT,
-    # )
+    cliente = models.ForeignKey(
+        Cliente,
+        on_delete=models.PROTECT,
+    )
     data = models.DateField(
     )
     cobranca = models.ForeignKey(
@@ -470,6 +470,9 @@ class Lancamento(models.Model):
         verbose_name="usuário",
     )
     quando = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.id}: {self.data} {self.cliente}'
 
     def cleanned_usuario(self):
         return SingletonLoggedInUser().user
