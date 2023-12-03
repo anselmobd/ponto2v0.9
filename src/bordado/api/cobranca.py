@@ -89,16 +89,23 @@ class CobrancaViewSet(viewsets.ModelViewSet):
                         errors['tech'].append(repr(e))
                         raise TypeError
                     
-                    PedidoItemCobranca(
-                        pedido_item=pedido_item,
-                        cobranca=cobranca,
-                        valor=(
-                            (pedido_item.quantidade * pedido_item.preco) +
-                            pedido_item.programacao +
-                            pedido_item.ajuste
-                        )
+                    try:
+                        pedido_item_cobranca = PedidoItemCobranca(
+                            pedido_item=pedido_item,
+                            cobranca=cobranca,
+                            valor=(
+                                (pedido_item.quantidade * pedido_item.preco) +
+                                pedido_item.programacao +
+                                pedido_item.ajuste
+                            )
 
-                    )
+                        )
+                        pedido_item_cobranca.save()
+                    except Exception as e:
+                        print('CobrancaViewSet except pedido_item_cobranca')
+                        errors['human'].append("Erro ao inserir registro que liga cobrança ao pedido.")
+                        errors['tech'].append(repr(e))
+                        raise TypeError
 
                 return Response(
                     CobrancaSerializer(cobranca).data,
