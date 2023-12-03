@@ -397,6 +397,7 @@ class PedidoItemCobranca(models.Model):
         on_delete=models.PROTECT,
         blank=False,
         null=False,
+        related_name='cobrancas',
     )
     cobranca = models.ForeignKey(
         Cobranca,
