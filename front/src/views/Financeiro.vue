@@ -82,14 +82,10 @@ function cbAddCobranca(data, error) {
     doGetCobrancas();
   }
   if (error) {
-    if ('apelido' in error) {
-      cliente.value.error = error.apelido.join('|');
-    }
-    if ('nome' in error) {
-      bordado.value.error = error.nome.join('|');
-    }
+    console.log('cbAddCobranca error', error);
+    comunicado.value.error = error.response.data.human.join('|');
+    comunicado.value.error_tech = error.response.data.tech.join('|');
   };
-  getClientes(cbGetClientes);
 }
 
 function doAddCobranca(callBack) {
@@ -203,7 +199,7 @@ onMounted(() => {
               <th>Parcelamento</th>
             </tr>
             <tr v-if="comunicado.error">
-              <th class="text-red-800" colspan="5">
+              <th class="text-red-800" colspan="5" :title="comunicado.error_tech">
                 {{ comunicado.error }}
               </th>
             </tr>
