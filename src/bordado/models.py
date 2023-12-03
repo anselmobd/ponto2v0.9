@@ -7,6 +7,7 @@ from django.core.validators import (
     MinValueValidator,
 )
 from django.db import models
+from django.db.models import Q
 
 from o2lib.classes.logged_in_user import SingletonLoggedInUser
 from o2lib.codes.cnpj import CNPJ
@@ -485,11 +486,84 @@ class Lancamento(models.Model):
         self.usuario = self.cleanned_usuario()
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        # saldo_inicial = get_ultimo_saldo()
-        # pprint(self.id)
-        # recente = Lancamento.objects.first()
-        # pprint(recente)
+        if self.calculando:
+            self.calculando = False
+            super().save(*args, **kwargs)
+        else:
+            super().save(*args, **kwargs)
+            saldo_cliente_anterior = self.get_ultimo_saldo_cliente()
+            saldo_empresa_anterior = self.get_ultimo_saldo_empresa()
+            print('saldo_cliente_anterior', saldo_cliente_anterior)
+            print('saldo_empresa_anterior', saldo_empresa_anterior)
+            self.acerta_saldos_cliente(saldo_cliente_anterior)
+            self.acerta_saldos_empresa(saldo_empresa_anterior)
+
+    # métodos auxiliares à atividade pós-salvamento
+
+    def get_ultimo_saldo_cliente(self):
+        lancamentos = Lancamento.objects.filter(
+            cliente=self.cliente,
+            data__lte=self.data,
+            id__lte=self.id,
+        )
+        proximo = False
+        for lancamento in lancamentos:
+            if proximo:
+                return lancamento.saldo_cliente
+            if lancamento.id == self.id:
+                proximo = True
+        return 0
+
+    def get_ultimo_saldo_empresa(self):
+        lancamentos = Lancamento.objects.filter(
+            data__lte=self.data,
+            id__lte=self.id,
+        )
+        proximo = False
+        for lancamento in lancamentos:
+            if proximo:
+                return lancamento.saldo_empresa
+            if lancamento.id == self.id:
+                proximo = True
+        return 0
+
+    def acerta_saldos_cliente(self, saldo):
+        lancamentos = Lancamento.objects.filter(
+            Q(cliente=self.cliente) & (
+                Q(data__gt=self.data) | (
+                    Q(data=self.data) &
+                    Q(id__gte=self.id)
+                )
+            )
+        ).order_by('data', 'id')
+        calcula = False
+        for lancamento in lancamentos:
+            if not calcula and lancamento.id == self.id:
+                calcula = True
+            if calcula:
+                saldo += lancamento.valor
+                if lancamento.saldo_cliente != saldo:
+                    lancamento.saldo_cliente = saldo
+                    lancamento.calculando = True
+                    lancamento.save()
+
+    def acerta_saldos_empresa(self, saldo):
+        lancamentos = Lancamento.objects.filter(
+            Q(data__gt=self.data) | (
+                Q(data=self.data) &
+                Q(id__gte=self.id)
+            )
+        ).order_by('data', 'id')
+        calcula = False
+        for lancamento in lancamentos:
+            if not calcula and lancamento.id == self.id:
+                calcula = True
+            if calcula:
+                saldo += lancamento.valor
+                if lancamento.saldo_empresa != saldo:
+                    lancamento.saldo_empresa = saldo
+                    lancamento.calculando = True
+                    lancamento.save()
 
     class Meta:
         db_table = "po2_lancamento"
