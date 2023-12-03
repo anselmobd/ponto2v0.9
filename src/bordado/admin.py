@@ -151,13 +151,13 @@ class LancamentoAdmin(admin.ModelAdmin):
         'informacao',
         'valor',
         'saldo_cliente',
-        # 'saldo_empresa',
+        'saldo_empresa',
         'usuario',
         'quando',
     ]
     readonly_fields = [
         'saldo_cliente',
-        # 'saldo_empresa',
+        'saldo_empresa',
         'usuario',
         'quando',
     ]

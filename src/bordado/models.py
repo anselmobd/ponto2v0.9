@@ -456,12 +456,12 @@ class Lancamento(models.Model):
         validators=[MinValueValidator(-1_000_000), MaxValueValidator(1_000_000)],
         default=0,
     )
-    # saldo_empresa = models.DecimalField(
-    #     max_digits=9,
-    #     decimal_places=2,
-    #     validators=[MinValueValidator(-1_000_000), MaxValueValidator(1_000_000)],
-    #     default=0,
-    # )
+    saldo_empresa = models.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        validators=[MinValueValidator(-1_000_000), MaxValueValidator(1_000_000)],
+        default=0,
+    )
     usuario = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
