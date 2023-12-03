@@ -161,6 +161,11 @@ onMounted(() => {
               <th>Data</th>
               <th>Parcelamento</th>
             </tr>
+            <tr v-if="comunicado.error">
+              <th class="text-red-800" colspan="5">
+                {{ comunicado.error }}
+              </th>
+            </tr>
           </thead>
           <tbody>
             <tr>
