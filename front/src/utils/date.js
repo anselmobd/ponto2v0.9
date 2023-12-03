@@ -17,3 +17,8 @@ export function date2InputText(date) {
   const day = String(date.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}`
 }
+
+export function inputStrDate2PtBrDate(str_date) {  
+  return new Intl.DateTimeFormat('pt-BR').format(new Date(str_date))
+}
+
