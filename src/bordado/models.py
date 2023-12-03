@@ -472,6 +472,7 @@ class Lancamento(models.Model):
     class Meta:
         db_table = "po2_lancamento"
         verbose_name = "Lançamento"
+        ordering = ['-data', '-id']
 
 
 class OrdemProducao(models.Model):
