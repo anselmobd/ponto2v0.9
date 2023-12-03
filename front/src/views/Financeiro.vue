@@ -15,6 +15,7 @@ const pedido_itens = ref([])
 const cobrancas = ref([])
 const pedidos_selecionados = ref([])
 const comunicado = ref({})
+const lancamento = ref({})
 
 // variaveis comuns
 
@@ -323,6 +324,83 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
+
+      <button
+        class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
+        @click="handlePagamentoClick"
+      >Registrar lançamento</button>
+
+      <div v-if="status == 'b'">
+        <h3 class="my-4 font-bold text-lg text-center">Inserindo lançamento</h3>
+        <table class="w-full">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Informação</th>
+              <th>Valor</th>
+            </tr>
+            <tr v-if="lancamento.error">
+              <th class="text-red-800" colspan="5" :title="lancamento.error_tech">
+                {{ lancamento.error }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input
+                  class="mx-0.5 border border-solid border-slate-500 rounded"
+                  v-model="lancamento.data"
+                  type="date"
+                  name="data"
+                  id="data"
+                  required
+                  v-focus
+                >
+              </td>
+              <td>
+                <input
+                  class="mx-0.5 border border-solid border-slate-500 rounded"
+                  v-model.trim="lancamento.informacao"
+                  type="text"
+                  name="informacao"
+                  id="informacao"
+                  placeholder=""
+                  list="informacao-list"
+                  required
+                >
+                <datalist id="informacao-list">
+                  <option>boleto</option>
+                  <option>depósito</option>
+                  <option>dinheiro</option>
+                </datalist>
+              </td>
+              <td>
+                <input
+                  class="w-36 mx-0.5 border border-solid border-slate-500 rounded"
+                  v-model="lancamento.valor"
+                  type="number"
+                  step="0.01"
+                  name="valor"
+                  id="valor"
+                  placeholder="0,00"
+                  required
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="flex flex-row-reverse place-content-between">
+          <button
+            type="button"
+            @click="handleSalvaFiltraClick"
+          >Grava</button>
+          <button
+            type="button"
+            @click="handleCancelaClick"
+          >Cancela</button>
+        </p>
+      </div>
 
     </div>
   </div>
