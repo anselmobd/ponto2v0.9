@@ -49,6 +49,12 @@ function cbGetPedidoItens(data, error) {
       ped_item.cobrado = ped_item.cobrancas.map((cobr) => {
         return parseFloat(cobr.valor)
       }).reduce((soma, valor) => soma + valor, 0);
+      ped_item.cobrancas_ids = ped_item.cobrancas.map((cobr) => {
+        return cobr.cobranca.id
+      }).join(', ');
+      if (ped_item.cobrancas_ids) {
+        ped_item.cobrancas_ids = 'Cobrança: ' + ped_item.cobrancas_ids;
+      }
       ped_item.acobrar = ped_item.valor_final - ped_item.cobrado;
       return ped_item;
     });
@@ -180,7 +186,7 @@ onMounted(() => {
             <td>{{pedido_item.id}}</td>
             <td>{{pedido_item.bordado.nome}}</td>
             <td class="!text-right">{{ ptBrCurrencyFormat.format(pedido_item.valor_final) }}</td>
-            <td class="!text-right">{{ ptBrCurrencyFormat.format(pedido_item.cobrado) }}</td>
+            <td class="!text-right" :title="pedido_item.cobrancas_ids">{{ ptBrCurrencyFormat.format(pedido_item.cobrado) }}</td>
             <td class="!text-right">{{ ptBrCurrencyFormat.format(pedido_item.acobrar) }}</td>
           </tr>
         </tbody>
