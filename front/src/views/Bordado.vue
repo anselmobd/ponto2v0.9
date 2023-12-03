@@ -276,7 +276,7 @@ watch(status, (newStatus) => {
 
 <template>
   <div>
-    <h4 class="text-xl text-center font-bold bg-sky-900 text-slate-100">Pedido <a @click="reloadPedidoItens">&olarr;</a></h4>
+    <h4 class="text-xl text-center font-bold bg-sky-900 text-slate-100">Pedido <a class="cursor-pointer" @click="reloadPedidoItens">&olarr;</a></h4>
     <table class="w-full">
       <thead>
         <tr>
