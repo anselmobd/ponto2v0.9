@@ -1,25 +1,24 @@
 from pprint import pprint
 
 from django.contrib.auth.models import User
-from django.db.models.deletion import ProtectedError
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import (
-    generics,
-    permissions,
-    viewsets,
-    status,
-)
-from rest_framework.response import Response
 from drf_spectacular.utils import (
     extend_schema_view,
     extend_schema,
 )
-from bordado.models import *
-from bordado.serializers import *
+from rest_framework import (
+    generics,
+    permissions,
+    viewsets,
+)
+
 from o2lib.dict import dict_keys_value
 
+from bordado.api.cobranca import CobrancaViewSet
 from bordado.api.pedido_item import PedidoItemViewSet
-from bordado.api.rest_consts import *
+from bordado.api.rest_consts import __ACTIONS
+from bordado.models import *
+from bordado.serializers import *
 
 
 __all__ = [
@@ -77,16 +76,6 @@ class PedidoViewSet(viewsets.ModelViewSet):
     queryset = Pedido.objects.all()
     serializer_class = PedidoSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-
-@extend_schema_view(
-    **dict_keys_value(__ACTIONS, extend_schema(tags=['cobranca'])))
-class CobrancaViewSet(viewsets.ModelViewSet):
-    queryset = Cobranca.objects.all()
-    serializer_class = CobrancaSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['cliente__apelido']
 
 
 @extend_schema_view(
