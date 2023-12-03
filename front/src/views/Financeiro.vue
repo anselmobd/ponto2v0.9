@@ -3,7 +3,7 @@ import router from '@/router'
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
 import { getPedidoItens } from '../api/pedidoItem.js';
-import { getPedidoItensCobrancas } from '../api/pedidoItemCobranca.js';
+import { getCobrancas } from '../api/cobranca.js';
 import { inputStrDate2PtBrDate, date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
@@ -12,7 +12,7 @@ const route = useRoute();
 // valores recebidos de DB
 
 const pedido_itens = ref([])
-const pedido_itens_cobrancas = ref([])
+const cobrancas = ref([])
 const pedidos_selecionados = ref([])
 const comunicado = ref({})
 
@@ -58,16 +58,16 @@ function doGetPedidoItens(callBack) {
   });
 }
 
-function cbGetPedidoItensCobrancas(data, error) {
+function cbGetCobrancas(data, error) {
   if (data) {
-    if (data?.results) pedido_itens_cobrancas.value = data.results;
+    if (data?.results) cobrancas.value = data.results;
   }
 }
 
-function doGetPedidoItensCobrancas(callBack) {
-  getPedidoItensCobrancas({
+function doGetCobrancas(callBack) {
+  getCobrancas({
     cliente_apelido: route.params.apelido,
-    callBack: cbGetPedidoItensCobrancas
+    callBack: cbGetCobrancas
   });
 }
 
@@ -92,7 +92,7 @@ function handleCancelaClick(event) {
 
 onMounted(() => {
   doGetPedidoItens();
-  doGetPedidoItensCobrancas();
+  doGetCobrancas();
 })
 
 </script>
@@ -253,15 +253,15 @@ onMounted(() => {
         </thead>
         <tbody>
           <tr
-            v-for="ped_item_cobranca in pedido_itens_cobrancas"
-            :key="ped_item_cobranca.id"
+            v-for="cobranca in cobrancas"
+            :key="cobranca.id"
           >
-            <td>{{ ped_item_cobranca.id }}</td>
-            <td>{{ ped_item_cobranca.tipo }}</td>
-            <td>{{ ped_item_cobranca.nf }}</td>
-            <td>{{ ped_item_cobranca.valor }}</td>
-            <td>{{ ped_item_cobranca.data }}</td>
-            <td>{{ ped_item_cobranca.parcelamento }}</td>
+            <td>{{ cobranca.id }}</td>
+            <td>{{ cobranca.tipo }}</td>
+            <td>{{ cobranca.nf }}</td>
+            <td class="!text-right">{{ ptBrCurrencyFormat.format(cobranca.valor) }}</td>
+            <td>{{ inputStrDate2PtBrDate(cobranca.data) }}</td>
+            <td>{{ cobranca.parcelamento }}</td>
           </tr>
         </tbody>
       </table>
