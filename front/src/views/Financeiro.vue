@@ -168,6 +168,7 @@ onMounted(() => {
           >
             <td>
               <input
+                v-if="pedido_item.acobrar"
                 type="checkbox"
                 :id="`pedido_item_${pedido_item.id}`"
                 :name="`pedido_item_${pedido_item.id}`"
