@@ -439,7 +439,6 @@ class Lancamento(models.Model):
     informacao = models.CharField(
         'Informação',
         max_length=50,
-        default='0',
     )
     valor = models.DecimalField(
         max_digits=9,
