@@ -85,6 +85,8 @@ class CobrancaViewSet(viewsets.ModelViewSet):
     queryset = Cobranca.objects.all()
     serializer_class = CobrancaSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['cliente__apelido']
 
 
 @extend_schema_view(

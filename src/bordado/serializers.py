@@ -123,12 +123,14 @@ class PedidoItemSerializer(serializers.ModelSerializer):
 
 
 class CobrancaSerializer(serializers.ModelSerializer):
+    cliente = ClienteSerializer()
     usuario = UserSerializer()
 
     class Meta:
         model = Cobranca
         fields = [
             'id',
+            'cliente',
             'tipo',
             'nf',
             'valor',
