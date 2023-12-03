@@ -156,6 +156,7 @@ class LancamentoAdmin(admin.ModelAdmin):
         'quando',
     ]
     readonly_fields = [
+        'calculando',
         'saldo_cliente',
         'saldo_empresa',
         'usuario',
