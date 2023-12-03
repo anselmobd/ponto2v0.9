@@ -106,11 +106,6 @@ onMounted(() => {
     <div v-if="pedido_itens">
 
       <h3 class="my-4 font-bold text-lg text-center">Pedidos</h3>
-      <button
-        class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
-        @click="handleComunicarClick"
-      >Comunicar</button>
-
       <table class="w-full">
         <thead>
           <tr>
@@ -142,6 +137,10 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
+      <button
+        class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
+        @click="handleComunicarClick"
+      >Comunicar</button>
 
       <div v-if="status == 'c'">
         <h3 class="my-4 font-bold text-lg text-center">Inserindo comunicado</h3>
