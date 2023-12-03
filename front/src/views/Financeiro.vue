@@ -3,7 +3,7 @@ import router from '@/router'
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
 import { getPedidoItens } from '../api/pedidoItem.js';
-import { getCobrancas } from '../api/cobranca.js';
+import { getCobrancas, addCobranca } from '../api/cobranca.js';
 import { inputStrDate2PtBrDate, date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
@@ -75,6 +75,42 @@ function doGetCobrancas(callBack) {
   });
 }
 
+function cbAddCobranca(data, error) {
+  if (data) {
+    status.value = 'b';
+    clearComunicado();
+    doGetCobrancas();
+  }
+  if (error) {
+    if ('apelido' in error) {
+      cliente.value.error = error.apelido.join('|');
+    }
+    if ('nome' in error) {
+      bordado.value.error = error.nome.join('|');
+    }
+  };
+  getClientes(cbGetClientes);
+}
+
+function doAddCobranca(callBack) {
+  // clearErrors();
+  const payload= {
+    "cliente": {
+      "apelido": route.params.apelido,
+    },
+    "tipo": comunicado.value.tipo,
+    "nf": comunicado.value.nf,
+    "valor": comunicado.value.valor,
+    "data": comunicado.value.data,
+    "parcelamento": comunicado.value.parcelamento,
+    "pedido_itens": pedidos_selecionados.value,
+  }
+  addCobranca({
+    payload: payload,
+    callBack: cbAddCobranca
+  });
+}
+
 // events
 
 function handleComunicarClick(event) {
@@ -90,6 +126,11 @@ function handleCancelaClick(event) {
   event.preventDefault();
   status.value = 'b';
   clearComunicado();
+}
+
+function handleSalvaFiltraClick(event) {
+  event.preventDefault();
+  doAddCobranca();
 }
 
 // Lifecycle Hooks
