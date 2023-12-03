@@ -118,6 +118,8 @@ onMounted(() => {
             <th>Pedido</th>
             <th>Bordado</th>
             <th>Valor</th>
+            <th>Cobrado</th>
+            <th>A cobrar</th>
           </tr>
         </thead>
         <tbody>
@@ -138,6 +140,8 @@ onMounted(() => {
             <td>{{pedido_item.id}}</td>
             <td>{{pedido_item.bordado.nome}}</td>
             <td class="!text-right">{{ ptBrCurrencyFormat.format(pedido_item.valor_final) }}</td>
+            <td class="!text-right">{{ ptBrCurrencyFormat.format(pedido_item.cobrado) }}</td>
+            <td class="!text-right">{{ ptBrCurrencyFormat.format(pedido_item.acobrar) }}</td>
           </tr>
         </tbody>
       </table>
