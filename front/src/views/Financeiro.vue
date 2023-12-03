@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
 import { getPedidoItens } from '../api/pedidoItem.js';
 import { getPedidoItensCobrancas } from '../api/pedidoItemCobranca.js';
-import { date2InputText } from "../utils/date.js";
+import { inputStrDate2PtBrDate, date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
 const route = useRoute();
@@ -135,7 +135,7 @@ onMounted(() => {
                 v-model="pedidos_selecionados"
               >
             </td>
-            <td>{{pedido_item.pedido.entrega}}</td>
+            <td>{{ inputStrDate2PtBrDate(pedido_item.pedido.entrega) }}</td>
             <td>{{pedido_item.id}}</td>
             <td>{{pedido_item.bordado.nome}}</td>
             <td class="!text-right">{{ ptBrCurrencyFormat.format(pedido_item.valor_final) }}</td>
