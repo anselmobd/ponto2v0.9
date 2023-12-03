@@ -434,7 +434,7 @@ class Lancamento(models.Model):
         Cobranca,
         on_delete=models.PROTECT,
         blank=True,
-        null=False,
+        null=True,
     )
     informacao = models.CharField(
         'Informação',
