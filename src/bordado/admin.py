@@ -147,6 +147,7 @@ class PedidoItemCobrancaAdmin(admin.ModelAdmin):
 class LancamentoAdmin(admin.ModelAdmin):
     list_display = [
         'data',
+        'id',
         'cobranca',
         'informacao',
         'valor',
