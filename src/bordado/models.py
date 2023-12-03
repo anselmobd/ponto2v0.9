@@ -428,6 +428,10 @@ class PedidoItemCobranca(models.Model):
 
 class Lancamento(models.Model):
     admin_order = 580
+    # cliente = models.ForeignKey(
+    #     Cliente,
+    #     on_delete=models.PROTECT,
+    # )
     data = models.DateField(
     )
     cobranca = models.ForeignKey(
@@ -446,12 +450,18 @@ class Lancamento(models.Model):
         validators=[MinValueValidator(-1_000_000), MaxValueValidator(1_000_000)],
         default=0,
     )
-    saldo = models.DecimalField(
+    saldo_cliente = models.DecimalField(
         max_digits=9,
         decimal_places=2,
         validators=[MinValueValidator(-1_000_000), MaxValueValidator(1_000_000)],
         default=0,
     )
+    # saldo_empresa = models.DecimalField(
+    #     max_digits=9,
+    #     decimal_places=2,
+    #     validators=[MinValueValidator(-1_000_000), MaxValueValidator(1_000_000)],
+    #     default=0,
+    # )
     usuario = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
@@ -467,6 +477,13 @@ class Lancamento(models.Model):
     def clean(self):
         super().clean()
         self.usuario = self.cleanned_usuario()
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # saldo_inicial = get_ultimo_saldo()
+        # pprint(self.id)
+        # recente = Lancamento.objects.first()
+        # pprint(recente)
 
     class Meta:
         db_table = "po2_lancamento"
