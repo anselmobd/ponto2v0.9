@@ -46,7 +46,7 @@ export function getCobranca({
 }
 
 export function addCobranca({
-  payload= {
+  payload={
     "cliente": {
       "apelido": null,
     },
@@ -55,7 +55,7 @@ export function addCobranca({
     "valor": null,
     "data": null,
     "parcelamento": null,
-    "pedido_itens": []
+    "pedidos_itens": []
   },  
   callBack=()=>{}
 }) {

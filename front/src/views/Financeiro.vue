@@ -100,10 +100,10 @@ function doAddCobranca(callBack) {
     },
     "tipo": comunicado.value.tipo,
     "nf": comunicado.value.nf,
-    "valor": comunicado.value.valor,
+    "valor": comunicado.value.valor_total,
     "data": comunicado.value.data,
     "parcelamento": comunicado.value.parcelamento,
-    "pedido_itens": pedidos_selecionados.value,
+    "pedidos_itens": pedidos_selecionados.value,
   }
   addCobranca({
     payload: payload,
