@@ -155,6 +155,9 @@ class LancamentoAdmin(admin.ModelAdmin):
         'usuario',
         'quando',
     ]
+    list_filter = [
+        'cliente',
+    ]
     readonly_fields = [
         'calculando',
         'saldo_cliente',
