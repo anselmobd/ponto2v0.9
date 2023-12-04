@@ -14,6 +14,7 @@ __all__ = [
     'PedidoItemSerializer',
     'CobrancaSerializer',
     'PedidoItemCobrancaSerializer',
+    'LancamentoSerializer',
     'OrdemProducaoSerializer',
     'ApontamentoProducaoSerializer',
 ]
@@ -128,6 +129,27 @@ class PedidoItemCobrancasSerializer(serializers.ModelSerializer):
             'id',
             'cobranca',
             'valor',
+        ]
+
+class LancamentoSerializer(serializers.ModelSerializer):
+    cliente = ClienteSerializer()
+    cobranca = CobrancaSerializer()
+    usuario = UserSerializer()
+
+    class Meta:
+        model = Lancamento
+        fields = [
+            'id',
+            'cliente',
+            'data',
+            'cobranca',
+            'informacao',
+            'valor',
+            'calculando',
+            'saldo_cliente',
+            'saldo_empresa',
+            'usuario',
+            'quando',
         ]
 
 

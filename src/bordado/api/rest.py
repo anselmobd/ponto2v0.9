@@ -16,6 +16,7 @@ from o2lib.dict import dict_keys_value
 
 from bordado.api.cobranca import CobrancaViewSet
 from bordado.api.pedido_item import PedidoItemViewSet
+from bordado.api.lancamento import LancamentoViewSet
 from bordado.api.rest_consts import __ACTIONS
 from bordado.models import *
 from bordado.serializers import *
@@ -30,6 +31,7 @@ __all__ = [
     'PedidoItemViewSet',
     'CobrancaViewSet',
     'PedidoItemCobrancaViewSet',
+    'LancamentoViewSet',
     'OrdemProducaoViewSet',
     'ApontamentoProducaoViewSet',
 ]

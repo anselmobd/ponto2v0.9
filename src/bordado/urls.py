@@ -14,6 +14,7 @@ router.register(r'pedido', PedidoViewSet)
 router.register(r'pedido_item', PedidoItemViewSet)
 router.register(r'cobranca', CobrancaViewSet)
 router.register(r'pedido_item_cobranca', PedidoItemCobrancaViewSet)
+router.register(r'lancamento', LancamentoViewSet)
 router.register(r'ordem_producao', OrdemProducaoViewSet)
 router.register(r'apontamento_producao', ApontamentoProducaoViewSet)
 
