@@ -236,10 +236,10 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="flex pt-4 place-content-between">
+    <section id="titulo" class="flex pt-4 place-content-between">
       <h2 class="inline font-bold text-xl">Financeiro do cliente <span class="text-indigo-700">{{ route.params.apelido }}</span></h2>
       <a title="Voltar" class="button text-xl cursor-pointer" @click.prevent="router.go(-1)">&#x2190;</a>
-    </div>
+    </section>
 
     <section id="lista_pedidos">
       <h3 class="my-4 font-bold text-lg text-center">Pedidos</h3>
@@ -402,7 +402,7 @@ onMounted(() => {
       </div>
     </section>
 
-    <div>
+    <section id="lista_comunicados">
       <h3 class="my-4 font-bold text-lg text-center">Comunicados</h3>
       <table class="w-full">
         <thead>
@@ -429,7 +429,9 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
-
+    </section>
+    
+    <section id="insere_lancamento">
       <button
         class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
         @click="handleInserirLancamentoClick"
@@ -506,7 +508,9 @@ onMounted(() => {
           >Cancela</button>
         </p>
       </div>
+    </section>
 
+    <section id="lista_lancamentos">
       <h3 class="my-4 font-bold text-lg text-center">Lançamentos</h3>
       <table class="w-full">
         <thead>
@@ -529,8 +533,8 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
+    </section>
 
-    </div>
   </div>
 </template>
 
