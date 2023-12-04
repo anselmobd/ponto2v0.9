@@ -1,4 +1,5 @@
 <script setup>
+import router from '@/router'
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
 import { getPedidoItem, saveFechamento, delFechamento, getPedidoItens } from '../api/pedidoItem.js';
