@@ -83,7 +83,6 @@ function cbGetPedidoItens(data, error) {
     });
   }
   if (error) {
-    console.log('cbGetPedidoItens error', error);
     pedido_itens_error.value = error;
   };
   pedido_itens_carregando.value = false;
@@ -104,7 +103,6 @@ function cbGetCobrancas(data, error) {
     if (data?.results) cobrancas.value = data.results;
   }
   if (error) {
-    console.log('cbGetCobrancas error', error);
     cobrancas_error.value = error;
   };
   cobrancas_carregando.value = false;
@@ -130,7 +128,6 @@ function cbAddCobranca(data, error) {
     doGetLancamentos();
   }
   if (error) {
-    console.log('cbAddCobranca error', error);
     comunicado.value.error = error.response.data.human.join('|');
     comunicado.value.error_tech = error.response.data.tech.join('|');
   };
@@ -159,7 +156,6 @@ function cbGetLancamentos(data, error) {
     if (data?.results) lancamentos.value = data.results;
   }
   if (error) {
-    console.log('cbGetLancamentos error', error);
     lancamentos_error.value = error;
   };
   lancamentos_carregando.value = false;
@@ -182,7 +178,6 @@ function cbAddLancamento(data, error) {
     doGetLancamentos();
   }
   if (error) {
-    console.log('cbAddLancamento error', error);
     lancamento.value.error = error.response.data.human.join('|');
     lancamento.value.error_tech = error.response.data.tech.join('|');
   };

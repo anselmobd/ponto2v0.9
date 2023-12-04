@@ -77,14 +77,8 @@ function doGetPedidoItemAndCalc() {
 
 function cbSaveFechamento(data, error) {
   if (data) {
-    console.log('salvo fechamento')
-    console.log(data);
     doGetPedidoItemAndCalc();
   }
-  if (error) {
-    console.log('erro salvando fechamento')
-    console.log(error);
-  };
 }
 
 function doSaveFechamento() {
@@ -107,14 +101,8 @@ function doSaveFechamento() {
 
 function cbDelFechamento(data, error) {
   if (data) {
-    console.log('apagado fechamento')
-    console.log(data);
     doGetPedidoItemAndCalc();
   }
-  if (error) {
-    console.log('erro apagando fechamento')
-    console.log(error);
-  };
 }
 
 function doDelFechamento() {
