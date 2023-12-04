@@ -232,7 +232,11 @@ function calcAjuste() {
 
 <template>
   <div>
-    <h2 class="pt-4 font-bold text-xl">Fechando pedido <span class="text-indigo-700">{{ route.params.id }}</span></h2>
+    <section id="titulo" class="flex pt-4 place-content-between">
+      <h2 class="inline font-bold text-xl">Fechando pedido <span class="text-indigo-700">{{ route.params.id }}</span></h2>
+      <a title="Voltar" class="button text-xl cursor-pointer" @click.prevent="router.go(-1)">&#x2190;</a>
+    </section>
+
     <div v-if="pedido_item">
       <table class="w-full">
         <thead>
@@ -441,5 +445,8 @@ table  {
 }
 th, td {
   @apply border border-solid border-slate-300 text-center
+}
+button, .button {
+  @apply mx-0.5 my-[1px] px-2 py-0.5 rounded-lg bg-sky-700 font-bold text-slate-100
 }
 </style>
