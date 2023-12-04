@@ -30,7 +30,7 @@ const lancamento = ref({})
 
 // outros valores reativos
 
-const status = ref('b'); // 'b' browsing; 'c' inserting comunicado;
+const status = ref('b'); // 'b' browsing; 'c' inserting comunicado; 'l' inserting lançamento
 
 // get set refs
 
@@ -42,6 +42,15 @@ function clearComunicado() {
     data: strDataAtual,
     parcelamento: '',
   };
+}
+
+function clearLancamento() {
+  lancamento.value = {
+    data: strDataAtual,
+    informacao: '',
+    valor: 0,
+    saldo: 0,
+  }
 }
 
 // DB API calls (do) and callbacks (cb)
@@ -134,6 +143,35 @@ function doGetLancamentos(callBack) {
   });
 }
 
+function cbAddLancamento(data, error) {
+  if (data) {
+    status.value = 'b';
+    pedidos_selecionados.value = [];
+    clearLancamento();
+    doGetLancamentos();
+  }
+  if (error) {
+    console.log('cbAddLancamento error', error);
+    lancamento.value.error = error.response.data.human.join('|');
+    lancamento.value.error_tech = error.response.data.tech.join('|');
+  };
+}
+
+function doAddLancamento(callBack) {
+  const payload= {
+    "cliente": {
+      "apelido": route.params.apelido,
+    },
+    "data": lancamento.value.data,
+    "informacao": lancamento.value.informacao,
+    "valor": lancamento.value.valor,
+  }
+  addLancamento({
+    payload: payload,
+    callBack: cbAddLancamento
+  });
+}
+
 // events
 
 function handleComunicarClick(event) {
@@ -151,9 +189,25 @@ function handleCancelaClick(event) {
   clearComunicado();
 }
 
-function handleSalvaFiltraClick(event) {
+function handleSalvaComunicadoClick(event) {
   event.preventDefault();
   doAddCobranca();
+}
+
+function handleInserirLancamentoClick(event) {
+  event.preventDefault();
+  status.value = 'l';
+}
+
+function handleCancelaLancamentoClick(event) {
+  event.preventDefault();
+  status.value = 'b';
+  clearLancamento();
+}
+
+function handleSalvaLancamentoClick(event) {
+  event.preventDefault();
+  doAddLancamento();
 }
 
 // Lifecycle Hooks
@@ -211,6 +265,7 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
+
       <button
         class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
         @click="handleComunicarClick"
@@ -308,7 +363,7 @@ onMounted(() => {
         <p class="flex flex-row-reverse place-content-between">
           <button
             type="button"
-            @click="handleSalvaFiltraClick"
+            @click="handleSalvaComunicadoClick"
           >Grava</button>
           <button
             type="button"
@@ -346,10 +401,10 @@ onMounted(() => {
 
       <button
         class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
-        @click="handlePagamentoClick"
-      >Registrar lançamento</button>
+        @click="handleInserirLancamentoClick"
+      >Inserir lançamento</button>
 
-      <div v-if="status == 'b'">
+      <div v-if="status == 'l'">
         <h3 class="my-4 font-bold text-lg text-center">Inserindo lançamento</h3>
         <table class="w-full">
           <thead>
@@ -412,11 +467,11 @@ onMounted(() => {
         <p class="flex flex-row-reverse place-content-between">
           <button
             type="button"
-            @click="handleSalvaFiltraClick"
+            @click="handleSalvaLancamentoClick"
           >Grava</button>
           <button
             type="button"
-            @click="handleCancelaClick"
+            @click="handleCancelaLancamentoClick"
           >Cancela</button>
         </p>
       </div>

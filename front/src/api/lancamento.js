@@ -31,12 +31,9 @@ export function addLancamento({
     "cliente": {
       "apelido": null,
     },
-    "tipo": null,
-    "nf": null,
-    "valor": null,
     "data": null,
-    "parcelamento": null,
-    "pedidos_itens": []
+    "informacao": null,
+    "valor": null,
   },  
   callBack=()=>{}
 }) {
