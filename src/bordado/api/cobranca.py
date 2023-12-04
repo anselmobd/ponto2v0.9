@@ -1,3 +1,4 @@
+import datetime
 from pprint import pprint
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -13,11 +14,14 @@ from rest_framework import (
 from rest_framework.response import Response
 
 from o2lib.dict import dict_keys_value
+from o2lib.string import split_numbers
+from o2lib.number import parcela_i_de_n_de_valor
 
 from bordado.api.rest_consts import __ACTIONS
 from bordado.models import (
     Cliente,
     Cobranca,
+    Lancamento,
     PedidoItem,
     PedidoItemCobranca,
 )
@@ -104,6 +108,39 @@ class CobrancaViewSet(viewsets.ModelViewSet):
                     except Exception as e:
                         print('CobrancaViewSet except pedido_item_cobranca')
                         errors['human'].append("Erro ao inserir registro que liga cobrança ao pedido.")
+                        errors['tech'].append(repr(e))
+                        raise TypeError
+
+                try:
+                    parcelas_str = split_numbers(request.data.get('parcelamento', ''))
+                    if not parcelas_str:
+                        parcelas_str = ['0']
+                    parcelas = list(map(int, parcelas_str))
+                    cobranca_data = datetime.datetime.strptime(cobranca.data, "%Y-%m-%d")
+                    print('cobranca.data')
+                    pprint(cobranca.data)
+                    pprint(cobranca_data)
+                except Exception as e:
+                    print('CobrancaViewSet except variáveis para lancamento')
+                    errors['human'].append("Erro ao inserir de lancamento.")
+                    errors['tech'].append(repr(e))
+                    raise TypeError
+
+                for i, parcela in enumerate(parcelas, start=1):
+                    try:
+                        lancamento = Lancamento(
+                            cliente=cliente,
+                            data=cobranca_data + datetime.timedelta(days=parcela),
+                            cobranca=cobranca,
+                            informacao=f"cobrança {cobranca.id}",
+                            valor=-parcela_i_de_n_de_valor(
+                                i, len(parcelas), cobranca.valor),
+                            usuario=self.request.user,
+                        )
+                        lancamento.save()
+                    except Exception as e:
+                        print('CobrancaViewSet except lancamento')
+                        errors['human'].append("Erro ao inserir de lancamento.")
                         errors['tech'].append(repr(e))
                         raise TypeError
 
