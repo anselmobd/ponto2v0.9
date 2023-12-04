@@ -291,7 +291,7 @@ onMounted(() => {
           >
             <td>
               <input
-                v-if="pedido_item.acobrar"
+                v-if="pedido_item.acobrar > 0"
                 :disabled="status != 'b'"
                 type="checkbox"
                 :id="`pedido_item_${pedido_item.id}`"
