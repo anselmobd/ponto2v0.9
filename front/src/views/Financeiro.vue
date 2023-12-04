@@ -13,15 +13,19 @@ const route = useRoute();
 
 const pedido_itens = ref([])
 const cobrancas = ref([])
-const pedidos_selecionados = ref([])
-const comunicado = ref({})
-const lancamento = ref({})
+const lancamentos = ref([])
 
 // variaveis comuns
 
   // para inicializar com data atual
   const dataAtual = new Date();
   const strDataAtual = date2InputText(dataAtual);
+
+// variáveis de inputs
+
+const pedidos_selecionados = ref([])
+const comunicado = ref({})
+const lancamento = ref({})
 
 // outros valores reativos
 
@@ -116,6 +120,19 @@ function doAddCobranca(callBack) {
   });
 }
 
+function cbGetLancamentos(data, error) {
+  if (data) {
+    if (data?.results) cobrancas.value = data.results;
+  }
+}
+
+function doGetLancamentos(callBack) {
+  getLancamentos({
+    cliente_apelido: route.params.apelido,
+    callBack: cbGetLancamentos
+  });
+}
+
 // events
 
 function handleComunicarClick(event) {
@@ -143,6 +160,7 @@ function handleSalvaFiltraClick(event) {
 onMounted(() => {
   doGetPedidoItens();
   doGetCobrancas();
+  doGetLancamentos();
 })
 
 </script>
