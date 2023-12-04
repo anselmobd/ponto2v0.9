@@ -127,6 +127,7 @@ function cbAddCobranca(data, error) {
     clearComunicado();
     doGetPedidoItens();
     doGetCobrancas();
+    doGetLancamentos();
   }
   if (error) {
     console.log('cbAddCobranca error', error);
@@ -164,7 +165,7 @@ function cbGetLancamentos(data, error) {
   lancamentos_carregando.value = false;
 }
 
-function doGetLancamentos(callBack) {
+function doGetLancamentos() {
   lancamentos.value = [];
   lancamentos_carregando.value = true;
   lancamentos_error.value = null;
@@ -177,7 +178,6 @@ function doGetLancamentos(callBack) {
 function cbAddLancamento(data, error) {
   if (data) {
     status.value = 'b';
-    pedidos_selecionados.value = [];
     clearLancamento();
     doGetLancamentos();
   }
