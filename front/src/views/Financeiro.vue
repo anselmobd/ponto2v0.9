@@ -21,6 +21,8 @@ const cobrancas_carregando = ref(null)
 const cobrancas_error = ref(null)
 
 const lancamentos = ref([])
+const lancamentos_carregando = ref(null)
+const lancamentos_error = ref(null)
 
 // variaveis comuns
 
@@ -134,7 +136,6 @@ function cbAddCobranca(data, error) {
 }
 
 function doAddCobranca(callBack) {
-  // clearErrors();
   const payload= {
     "cliente": {
       "apelido": route.params.apelido,
@@ -156,9 +157,17 @@ function cbGetLancamentos(data, error) {
   if (data) {
     if (data?.results) lancamentos.value = data.results;
   }
+  if (error) {
+    console.log('cbGetLancamentos error', error);
+    lancamentos_error.value = error;
+  };
+  lancamentos_carregando.value = false;
 }
 
 function doGetLancamentos(callBack) {
+  lancamentos.value = [];
+  lancamentos_carregando.value = true;
+  lancamentos_error.value = null;
   getLancamentos({
     cliente_apelido: route.params.apelido,
     callBack: cbGetLancamentos
@@ -269,7 +278,7 @@ onMounted(() => {
             </th>
           </tr>
           <tr v-if="pedido_itens_carregando">
-            <td colspan="7">Carregando dados dos pedidos</td>
+            <td colspan="7">Carregando dados dos pedidos...</td>
           </tr>
           <tr v-if="!pedido_itens_carregando && (pedido_itens.length == 0)">
             <td colspan="7">Nenhum pedido encontrado</td>
@@ -429,7 +438,7 @@ onMounted(() => {
             </th>
           </tr>
           <tr v-if="cobrancas_carregando">
-            <td colspan="7">Carregando dados dos comunicados de cobrança</td>
+            <td colspan="7">Carregando dados dos comunicados de cobrança...</td>
           </tr>
           <tr v-if="!cobrancas_carregando && (cobrancas.length == 0)">
             <td colspan="7">Nenhum comunicado de cobrança encontrado</td>
@@ -540,6 +549,17 @@ onMounted(() => {
             <th>Informação</th>
             <th>Valor</th>
             <th>Saldo</th>
+          </tr>
+          <tr v-if="lancamentos_error">
+            <th class="text-red-800" colspan="7">
+              {{ lancamentos_error }}
+            </th>
+          </tr>
+          <tr v-if="lancamentos_carregando">
+            <td colspan="7">Carregando dados dos lançamentos...</td>
+          </tr>
+          <tr v-if="!lancamentos_carregando && (lancamentos.length == 0)">
+            <td colspan="7">Nenhum lançamento encontrado</td>
           </tr>
         </thead>
         <tbody>
