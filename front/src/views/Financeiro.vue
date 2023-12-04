@@ -17,6 +17,9 @@ const pedido_itens_carregando = ref(null)
 const pedido_itens_error = ref(null)
 
 const cobrancas = ref([])
+const cobrancas_carregando = ref(null)
+const cobrancas_error = ref(null)
+
 const lancamentos = ref([])
 
 // variaveis comuns
@@ -98,9 +101,17 @@ function cbGetCobrancas(data, error) {
   if (data) {
     if (data?.results) cobrancas.value = data.results;
   }
+  if (error) {
+    console.log('cbGetCobrancas error', error);
+    cobrancas_error.value = error;
+  };
+  cobrancas_carregando.value = false;
 }
 
 function doGetCobrancas(callBack) {
+  cobrancas.value = [];
+  cobrancas_carregando.value = true;
+  cobrancas_error.value = null;
   getCobrancas({
     cliente_apelido: route.params.apelido,
     callBack: cbGetCobrancas
@@ -261,7 +272,7 @@ onMounted(() => {
             <td colspan="7">Carregando dados dos pedidos</td>
           </tr>
           <tr v-if="!pedido_itens_carregando && (pedido_itens.length == 0)">
-            <td colspan="7">Nenhum pedido econtrado</td>
+            <td colspan="7">Nenhum pedido encontrado</td>
           </tr>
         </thead>
         <tbody>
@@ -401,7 +412,7 @@ onMounted(() => {
     </section>
 
     <section id="lista_comunicados">
-      <h3 class="my-4 font-bold text-lg text-center">Comunicados</h3>
+      <h3 class="my-4 font-bold text-lg text-center">Comunicados de cobrança</h3>
       <table class="w-full">
         <thead>
           <tr>
@@ -411,6 +422,17 @@ onMounted(() => {
             <th>Valor</th>
             <th>Data</th>
             <th>Parcelamento</th>
+          </tr>
+          <tr v-if="cobrancas_error">
+            <th class="text-red-800" colspan="7">
+              {{ cobrancas_error }}
+            </th>
+          </tr>
+          <tr v-if="cobrancas_carregando">
+            <td colspan="7">Carregando dados dos comunicados de cobrança</td>
+          </tr>
+          <tr v-if="!cobrancas_carregando && (cobrancas.length == 0)">
+            <td colspan="7">Nenhum comunicado de cobrança encontrado</td>
           </tr>
         </thead>
         <tbody>
