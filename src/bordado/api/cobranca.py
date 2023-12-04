@@ -43,10 +43,7 @@ class CobrancaViewSet(viewsets.ModelViewSet):
     filterset_fields = ['cliente__apelido']
 
     def create(self, request, *args, **kwargs):
-        print('CobrancaViewSet create')
         if 'pedidos_itens' in request.data:
-            print('CobrancaViewSet create if')
-            pprint(request.data)
             try:
                 errors = {
                     'human': [],
@@ -54,18 +51,15 @@ class CobrancaViewSet(viewsets.ModelViewSet):
                 }
 
                 try:
-                    print('CobrancaViewSet try cliente')
                     cliente = Cliente.objects.get(
                         apelido=request.data['cliente']['apelido']
                     )
                 except KeyError as e:
-                    print('CobrancaViewSet KeyError cliente')
                     errors['human'].append("Informe apelido de cliente.")
                     errors['tech'].append(repr(e))
                     raise TypeError
 
                 try:
-                    print('CobrancaViewSet cria cobranca')
                     cobranca = Cobranca(
                         cliente=cliente,
                         tipo=request.data.get('tipo'),
@@ -77,19 +71,15 @@ class CobrancaViewSet(viewsets.ModelViewSet):
                     )
                     cobranca.save()
                 except Exception as e:
-                    print('CobrancaViewSet cobranca.save exception')
                     errors['human'].append("Erro ao criar o registro de cobrança.")
                     errors['tech'].append(repr(e))
                     raise TypeError
 
                 total_cobrado = cobranca.valor
                 for pedido_item_id in request.data['pedidos_itens']:
-                    print(pedido_item_id)
                     try:
-                        print('CobrancaViewSet try pedido_item')
                         pedido_item = PedidoItem.objects.get(id=pedido_item_id)
                     except Exception as e:
-                        print('CobrancaViewSet except pedido_item')
                         errors['human'].append("Erro ao buscar por pedido marcado.")
                         errors['tech'].append(repr(e))
                         raise TypeError
@@ -110,7 +100,6 @@ class CobrancaViewSet(viewsets.ModelViewSet):
                             )
                             pedido_item_cobranca.save()
                         except Exception as e:
-                            print('CobrancaViewSet except pedido_item_cobranca')
                             errors['human'].append("Erro ao inserir registro que liga cobrança ao pedido.")
                             errors['tech'].append(repr(e))
                             raise TypeError
@@ -122,11 +111,7 @@ class CobrancaViewSet(viewsets.ModelViewSet):
                         parcelas_str = ['0']
                     parcelas = list(map(int, parcelas_str))
                     cobranca_data = datetime.datetime.strptime(cobranca.data, "%Y-%m-%d")
-                    print('cobranca.data')
-                    pprint(cobranca.data)
-                    pprint(cobranca_data)
                 except Exception as e:
-                    print('CobrancaViewSet except variáveis para lancamento')
                     errors['human'].append("Erro ao inserir de lancamento.")
                     errors['tech'].append(repr(e))
                     raise TypeError
@@ -144,7 +129,6 @@ class CobrancaViewSet(viewsets.ModelViewSet):
                         )
                         lancamento.save()
                     except Exception as e:
-                        print('CobrancaViewSet except lancamento')
                         errors['human'].append("Erro ao inserir de lancamento.")
                         errors['tech'].append(repr(e))
                         raise TypeError
@@ -154,7 +138,6 @@ class CobrancaViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_201_CREATED,
                 )
             except Exception:
-                print('CobrancaViewSet Exception')
                 return Response(errors, status=status.HTTP_400_BAD_REQUEST)
         
         return super().create(request, *args, **kwargs)
