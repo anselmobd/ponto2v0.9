@@ -10,9 +10,14 @@ import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
 const route = useRoute();
 
-// valores recebidos de DB
+// valores recebidos de DB e seus controles de visualização
 
 const pedido_itens = ref([])
+const pedido_itens_ctrl = ref({
+  carregando: null,
+  error: null,
+})
+
 const cobrancas = ref([])
 const lancamentos = ref([])
 
@@ -74,9 +79,17 @@ function cbGetPedidoItens(data, error) {
       return ped_item;
     });
   }
+  if (error) {
+    console.log('cbGetPedidoItens error', error);
+    pedido_itens_ctrl.value.error = error;
+  };
+  pedido_itens_ctrl.value.carregando = false;
 }
 
 function doGetPedidoItens(callBack) {
+  pedido_itens.value = [];
+  pedido_itens_ctrl.value.carregando = true;
+  pedido_itens_ctrl.value.error = null;
   getPedidoItens({
     cliente_apelido: route.params.apelido,
     callBack: cbGetPedidoItens
@@ -227,8 +240,8 @@ onMounted(() => {
       <h2 class="inline font-bold text-xl">Financeiro do cliente <span class="text-indigo-700">{{ route.params.apelido }}</span></h2>
       <a title="Voltar" class="button text-xl cursor-pointer" @click.prevent="router.go(-1)">&#x2190;</a>
     </div>
-    <div v-if="pedido_itens">
 
+    <session>
       <h3 class="my-4 font-bold text-lg text-center">Pedidos</h3>
       <table class="w-full">
         <thead>
@@ -240,6 +253,17 @@ onMounted(() => {
             <th>Valor</th>
             <th>Cobrado</th>
             <th>A cobrar</th>
+          </tr>
+          <tr v-if="pedido_itens_ctrl.error">
+            <th class="text-red-800" colspan="7">
+              {{ pedido_itens_ctrl.error }}
+            </th>
+          </tr>
+          <tr v-if="pedido_itens_ctrl.carregando">
+            <td colspan="7">Carregando dados dos pedidos</td>
+          </tr>
+          <tr v-if="!pedido_itens_ctrl.carregando && (pedido_itens.length == 0)">
+            <td colspan="7">Nenhum pedido econtrado</td>
           </tr>
         </thead>
         <tbody>
@@ -266,7 +290,9 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
+    </session>
 
+    <div>
       <button
         class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
         @click="handleComunicarClick"
