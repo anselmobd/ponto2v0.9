@@ -208,7 +208,7 @@ function doAddLancamento(callBack) {
 function handleInserirComunicadoClick(event) {
   event.preventDefault();
   comunicado.value.valor_total = pedido_itens.value.map((ped_item) => {
-    return pedidos_selecionados.value.includes(ped_item.id) ? ped_item.valor_final : 0
+    return pedidos_selecionados.value.includes(ped_item.id) ? ped_item.acobrar : 0
   }).reduce((soma, valor) => soma + valor, 0);
   comunicado.value.data = strDataAtual;
   status.value = 'c';
