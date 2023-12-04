@@ -26,7 +26,7 @@ export function getPedidoItens({
   })
   .catch(error => {
     console.error('Erro ao obter pedido_itens via API:', error)
-    callBack(null, error);
+    callBack(null, error.message);
   });
 }
 
