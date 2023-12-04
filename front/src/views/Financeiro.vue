@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
 import { getPedidoItens } from '../api/pedidoItem.js';
 import { getCobrancas, addCobranca } from '../api/cobranca.js';
-import { getLancamentos } from '../api/lancamento.js';
+import { getLancamentos, addLancamento } from '../api/lancamento.js';
 import { inputStrDate2PtBrDate, date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
@@ -196,6 +196,7 @@ function handleSalvaComunicadoClick(event) {
 
 function handleInserirLancamentoClick(event) {
   event.preventDefault();
+  lancamento.value.data = strDataAtual;
   status.value = 'l';
 }
 
@@ -429,7 +430,6 @@ onMounted(() => {
                   name="data"
                   id="data"
                   required
-                  v-focus
                 >
               </td>
               <td>
@@ -442,6 +442,7 @@ onMounted(() => {
                   placeholder=""
                   list="informacao-list"
                   required
+                  v-focus
                 >
                 <datalist id="informacao-list">
                   <option>boleto</option>
