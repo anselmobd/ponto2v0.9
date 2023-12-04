@@ -13,10 +13,8 @@ const route = useRoute();
 // valores recebidos de DB e seus controles de visualização
 
 const pedido_itens = ref([])
-const pedido_itens_ctrl = ref({
-  carregando: null,
-  error: null,
-})
+const pedido_itens_carregando = ref(null)
+const pedido_itens_error = ref(null)
 
 const cobrancas = ref([])
 const lancamentos = ref([])
@@ -81,15 +79,15 @@ function cbGetPedidoItens(data, error) {
   }
   if (error) {
     console.log('cbGetPedidoItens error', error);
-    pedido_itens_ctrl.value.error = error;
+    pedido_itens_error.value = error;
   };
-  pedido_itens_ctrl.value.carregando = false;
+  pedido_itens_carregando.value = false;
 }
 
 function doGetPedidoItens(callBack) {
   pedido_itens.value = [];
-  pedido_itens_ctrl.value.carregando = true;
-  pedido_itens_ctrl.value.error = null;
+  pedido_itens_carregando.value = true;
+  pedido_itens_error.value = null;
   getPedidoItens({
     cliente_apelido: route.params.apelido,
     callBack: cbGetPedidoItens
@@ -187,7 +185,7 @@ function doAddLancamento(callBack) {
 
 // events
 
-function handleComunicarClick(event) {
+function handleInserirComunicadoClick(event) {
   event.preventDefault();
   comunicado.value.valor_total = pedido_itens.value.map((ped_item) => {
     return pedidos_selecionados.value.includes(ped_item.id) ? ped_item.valor_final : 0
@@ -196,7 +194,7 @@ function handleComunicarClick(event) {
   status.value = 'c';
 }
 
-function handleCancelaClick(event) {
+function handleCancelaComunicadoClick(event) {
   event.preventDefault();
   status.value = 'b';
   clearComunicado();
@@ -254,15 +252,15 @@ onMounted(() => {
             <th>Cobrado</th>
             <th>A cobrar</th>
           </tr>
-          <tr v-if="pedido_itens_ctrl.error">
+          <tr v-if="pedido_itens_error">
             <th class="text-red-800" colspan="7">
-              {{ pedido_itens_ctrl.error }}
+              {{ pedido_itens_error }}
             </th>
           </tr>
-          <tr v-if="pedido_itens_ctrl.carregando">
+          <tr v-if="pedido_itens_carregando">
             <td colspan="7">Carregando dados dos pedidos</td>
           </tr>
-          <tr v-if="!pedido_itens_ctrl.carregando && (pedido_itens.length == 0)">
+          <tr v-if="!pedido_itens_carregando && (pedido_itens.length == 0)">
             <td colspan="7">Nenhum pedido econtrado</td>
           </tr>
         </thead>
@@ -297,7 +295,7 @@ onMounted(() => {
       <button
         :disabled="!pedidos_selecionados.length || status != 'b'"
         class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
-        @click="handleComunicarClick"
+        @click="handleInserirComunicadoClick"
       >Comunicar cobrança</button>
 
       <div v-if="status == 'c'">
@@ -396,7 +394,7 @@ onMounted(() => {
           >Grava</button>
           <button
             type="button"
-            @click="handleCancelaClick"
+            @click="handleCancelaComunicadoClick"
           >Cancela</button>
         </p>
       </div>
