@@ -33,5 +33,5 @@ class LancamentoViewSet(viewsets.ModelViewSet):
     queryset = Lancamento.objects.all()
     serializer_class = LancamentoSerializer
     permission_classes = [permissions.IsAuthenticated]
-    # filter_backends = [DjangoFilterBackend]
-    # filterset_fields = ['cliente__apelido']
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['cliente__apelido']
