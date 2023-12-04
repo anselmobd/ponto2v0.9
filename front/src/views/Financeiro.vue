@@ -4,6 +4,7 @@ import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
 import { getPedidoItens } from '../api/pedidoItem.js';
 import { getCobrancas, addCobranca } from '../api/cobranca.js';
+import { getLancamentos } from '../api/lancamento.js';
 import { inputStrDate2PtBrDate, date2InputText } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 
@@ -122,7 +123,7 @@ function doAddCobranca(callBack) {
 
 function cbGetLancamentos(data, error) {
   if (data) {
-    if (data?.results) cobrancas.value = data.results;
+    if (data?.results) lancamentos.value = data.results;
   }
 }
 
@@ -419,6 +420,29 @@ onMounted(() => {
           >Cancela</button>
         </p>
       </div>
+
+      <h3 class="my-4 font-bold text-lg text-center">Lançamentos</h3>
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Informação</th>
+            <th>Valor</th>
+            <th>Saldo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="lancamento in lancamentos"
+            :key="lancamento.id"
+          >
+            <td>{{ inputStrDate2PtBrDate(lancamento.data) }}</td>
+            <td>{{ lancamento.informacao }}</td>
+            <td class="!text-right">{{ ptBrCurrencyFormat.format(lancamento.valor) }}</td>
+            <td class="!text-right">{{ ptBrCurrencyFormat.format(lancamento.saldo_cliente) }}</td>
+          </tr>
+        </tbody>
+      </table>
 
     </div>
   </div>
