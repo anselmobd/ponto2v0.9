@@ -35,3 +35,52 @@ class LancamentoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['cliente__apelido']
+
+    def create(self, request, *args, **kwargs):
+        print('LancamentoViewSet create')
+        if len(request.data.keys()) == 4:
+            print('LancamentoViewSet create if')
+            pprint(request.data)
+            # ['cliente', 'data', 'informacao', 'valor']:
+            try:
+                errors = {
+                    'human': [],
+                    'tech': [],
+                }
+
+                try:
+                    print('LancamentoViewSet try cliente')
+                    cliente = Cliente.objects.get(
+                        apelido=request.data['cliente']['apelido']
+                    )
+                except KeyError as e:
+                    print('LancamentoViewSet KeyError cliente')
+                    errors['human'].append("Informe apelido de cliente.")
+                    errors['tech'].append(repr(e))
+                    raise TypeError
+
+                try:
+                    print('LancamentoViewSet cria lancamento')
+                    lancamento = Lancamento(
+                        cliente=cliente,
+                        data=request.data.get('data'),
+                        informacao=request.data.get('informacao'),
+                        valor=request.data.get('valor'),
+                        usuario=self.request.user,
+                    )
+                    lancamento.save()
+                except Exception as e:
+                    print('LancamentoViewSet cobranca.save exception')
+                    errors['human'].append("Erro ao criar o registro de lancamento.")
+                    errors['tech'].append(repr(e))
+                    raise TypeError
+
+                return Response(
+                    LancamentoSerializer(lancamento).data,
+                    status=status.HTTP_201_CREATED,
+                )
+            except Exception:
+                print('LancamentoViewSet Exception')
+                return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return super().create(request, *args, **kwargs)
