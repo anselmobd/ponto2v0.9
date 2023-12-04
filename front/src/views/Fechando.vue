@@ -168,6 +168,12 @@ function handleApagaClick(event) {
   doDelFechamento();
 }
 
+function handleFinanceiroClick(event) {
+  event.preventDefault();
+  const apelido = event.target.value;
+  router.push({ name: 'financeiro', params: { apelido: apelido } });
+}
+
 // Lifecycle Hooks
 
 onMounted(() => {
@@ -252,7 +258,15 @@ function calcAjuste() {
           <tr>
             <td>{{ pedido_item.usuario.username }}</td>
             <td>{{inserido_em}}</td>
-            <td>{{pedido_item.pedido.cliente.apelido}}</td>
+            <td>
+              {{pedido_item.pedido.cliente.apelido}}
+              <button
+                class="button-text-shadow"
+                :value="pedido_item.pedido.cliente.apelido"
+                @click="handleFinanceiroClick"
+                title="Financeiro"
+              >💲</button>
+            </td>
             <td>{{pedido_item.bordado.nome}}</td>
           </tr>
         </tbody>
