@@ -293,7 +293,7 @@ onMounted(() => {
       </table>
     </section>
 
-    <section id="insere_cobranca">
+    <section id="insere_comunicado">
       <button
         :disabled="!pedidos_selecionados.length || status != 'b'"
         class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
@@ -433,6 +433,7 @@ onMounted(() => {
     
     <section id="insere_lancamento">
       <button
+        :disabled="status != 'b'"
         class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
         @click="handleInserirLancamentoClick"
       >Inserir lançamento</button>
