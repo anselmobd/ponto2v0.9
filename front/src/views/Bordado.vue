@@ -371,6 +371,7 @@ watch(status, (newStatus) => {
           <td>{{pedido_item.bordado.nome}}</td>
           <td>
             <button
+              v-if="!pedido_item.cobrancas.length"
               class="button-text-shadow"
               :value="pedido_item.id"
               @click="handleFechandoClick"
