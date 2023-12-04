@@ -241,7 +241,7 @@ onMounted(() => {
       <a title="Voltar" class="button text-xl cursor-pointer" @click.prevent="router.go(-1)">&#x2190;</a>
     </div>
 
-    <session>
+    <section id="lista_pedidos">
       <h3 class="my-4 font-bold text-lg text-center">Pedidos</h3>
       <table class="w-full">
         <thead>
@@ -274,6 +274,7 @@ onMounted(() => {
             <td>
               <input
                 v-if="pedido_item.acobrar"
+                :disabled="status != 'b'"
                 type="checkbox"
                 :id="`pedido_item_${pedido_item.id}`"
                 :name="`pedido_item_${pedido_item.id}`"
@@ -290,10 +291,11 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
-    </session>
+    </section>
 
-    <div>
+    <section id="insere_cobranca">
       <button
+        :disabled="!pedidos_selecionados.length || status != 'b'"
         class="px-2 py-1 rounded-xl bg-sky-700 font-bold text-slate-100"
         @click="handleComunicarClick"
       >Comunicar cobrança</button>
@@ -398,7 +400,9 @@ onMounted(() => {
           >Cancela</button>
         </p>
       </div>
+    </section>
 
+    <div>
       <h3 class="my-4 font-bold text-lg text-center">Comunicados</h3>
       <table class="w-full">
         <thead>
