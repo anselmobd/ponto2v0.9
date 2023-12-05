@@ -18,7 +18,11 @@ export function date2InputText(date) {
   return `${year}-${month}-${day}`
 }
 
-export function inputStrDate2PtBrDate(str_date) {  
-  return new Intl.DateTimeFormat('pt-BR').format(new Date(str_date))
+export function inputStrDate2PtBrDate(str_date) {
+  if (str_date) {
+    return new Intl.DateTimeFormat('pt-BR').format(new Date(str_date));
+  } else {
+    return '';
+  }
 }
 
