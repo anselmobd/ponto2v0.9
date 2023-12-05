@@ -1,7 +1,7 @@
 from pprint import pprint
 
 from django.db.models import Q
-from django.db.models.signals import post_delete, pre_save, post_save
+from django.db.models.signals import post_delete, pre_save, post_save, post_init
 from django.dispatch import receiver
 
 from bordado.models import Lancamento
@@ -88,3 +88,18 @@ def post_save_lancamento(sender, instance, *args, **kwargs):
         id=instance.id
         acerta_saldos_cliente(cliente, data, id)
         acerta_saldos_empresa(data, id)
+
+@receiver(post_init, sender=Lancamento)
+def post_init_lancamento(sender, instance, *args, **kwargs):
+    if instance.cobranca:
+        informacao_list = []
+        if instance.cobranca.nf:
+            informacao_list.append(
+                f"{instance.cobranca.tipo} {instance.cobranca.nf}")
+        else:
+            informacao_list.append(instance.cobranca.tipo)
+        informacao_list.append(f"Cobrança {instance.cobranca.id}")
+        if instance.n_parcelas > 1:
+            informacao_list.append(f"parcela {instance.parcela}/{instance.n_parcelas}")
+        informacao = "; ".join(informacao_list)
+        instance.informacao = informacao
