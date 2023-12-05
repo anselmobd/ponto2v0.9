@@ -3,7 +3,7 @@ import router from '@/router'
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from 'vue'
 import { getPedidoItem, saveFechamento, delFechamento, getPedidoItens } from '../api/pedidoItem.js';
-import { dateTime2Text, date2InputText } from "../utils/date.js";
+import { dateTime2Text, date2InputText, inputStrDate2PtBrDate } from "../utils/date.js";
 import { ptBrCurrencyFormat } from "../utils/numStr.js";
 import { floatRound } from "../utils/number.js";
 
@@ -410,6 +410,7 @@ function calcAjuste() {
           <tr>
             <th>Pedido</th>
             <th>Bordado</th>
+            <th>Data de entrega</th>
             <th>Quantidade</th>
             <th>Valor unitário</th>
             <th>Valor</th>
@@ -425,6 +426,7 @@ function calcAjuste() {
           >
             <td>{{ pedido_item_clie.id }}</td>
             <td>{{ pedido_item_clie.bordado.nome }}</td>
+            <td>{{ inputStrDate2PtBrDate(pedido_item_clie.pedido.entrega) }}</td>
             <td>{{ pedido_item_clie.quantidade }}</td>
             <td>{{ ptBrCurrencyFormat.format(pedido_item_clie.preco) }}</td>
             <td>{{ ptBrCurrencyFormat.format(pedido_item_clie.quantidade * pedido_item_clie.preco) }}</td>
