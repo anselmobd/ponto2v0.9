@@ -110,6 +110,7 @@ class CobrancaViewSet(viewsets.ModelViewSet):
                     if not parcelas_str:
                         parcelas_str = ['0']
                     parcelas = list(map(int, parcelas_str))
+                    n_parcelas = len(parcelas)
                     cobranca_data = datetime.datetime.strptime(cobranca.data, "%Y-%m-%d")
                 except Exception as e:
                     errors['human'].append("Erro ao inserir de lancamento.")
@@ -117,14 +118,24 @@ class CobrancaViewSet(viewsets.ModelViewSet):
                     raise TypeError
 
                 for i, parcela in enumerate(parcelas, start=1):
+                    informacao_list = []
+                    if cobranca.nf:
+                        tipo_str = f"{cobranca.tipo} ({cobranca.nf})"
+                    else:
+                        tipo_str = cobranca.tipo
+                    informacao_list.append(tipo_str)
+                    informacao_list.append(f"Cobrança {cobranca.id}")
+                    if n_parcelas > 1:
+                        informacao_list.append(f"parcela {i}/{n_parcelas}")
+                    informacao = "; ".join(informacao_list)
                     try:
                         lancamento = Lancamento(
                             cliente=cliente,
                             data=cobranca_data + datetime.timedelta(days=parcela),
                             cobranca=cobranca,
-                            informacao=f"cobrança {cobranca.id}",
+                            informacao=informacao,
                             valor=-parcela_i_de_n_de_valor(
-                                i, len(parcelas), cobranca.valor),
+                                i, n_parcelas, cobranca.valor),
                             usuario=self.request.user,
                         )
                         lancamento.save()
