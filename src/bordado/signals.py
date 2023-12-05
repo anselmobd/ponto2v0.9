@@ -7,28 +7,16 @@ from django.dispatch import receiver
 from bordado.models import Lancamento
 
 
-def acerta_saldos_cliente(cliente, data, id):
-    print('acerta_saldos_cliente')
+def acerta_saldos_cliente(cliente, data):
     lancamento = Lancamento.objects.filter(
-        Q(cliente=cliente) & (
-            Q(data__lt=data) | ( Q(data=data) & Q(id__lt=id) )
-        )
+        Q(cliente=cliente) & Q(data__lt=data)
     ).order_by('-data', '-id').first()
-    print('anterior', lancamento)
-    if lancamento:
-        saldo = lancamento.saldo_cliente
-    else:
-        saldo = 0
-    print('acerta_saldos_cliente saldo', saldo)
+    saldo = lancamento.saldo_cliente if lancamento else 0
 
     lancamentos = Lancamento.objects.filter(
-        Q(cliente=cliente) & (
-            Q(data__gt=data) | ( Q(data=data) & Q(id__gte=id) )
-        )
+        Q(cliente=cliente) & Q(data__gte=data)
     ).order_by('data', 'id')
     for lancamento in lancamentos:
-        print('acerta_saldos_cliente', lancamento)
-        print('novo saldo', saldo)
         saldo += lancamento.valor
         if lancamento.saldo_cliente != saldo:
             lancamento.saldo_cliente = saldo
@@ -36,24 +24,16 @@ def acerta_saldos_cliente(cliente, data, id):
             lancamento.save()
 
 
-def acerta_saldos_empresa(data, id):
-    print('acerta_saldos_empresa')
+def acerta_saldos_empresa(data):
     lancamento = Lancamento.objects.filter(
-        Q(data__lt=data) | ( Q(data=data) & Q(id__lt=id) )
+        Q(data__lt=data)
     ).order_by('-data', '-id').first()
-    print('anterior', lancamento)
-    if lancamento:
-        saldo = lancamento.saldo_empresa
-    else:
-        saldo = 0
-    print('acerta_saldos_empresa saldo', saldo)
+    saldo = lancamento.saldo_empresa if lancamento else 0
 
     lancamentos = Lancamento.objects.filter(
-        Q(data__gt=data) | ( Q(data=data) & Q(id__gte=id) )
+        Q(data__gte=data)
     ).order_by('data', 'id')
     for lancamento in lancamentos:
-        print('acerta_saldos_empresa', lancamento)
-        print('novo saldo', saldo)
         saldo += lancamento.valor
         if lancamento.saldo_empresa != saldo:
             lancamento.saldo_empresa = saldo
@@ -63,31 +43,34 @@ def acerta_saldos_empresa(data, id):
 
 @receiver(post_delete, sender=Lancamento)
 def post_delete_lancamento(sender, instance, *args, **kwargs):
-    print('post_delete_lancamento')
-    pprint(instance)
     cliente=instance.cliente
     data=instance.data
-    id=instance.id
-    acerta_saldos_cliente(cliente, data, id)
-    acerta_saldos_empresa(data, id)
+    acerta_saldos_cliente(cliente, data)
+    acerta_saldos_empresa(data)
 
 
 @receiver(pre_save, sender=Lancamento)
 def pre_save_lancamento(sender, instance, *args, **kwargs):
     instance.propagar = not instance.calculando
     instance.calculando = False
+    if instance.propagar:
+        instance.busca_cliente = instance.cliente
+        instance.busca_data = instance.data
+        if instance.id:
+            try:
+                old_instance = Lancamento.objects.get(id=instance.id)
+                instance.busca_data = min(
+                    instance.busca_data, old_instance.data)
+            except Lancamento.DoesNotExist:
+                pass
 
 
 @receiver(post_save, sender=Lancamento)
 def post_save_lancamento(sender, instance, *args, **kwargs):
     if instance.propagar:
-        print('post_save_lancamento')
-        pprint(instance)
-        cliente=instance.cliente
-        data=instance.data
-        id=instance.id
-        acerta_saldos_cliente(cliente, data, id)
-        acerta_saldos_empresa(data, id)
+        acerta_saldos_cliente(instance.busca_cliente, instance.busca_data)
+        acerta_saldos_empresa(instance.busca_data)
+
 
 @receiver(post_init, sender=Lancamento)
 def post_init_lancamento(sender, instance, *args, **kwargs):
