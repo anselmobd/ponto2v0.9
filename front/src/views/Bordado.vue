@@ -392,6 +392,7 @@ watch(status, (newStatus) => {
               :value="index"
               @click="handleApagarClick"
               :disabled="status != 'b'"
+              title="Apaga pedido"
             >🗑️</button>
           </td>
         </tr>
