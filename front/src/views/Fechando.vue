@@ -375,6 +375,7 @@ function calcAjuste() {
         <thead>
           <tr>
             <th>Pedido</th>
+            <th>Data de entrega</th>
             <th>Quantidade</th>
             <th>Valor unitário</th>
             <th>Valor</th>
@@ -389,6 +390,7 @@ function calcAjuste() {
             :key="pedido_item_bord.id"
           >
             <td>{{ pedido_item_bord.id }}</td>
+            <td>{{ inputStrDate2PtBrDate(pedido_item_bord.pedido.entrega) }}</td>
             <td>{{ pedido_item_bord.quantidade }}</td>
             <td>{{ ptBrCurrencyFormat.format(pedido_item_bord.preco) }}</td>
             <td>{{ ptBrCurrencyFormat.format(pedido_item_bord.quantidade * pedido_item_bord.preco) }}</td>
