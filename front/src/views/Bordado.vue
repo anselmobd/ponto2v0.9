@@ -371,6 +371,14 @@ watch(status, (newStatus) => {
           <td>{{pedido_item.bordado.nome}}</td>
           <td>
             <button
+              v-if="!pedido_item.quantidade"
+              class="button-text-shadow"
+              :value="index"
+              @click="handleApagarClick"
+              :disabled="status != 'b'"
+              title="Apaga pedido"
+            >🗑️</button>
+            <button
               v-if="!pedido_item.cobrancas.length"
               class="button-text-shadow"
               :value="pedido_item.id"
@@ -379,21 +387,12 @@ watch(status, (newStatus) => {
               title="Fecha pedido"
             >🪡</button>
             <button
-              v-if="pedido_item.quantidade"
               class="button-text-shadow"
               :value="pedido_item.pedido.cliente.apelido"
               @click="handleFinanceiroClick"
               :disabled="status != 'b'"
               title="Financeiro"
             >💲</button>
-            <button
-              v-if="!pedido_item.quantidade"
-              class="button-text-shadow"
-              :value="index"
-              @click="handleApagarClick"
-              :disabled="status != 'b'"
-              title="Apaga pedido"
-            >🗑️</button>
           </td>
         </tr>
       </tbody>
