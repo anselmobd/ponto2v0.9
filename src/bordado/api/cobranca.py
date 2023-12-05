@@ -118,22 +118,13 @@ class CobrancaViewSet(viewsets.ModelViewSet):
                     raise TypeError
 
                 for i, parcela in enumerate(parcelas, start=1):
-                    informacao_list = []
-                    if cobranca.nf:
-                        tipo_str = f"{cobranca.tipo} ({cobranca.nf})"
-                    else:
-                        tipo_str = cobranca.tipo
-                    informacao_list.append(tipo_str)
-                    informacao_list.append(f"Cobrança {cobranca.id}")
-                    if n_parcelas > 1:
-                        informacao_list.append(f"parcela {i}/{n_parcelas}")
-                    informacao = "; ".join(informacao_list)
                     try:
                         lancamento = Lancamento(
                             cliente=cliente,
                             data=cobranca_data + datetime.timedelta(days=parcela),
                             cobranca=cobranca,
-                            informacao=informacao,
+                            parcela=i,
+                            n_parcelas=n_parcelas,
                             valor=-parcela_i_de_n_de_valor(
                                 i, n_parcelas, cobranca.valor),
                             usuario=self.request.user,
