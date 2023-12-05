@@ -441,6 +441,15 @@ class Lancamento(models.Model):
         blank=True,
         null=True,
     )
+    parcela = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=0,
+    )
+    n_parcelas = models.PositiveSmallIntegerField(
+        'Nº de parcelas',
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=0,
+    )
     informacao = models.CharField(
         'Informação',
         max_length=50,
