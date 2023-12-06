@@ -20,7 +20,7 @@ export function date2InputText(date) {
 
 export function inputStrDate2PtBrDate(str_date) {
   if (str_date) {
-    return new Intl.DateTimeFormat('pt-BR').format(new Date(str_date));
+    return (new Date(str_date)).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
   } else {
     return '';
   }
