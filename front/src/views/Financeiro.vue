@@ -21,8 +21,9 @@ const cobrancas_carregando = ref(null)
 const cobrancas_error = ref(null)
 
 const lancamentos = ref([])
-const lancamentos_carregando = ref(null)
+const lancamentos_carregando = ref(1)  // 0: carregado; 1: carregando; 2: carregando mais
 const lancamentos_error = ref(null)
+const lancamentos_next = ref(1);
 
 // variaveis comuns
 
@@ -126,7 +127,7 @@ function cbAddCobranca(data, error) {
     clearComunicado();
     doGetPedidoItens();
     doGetCobrancas();
-    doGetLancamentos();
+    doGetLancamentos(1);
   }
   if (error) {
     comunicado.value.error = error.response.data.human.join('|');
@@ -154,19 +155,30 @@ function doAddCobranca(callBack) {
 
 function cbGetLancamentos(data, error) {
   if (data) {
-    if (data?.results) lancamentos.value = data.results;
+    if (data?.results) {
+      if (lancamentos_carregando.value == 1) {
+        lancamentos.value = data.results;
+      } else if (lancamentos_carregando.value == 2) {
+        lancamentos.value = lancamentos.value.concat(data.results);
+      }
+      lancamentos_next.value = data.next;
+    }
   }
   if (error) {
     lancamentos_error.value = error;
   };
-  lancamentos_carregando.value = false;
+  lancamentos_carregando.value = 0;
 }
 
-function doGetLancamentos() {
-  lancamentos.value = [];
-  lancamentos_carregando.value = true;
+function doGetLancamentos(carregando) {
+  lancamentos_carregando.value = carregando;
+  if (lancamentos_carregando.value == 1) {
+    lancamentos.value = [];
+    lancamentos_next.value = 1;
+  }
   lancamentos_error.value = null;
   getLancamentos({
+    page: lancamentos_next.value,
     cliente_apelido: route.params.apelido,
     callBack: cbGetLancamentos
   });
@@ -176,7 +188,7 @@ function cbAddLancamento(data, error) {
   if (data) {
     status.value = 'b';
     clearLancamento();
-    doGetLancamentos();
+    doGetLancamentos(1);
   }
   if (error) {
     lancamento.value.error = error.response.data.human.join('|');
@@ -238,12 +250,17 @@ function handleSalvaLancamentoClick(event) {
   doAddLancamento();
 }
 
+function handleMaisLancamentosClick(event) {
+  event.preventDefault();
+  doGetLancamentos(2);
+}
+
 // Lifecycle Hooks
 
 onMounted(() => {
   doGetPedidoItens();
   doGetCobrancas();
-  doGetLancamentos();
+  doGetLancamentos(1);
 })
 
 </script>
@@ -551,12 +568,6 @@ onMounted(() => {
               {{ lancamentos_error }}
             </th>
           </tr>
-          <tr v-if="lancamentos_carregando">
-            <td colspan="7">Carregando dados dos lançamentos...</td>
-          </tr>
-          <tr v-if="!lancamentos_carregando && (lancamentos.length == 0)">
-            <td colspan="7">Nenhum lançamento encontrado</td>
-          </tr>
         </thead>
         <tbody>
           <tr
@@ -568,8 +579,21 @@ onMounted(() => {
             <td class="!text-right">{{ ptBrCurrencyFormat.format(lancamento.valor) }}</td>
             <td class="!text-right">{{ ptBrCurrencyFormat.format(lancamento.saldo_cliente) }}</td>
           </tr>
+          <tr v-if="lancamentos_carregando == 1">
+            <td colspan="7">Carregando lançamentos...</td>
+          </tr>
+          <tr v-if="lancamentos_carregando == 2">
+            <td colspan="7">Carregando mais lançamentos...</td>
+          </tr>
+          <tr v-if="!lancamentos_carregando && (lancamentos.length == 0)">
+            <td colspan="7">Nenhum lançamento encontrado</td>
+          </tr>
         </tbody>
       </table>
+      <button
+        v-if="lancamentos_next && !lancamentos_carregando"
+        @click="handleMaisLancamentosClick"
+      >Mais lançamentos</button>
     </section>
 
   </div>
