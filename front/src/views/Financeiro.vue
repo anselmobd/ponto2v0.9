@@ -26,9 +26,10 @@ const lancamentos_error = ref(null)
 
 // variaveis comuns
 
-  // para inicializar com data atual
-  const dataAtual = new Date();
-  const strDataAtual = date2InputText(dataAtual);
+//    para inicializar com data atual
+
+const dataAtual = new Date();
+const strDataAtual = date2InputText(dataAtual);
 
 // variáveis de inputs
 
