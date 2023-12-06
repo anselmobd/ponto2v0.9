@@ -1,7 +1,8 @@
 # ponto2
-Ponto2 . Bordado industrial
 
-© 2023 RPR & Oxigenai
+## Ponto2 . Bordado industrial
+
+### © 2023 RPR & Oxigenai
 
 ---
 
@@ -14,12 +15,17 @@ Ponto2 . Bordado industrial
 - back
   - inicialmente apenas Django
   - API em Django REST framework
-  - adicionando Swagger
+  - adicionando Swagger com drf-yasg
 
-- Projeto interrompido para separar back e front
+#### Projeto interrompido para separar back
 
----
+/front - Novo projeto de front em Vue.js com Tailwindcss
 
-/front - Novo projeto de front em Vue.js
+/src - Projeto Django agora só back
 
-/back - Novo projeto de back em Django REST framework
+- back
+  - ...
+  - JWT com djangorestframework-simplejwt 
+  - troca drf-yasg por drf-spectacular
+
+#### Projeto terá código fechado a partir de 06/12/2023, mantendo um clone aberto com tudo feito até a data
